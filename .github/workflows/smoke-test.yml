@@ -1,12 +1,25 @@
 name: Smoke test on an emulator
 
 # Answers one question the rest of CI cannot: does the app actually start?
-# Every other job only compiles, so a startup crash could ship. This boots an
-# emulator, installs the APK and fails with the real trace if the app dies.
+# Every other job only compiles, so a startup crash can ship. This boots an
+# emulator, installs the build, launches it, and prints the real trace if it
+# dies.
+#
+# Interpreter note: the emulator action runs `script` via `sh -c`, and /bin/sh
+# is dash on Ubuntu. dash rejects `set -o pipefail` with exit code 2 before the
+# first line of output, which is why earlier runs of this workflow failed with
+# a bare "exit code 2" and no diagnostics. The checks therefore live in
+# scripts/smoke-test.sh, which the shell merely invokes.
 
 on:
   workflow_dispatch:
     inputs:
+      variant:
+        description: "Build variant to launch"
+        required: true
+        default: release
+        type: choice
+        options: [release, debug]
       flavor:
         description: "Which flavour to smoke-test"
         required: true
@@ -19,7 +32,7 @@ permissions:
 
 jobs:
   smoke:
-    name: Launch ${{ inputs.flavor }} build
+    name: Launch ${{ inputs.flavor }} ${{ inputs.variant }}
     runs-on: ubuntu-22.04
     timeout-minutes: 45
 
@@ -45,11 +58,10 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      # adb refuses an unsigned APK, and the release type only attaches a
-      # signingConfig when one is configured. A throwaway key keeps this job
-      # independent of repository secrets while still producing an installable
-      # artefact.
+      # adb refuses an unsigned APK, and the release build type only attaches a
+      # signingConfig when one is configured.
       - name: Prepare a throwaway signing key
+        if: inputs.variant == 'release'
         run: |
           keytool -genkeypair \
             -keystore "$RUNNER_TEMP/smoke.jks" \
@@ -64,75 +76,24 @@ jobs:
             echo "KEY_PASSWORD=smokepass"
           } >> "$GITHUB_ENV"
 
-      - name: Assemble the signed release build
-        run: gradle :app:assemble${{ inputs.flavor == 'offline' && 'Offline' || 'Online' }}Release --stacktrace
+      - name: Assemble the ${{ inputs.variant }} build
+        run: |
+          set -euo pipefail
+          FLAVOR="${{ inputs.flavor }}"
+          CAP="$(echo "${FLAVOR:0:1}" | tr '[:lower:]' '[:upper:]')${FLAVOR:1}"
+          VARIANT="${{ inputs.variant }}"
+          VARTITLE="$(echo "${VARIANT:0:1}" | tr '[:lower:]' '[:upper:]')${VARIANT:1}"
+          gradle ":app:assemble${CAP}${VARTITLE}" --stacktrace
 
       - name: Run the app on an emulator
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          VARIANT: ${{ inputs.variant }}
+          FLAVOR: ${{ inputs.flavor }}
+          ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
         with:
           api-level: 30
           target: google_apis
           arch: x86_64
           disable-animations: true
-          script: |
-            # Everything is captured and re-emitted as annotations: this workflow
-            # exists to surface invisible information, so it must not fail quietly.
-            set -uo pipefail
-
-            APK=$(find app/build/outputs/apk -path "*release*" -name "*.apk" | head -n 1)
-            # The release build is the one that crashed for the learner, so it is
-            # the one that must be tested. It is minified by R8.
-            echo "::notice::APK=$APK"
-            if [ -z "$APK" ]; then
-              echo "::error::no APK was produced"
-              exit 1
-            fi
-
-            echo "Installing"
-            if ! adb install -r "$APK" 2>&1; then
-              echo "::error::adb install failed"
-              exit 1
-            fi
-
-            # aapt lives under build-tools; resolve it instead of assuming PATH.
-            AAPT=$(find "$ANDROID_HOME/build-tools" -name aapt -type f | sort | tail -n 1)
-            PKG=$(grep -a -o 'package=[^ ]*' "$APK" | head -n 1 | sed "s/package=//;s/'//g")
-            if [ -z "$PKG" ]; then
-              PKG=$(aapt dump badging "$APK" 2>/dev/null | sed -n "s/package: name='\([^']*\)'.*/\1/p")
-            fi
-            echo "::notice::package=$PKG"
-            if [ -z "$PKG" ]; then
-              echo "::error::could not determine the package name"
-              exit 1
-            fi
-
-            adb logcat -c
-            echo "Starting $PKG/.MainActivity"
-            adb shell am start -W -n "$PKG/.MainActivity" 2>&1 || true
-            sleep 25
-
-            echo "=== process alive? ==="
-            if adb shell pidof "$PKG" > /dev/null 2>&1; then
-              echo "ALIVE"
-            else
-              echo "::error::the app process is gone after launch"
-              echo "=== crash buffer ==="
-              adb logcat -d -b crash 2>&1 | tail -n 120
-              echo "=== fatal lines ==="
-              adb logcat -d 2>&1 | grep -i -A 25 "FATAL EXCEPTION" | head -n 100
-              exit 1
-            fi
-
-            echo "=== resumed activity ==="
-            adb shell dumpsys activity activities 2>&1 | grep -i -E "mResumedActivity|topResumedActivity" | head -3
-
-            echo "=== any FATAL? ==="
-            if adb logcat -d 2>&1 | grep -q "FATAL EXCEPTION"; then
-              echo "::error::a fatal exception was logged during launch"
-              adb logcat -d 2>&1 | grep -i -A 30 "FATAL EXCEPTION" | head -n 120
-              exit 1
-            fi
-
-            echo "::notice::the app started and stayed up"
-            echo "=== app log ==="
-            adb logcat -d 2>&1 | grep -i -E "lexiflash|AndroidRuntime" | tail -n 60
+          script: bash scripts/smoke-test.sh
