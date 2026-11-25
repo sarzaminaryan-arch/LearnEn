@@ -175,31 +175,42 @@ jobs:
 
       # Print what actually dominates the artefact so a size regression is
       # attributable rather than guessed at.
+      # pipefail turns a SIGPIPE death into a failed step, and "sort | head"
+      # raises SIGPIPE by design once head has its lines. The listing is
+      # therefore materialised once into a file and read from there, so no
+      # downstream command closes the pipe early.
       - name: Report APK composition
         run: |
           set -euo pipefail
           for apk in $(find app/build/outputs/apk -name "*.apk"); do
-            echo "=== $apk ($(du -h "$apk" | cut -f1)) ==="
-            unzip -l "$apk" \
-              | awk 'NR>3 && $1 ~ /^[0-9]+$/ {
-                       size=$1; name=$4
-                       if (name ~ /^lib\//) lib += size
-                       else if (name ~ /^assets\//) assets += size
-                       else if (name ~ /^classes.*\.dex$/) dex += size
-                       else if (name ~ /^res\//) res += size
-                       else other += size
-                       total += size
-                     }
-                     END {
-                       printf "  native libs: %8.1f MB\n", lib/1048576
-                       printf "  assets:      %8.1f MB\n", assets/1048576
-                       printf "  dex:         %8.1f MB\n", dex/1048576
-                       printf "  resources:   %8.1f MB\n", res/1048576
-                       printf "  other:       %8.1f MB\n", other/1048576
-                       printf "  total:       %8.1f MB\n", total/1048576
-                     }'
+            # stat avoids a du|cut pipeline for the same SIGPIPE reason.
+            echo "=== $apk ($(($(stat -c%s "$apk") / 1048576)) MB) ==="
+            LISTING="$RUNNER_TEMP/apk-listing.txt"
+            unzip -l "$apk" > "$LISTING"
+            awk 'NR>3 && $1 ~ /^[0-9]+$/ {
+                   size=$1; name=$4
+                   if (name ~ /^lib\//) lib += size
+                   else if (name ~ /^assets\//) assets += size
+                   else if (name ~ /^classes.*\.dex$/) dex += size
+                   else if (name ~ /^res\//) res += size
+                   else other += size
+                   total += size
+                 }
+                 END {
+                   printf "  native libs: %8.1f MB\n", lib/1048576
+                   printf "  assets:      %8.1f MB\n", assets/1048576
+                   printf "  dex:         %8.1f MB\n", dex/1048576
+                   printf "  resources:   %8.1f MB\n", res/1048576
+                   printf "  other:       %8.1f MB\n", other/1048576
+                   printf "  total:       %8.1f MB\n", total/1048576
+                 }' "$LISTING"
             echo "  --- largest entries ---"
-            unzip -l "$apk" | sort -k1,1 -rn | head -8 | sed 's/^/    /'
+            # Each stage writes a file: no pipe means no SIGPIPE, which under
+            # pipefail would fail the step on a large APK.
+            awk '$1 ~ /^[0-9]+$/ { printf "%12d  %s\n", $1, $4 }' "$LISTING" > "$RUNNER_TEMP/apk-sizes.txt"
+            sort -rn "$RUNNER_TEMP/apk-sizes.txt" > "$RUNNER_TEMP/apk-sorted.txt"
+            head -n 8 "$RUNNER_TEMP/apk-sorted.txt" > "$RUNNER_TEMP/apk-top.txt"
+            sed 's/^/    /' "$RUNNER_TEMP/apk-top.txt"
           done
 
       - name: Upload APKs and bundles
