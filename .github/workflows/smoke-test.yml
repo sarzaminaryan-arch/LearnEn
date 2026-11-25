@@ -86,6 +86,7 @@ jobs:
           gradle ":app:assemble${CAP}${VARTITLE}" --stacktrace
 
       - name: Run the app on an emulator
+        id: launch
         uses: reactivecircus/android-emulator-runner@v2
         env:
           VARIANT: ${{ inputs.variant }}
@@ -96,3 +97,16 @@ jobs:
           arch: x86_64
           disable-animations: true
           script: bash scripts/smoke-test.sh
+
+      # The job log is not readable from everywhere this needs to be diagnosed, so
+      # the report and the full logcat are attached as an artifact.
+      - name: Upload the smoke-test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-report-${{ inputs.flavor }}-${{ inputs.variant }}
+          path: |
+            smoke-report.txt
+            **/smoke-report.txt
+          if-no-files-found: warn
+          retention-days: 14
