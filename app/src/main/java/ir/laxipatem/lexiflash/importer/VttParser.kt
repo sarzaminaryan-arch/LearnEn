@@ -72,7 +72,9 @@ class VttParser : SubtitleParser {
     }
 
     private fun cleanMarkup(raw: String): String {
-        val withoutSpeaker = speakerTag.replace(raw) { match -> match.groupValues[2] + " " }
-        return cueTag.replace(withoutSpeaker, "").trim()
+        // A `<v Mary>` tag names the speaker, it is not spoken text: drop the
+        // whole tag rather than letting the name leak into the sentence.
+        val withoutSpeaker = speakerTag.replace(raw, " ")
+        return cueTag.replace(withoutSpeaker, "").replace(Regex("""\s{2,}"""), " ").trim()
     }
 }

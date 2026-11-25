@@ -92,7 +92,9 @@ class PreprocessorTest {
         val cues = listOf(
             Cue(0L, 1_000L, "Yes."),
             Cue(1_000L, 3_000L, "This sentence is long enough to keep."),
-            Cue(3_000L, 4_000L, "♪ Music playing now ♪")
+            // A wide gap keeps the music cue from being merged onto the previous
+            // line; it then disappears because only music symbols remain.
+            Cue(9_000L, 10_000L, "♪ ♫ ♪")
         )
         val lines = preprocessor.process(cues)
         assertEquals(1, lines.size)

@@ -139,7 +139,8 @@ class StringsParityTest {
             name.contains('\u200C')
         )
         assertTrue("app_name must not contain a literal backslash", !name.contains('\\'))
-        assertEquals(4, name.length)
+        // فلش + ZWNJ + لکس = seven code points.
+        assertEquals(7, name.length)
     }
 
     @Test

@@ -104,9 +104,10 @@ jobs:
             done
           done
 
-          # A failed assertion is not an "e:" line, so name it explicitly.
+          # An assertion failure is not an "e:" line. Name the test and paste the
+          # assertion message (the line after it) so it is readable remotely.
           if [ -f /tmp/test.log ]; then
-            grep -E "^.*FAILED$" /tmp/test.log | head -n 20 | while IFS= read -r line; do
+            grep -A3 -E "^.*FAILED$" /tmp/test.log | head -n 90 | while IFS= read -r line; do
               echo "::error::$line"
             done
           fi

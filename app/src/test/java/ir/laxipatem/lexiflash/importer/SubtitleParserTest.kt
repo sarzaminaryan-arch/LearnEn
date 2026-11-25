@@ -55,15 +55,19 @@ class SubtitleParserTest {
     }
 
     @Test
-    fun `srt strips basic markup`() {
+    fun `srt keeps markup so the preprocessor can strip it once`() {
+        // Tag removal is the Preprocessor's job: parsing only cuts cues apart, so
+        // the same cleanup runs whether text came from SRT, VTT or plain text.
         val input = """
             1
             00:00:01,000 --> 00:00:02,000
             <i>Italic</i> and {\an8}positioned text.
         """.trimIndent()
-        val cues = SrtParser().parse(input)
-        assertTrue("markup should be removed: ${cues[0].text}",
-            !cues[0].text.contains("<i>") && !cues[0].text.contains("{"))
+        val cue = SrtParser().parse(input).single()
+        assertTrue("the parser must not mangle the text", cue.text.contains("Italic"))
+        val cleaned = Preprocessor().cleanText(cue.text)
+        assertTrue("preprocessor leaves no tags: $cleaned", !cleaned.contains("<i>"))
+        assertTrue("preprocessor leaves no overrides: $cleaned", !cleaned.contains("{"))
     }
 
     @Test
@@ -111,7 +115,7 @@ class SubtitleParserTest {
     }
 
     @Test
-    fun `vtt strips inline voice and class markup`() {
+    fun `vtt strips inline voice markup without leaking the speaker name`() {
         val input = """
             WEBVTT
 
@@ -164,9 +168,12 @@ class SubtitleParserTest {
     }
 
     @Test
-    fun `ass detection looks for the script info header`() {
-        assertTrue(AssParser().canParse("x.txt", "[Script Info]\nTitle: y"))
+    fun `ass detection requires both the script info and events sections`() {
+        assertTrue(AssParser().canParse("x.txt", "[Script Info]\nTitle: y\n\n[Events]\nFormat: ..."))
+        // A stray [Script Info] alone is not enough to claim the file.
+        assertTrue(!AssParser().canParse("x.txt", "[Script Info]\nTitle: y"))
         assertTrue(AssParser().canParse("x.ass", ""))
+        assertTrue(AssParser().canParse("x.ssa", ""))
         assertTrue(!AssParser().canParse("x.srt", "1\n00:00:01,000 --> 00:00:02,000\nHi"))
     }
 
@@ -192,16 +199,23 @@ class SubtitleParserTest {
     }
 
     @Test
-    fun `txt keeps a numbered list without losing the text`() {
+    fun `txt strips a list marker but keeps the sentence`() {
         val cues = TxtParser().parse("1. First sentence.\n2. Second sentence.")
         assertEquals(2, cues.size)
         assertEquals("First sentence.", cues[0].text)
     }
 
     @Test
-    fun `txt detection matches the extension only`() {
+    fun `txt is the catch-all parser for anything without a marker`() {
         assertTrue(TxtParser().canParse("notes.txt", ""))
-        assertTrue(!TxtParser().canParse("notes.srt", ""))
+        // It accepts an unmarked file even with a foreign extension; ImportService
+        // tries the marked parsers first, so this only runs as a last resort.
+        assertTrue(TxtParser().canParse("notes.srt", ""))
+        assertTrue(TxtParser().canParse("notes.unknown", "just some words on a line"))
+        // But real structural markers are refused.
+        assertTrue(!TxtParser().canParse("x.srt", "1\n00:00:01,000 --> 00:00:02,000\nHi"))
+        assertTrue(!TxtParser().canParse("x.ass", "[Script Info]\n[Events]"))
+        assertTrue(!TxtParser().canParse("deck.json", "{\"parts\": []}"))
     }
 
     // ------------------------------------------------------------ Pipeline ---

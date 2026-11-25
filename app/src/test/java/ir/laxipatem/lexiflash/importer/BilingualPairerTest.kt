@@ -80,10 +80,15 @@ class BilingualPairerTest {
     }
 
     @Test
-    fun `positional pairing stops at the shorter track`() {
+    fun `positional pairing keeps every english cue and nulls the extras`() {
+        // One PairedCue per English line is what the rest of the pipeline expects;
+        // unmatched lines stay in the deck as translation-pending cards.
         val english = listOf(Cue(null, null, "One."), Cue(null, null, "Two."))
         val persian = listOf(Cue(null, null, "یک."))
-        assertEquals(1, pairer.pairByPosition(english, persian).size)
+        val pairs = pairer.pairByPosition(english, persian)
+        assertEquals(2, pairs.size)
+        assertEquals("یک.", pairs[0].persianText)
+        assertNull(pairs[1].persianText)
     }
 
     @Test
