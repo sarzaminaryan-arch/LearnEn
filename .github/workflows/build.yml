@@ -74,10 +74,38 @@ jobs:
           gradle --version
 
       - name: Unit tests
-        run: gradle :app:test${{ matrix.flavor }}${{ matrix.variant }}UnitTest --stacktrace
+        run: |
+          set +e
+          gradle :app:test${{ matrix.flavor }}${{ matrix.variant }}UnitTest --stacktrace > test-output.txt 2>&1
+          STATUS=$?
+          cat test-output.txt
+          # Mirror failures as annotations so they are readable without the log.
+          grep -A3 'FAILED$' test-output.txt | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          # Kotlin reports "e: file:///path/File.kt:12:34 message"; turn each into
+          # an annotation carrying the real file path and message.
+          grep -o 'e: file://[^ ]*' test-output.txt | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          grep -E '^e: |error: ' test-output.txt | head -n 40 | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          exit $STATUS
 
       - name: Assemble ${{ matrix.flavor }} ${{ matrix.variant }}
-        run: gradle :app:assemble${{ matrix.flavor }}${{ matrix.variant }} --stacktrace
+        run: |
+          set +e
+          gradle :app:assemble${{ matrix.flavor }}${{ matrix.variant }} --stacktrace > assemble-output.txt 2>&1
+          STATUS=$?
+          tail -n 200 assemble-output.txt
+          grep -o 'e: file://[^ ]*' assemble-output.txt | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          grep -E '^e: |^\* What went wrong|^> ' assemble-output.txt | head -n 40 | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          exit $STATUS
 
       # The merged-manifest path changes between AGP versions, so it is located
       # rather than hard-coded. Checking the merged manifest (not the source one)
@@ -88,7 +116,13 @@ jobs:
           set -euo pipefail
           VARIANT="${{ matrix.variant }}"
           LOWER=$(echo "$VARIANT" | tr '[:upper:]' '[:lower:]')
-          MANIFEST=$(find app/build/intermediates -path "*merged_manifest*offline${LOWER}*" -name AndroidManifest.xml | head -n 1)
+          # AGP writes intermediates/merged_manifest/offlineDebug/... — the variant
+          # camel-case matters because fusebox lower-cases the whole path.
+          CAPITAL=$(echo "${LOWER:0:1}" | tr '[:lower:]' '[:upper:]')${LOWER:1}
+          MANIFEST=$(find app/build/intermediates -ipath "*merged_manifest*offline${CAPITAL}*" -name AndroidManifest.xml | head -n 1)
+          if [ -z "$MANIFEST" ]; then
+            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath "*offline*" | grep -i "${LOWER}" | head -n 1)
+          fi
           if [ -z "$MANIFEST" ]; then
             echo "::error::Could not locate the merged manifest for offline${VARIANT}"
             find app/build/intermediates -name AndroidManifest.xml | head -n 20 || true
@@ -114,7 +148,11 @@ jobs:
         run: |
           set -euo pipefail
           LOWER=$(echo "${{ matrix.variant }}" | tr '[:upper:]' '[:lower:]')
-          MANIFEST=$(find app/build/intermediates -path "*merged_manifest*online${LOWER}*" -name AndroidManifest.xml | head -n 1)
+          CAPITAL=$(echo "${LOWER:0:1}" | tr '[:lower:]' '[:upper:]')${LOWER:1}
+          MANIFEST=$(find app/build/intermediates -ipath "*merged_manifest*online${CAPITAL}*" -name AndroidManifest.xml | head -n 1)
+          if [ -z "$MANIFEST" ]; then
+            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath "*online*" | grep -i "${LOWER}" | head -n 1)
+          fi
           if [ -z "$MANIFEST" ]; then
             echo "::error::Could not locate the merged manifest for online${{ matrix.variant }}"
             exit 1
