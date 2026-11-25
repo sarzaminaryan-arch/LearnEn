@@ -1,0 +1,175 @@
+name: Release
+
+# Produces signed release artefacts when signing secrets are configured, and
+# unsigned ones otherwise, so the workflow never blocks a maintainer who has not
+# set up a keystore yet.
+#
+# Required repository secrets for signing:
+#   KEYSTORE_BASE64     base64 of the .jks file (base64 -w0 release.jks)
+#   KEYSTORE_PASSWORD   store password
+#   KEY_ALIAS           key alias
+#   KEY_PASSWORD        key password
+#
+# Nothing is ever committed: the keystore is written to a temporary path from the
+# secret and removed when the job ends.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: "Which flavour to build"
+        required: true
+        default: both
+        type: choice
+        options: [both, offline, online]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  GRADLE_OPTS: >-
+    -Dorg.gradle.jvmargs=-Xmx3g
+    -Dorg.gradle.daemon=false
+
+jobs:
+  release:
+    name: Build release artefacts
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: "8.7"
+
+      - name: Cache Gradle artefacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-release-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml', '**/*.gradle.kts') }}
+          restore-keys: gradle-release-${{ runner.os }}-
+
+      - name: Decode the keystore when the secret is present
+        id: keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "${KEYSTORE_BASE64:-}" ]; then
+            echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+            echo "Signing material decoded."
+          else
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No KEYSTORE_BASE64 secret: the release build will be UNSIGNED."
+          fi
+
+      - name: Assemble signed release
+        env:
+          KEYSTORE_PATH: ${{ steps.keystore.outputs.signed == 'true' && format('{0}/release.jks', runner.temp) || '' }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          TARGET="${{ github.event.inputs.variant || 'both' }}"
+          if [ "$TARGET" = "both" ]; then
+            gradle :app:bundleOfflineRelease :app:assembleOfflineRelease \
+                   :app:bundleOnlineRelease :app:assembleOnlineRelease --stacktrace
+          else
+            CAPITALISED="$(echo "${TARGET:0:1}" | tr '[:lower:]' '[:upper:]')${TARGET:1}"
+            gradle ":app:bundle${CAPITALISED}Release" ":app:assemble${CAPITALISED}Release" --stacktrace
+          fi
+
+      - name: Verify the offline release carries no INTERNET permission
+        run: |
+          set -euo pipefail
+          MANIFEST=$(find app/build/intermediates -path "*merged_manifest*offlinerelease*" -name AndroidManifest.xml | head -n 1)
+          if [ -z "$MANIFEST" ]; then
+            echo "::error::Could not locate the offline release merged manifest"
+            exit 1
+          fi
+          if grep -q 'android.permission.INTERNET' "$MANIFEST"; then
+            echo "::error::The offline release must not request INTERNET"
+            exit 1
+          fi
+          echo "offline release manifest is clean"
+
+      - name: List artefacts
+        run: |
+          echo "APKs:"
+          find app/build/outputs/apk -name "*.apk" -exec ls -lh {} \; || true
+          echo "Bundles:"
+          find app/build/outputs/bundle -name "*.aab" -exec ls -lh {} \; || true
+
+      - name: Sign-check the produced APKs
+        run: |
+          set -euo pipefail
+          for apk in $(find app/build/outputs/apk -name "*.apk"); do
+            echo "=== $apk ==="
+            if unzip -l "$apk" | grep -q 'META-INF/.*\.\(RSA\|DSA\|EC\)$'; then
+              echo "  signed"
+            else
+              echo "::warning::$apk is unsigned"
+            fi
+          done
+
+      - name: Upload APKs and bundles
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.ref_name }}
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/apk/offline/release/*.apk
+            app/build/outputs/apk/online/release/*.apk
+            app/build/outputs/bundle/offlineRelease/*.aab
+            app/build/outputs/bundle/onlineRelease/*.aab
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Publish a GitHub release for a tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: LexiFlash Persian ${{ github.ref_name }}
+          draft: true
+          generate_release_notes: true
+          body: |
+            ## LexiFlash Persian ${{ github.ref_name }}
+
+            Two flavours are attached:
+
+            * **offline** - no network permission, no network code, everything bundled.
+            * **online** - adds opt-in catalogue download and on-device machine translation.
+
+            Content is derived from [Tatoeba](https://tatoeba.org) under CC BY 2.0 FR
+            (parts CC0 1.0). Full attribution is in `docs/CREDITS.csv` and `NOTICE.md`.
+
+            Not affiliated with TED, Interstellar or any rights holder.
+          files: |
+            app/build/outputs/apk/offline/release/*.apk
+            app/build/outputs/apk/online/release/*.apk
+            app/build/outputs/bundle/offlineRelease/*.aab
+            app/build/outputs/bundle/onlineRelease/*.aab
+
+      - name: Remove the decrypted keystore
+        if: always()
+        run: rm -f "$RUNNER_TEMP/release.jks"

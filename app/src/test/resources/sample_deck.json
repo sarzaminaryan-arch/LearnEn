@@ -1,0 +1,594 @@
+{
+ "version": 1,
+ "title": "LexiFlash sample deck",
+ "source_lang": "en",
+ "target_lang": "fa",
+ "license": "Apache-2.0",
+ "parts": [
+  {
+   "index": 1,
+   "cards": [
+    {
+     "id": "sample-001",
+     "english": "I drink tea every morning before work.",
+     "persian": "من هر صبح قبل از کار چای می‌نوشم.",
+     "ipa": "aɪ dɹɪŋk tiː ˈɛvɹi ˈmɔːnɪŋ bɪˈfɔː wɜːk",
+     "vocab": [
+      {
+       "word": "drink"
+      },
+      {
+       "word": "morning"
+      }
+     ],
+     "difficulty": 0.05,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-002",
+     "english": "She walks to school with her sister.",
+     "persian": "او با خواهرش پیاده به مدرسه می‌رود.",
+     "ipa": "ʃiː wɔːks tə skuːl wɪð hɜː ˈsɪstə",
+     "vocab": [
+      {
+       "word": "walks"
+      },
+      {
+       "word": "sister"
+      }
+     ],
+     "difficulty": 0.08,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-003",
+     "english": "The cat sleeps on the warm chair.",
+     "persian": "گربه روی صندلی گرم می‌خوابد.",
+     "ipa": "ðə kæt sliːps ɒn ðə wɔːm tʃeə",
+     "vocab": [
+      {
+       "word": "sleeps"
+      },
+      {
+       "word": "warm"
+      }
+     ],
+     "difficulty": 0.06,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-004",
+     "english": "We need bread and milk from the shop.",
+     "persian": "ما از فروشگاه نان و شیر لازم داریم.",
+     "ipa": "wiː niːd bɹɛd ænd mɪlk fɹɒm ðə ʃɒp",
+     "vocab": [
+      {
+       "word": "bread"
+      },
+      {
+       "word": "shop"
+      }
+     ],
+     "difficulty": 0.1,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-005",
+     "english": "My brother plays football after lunch.",
+     "persian": "برادرم بعد از ناهار فوتبال بازی می‌کند.",
+     "ipa": "maɪ ˈbɹʌðə pleɪz ˈfʊtbɔːl ˈɑːftə lʌntʃ",
+     "vocab": [
+      {
+       "word": "brother"
+      },
+      {
+       "word": "football"
+      }
+     ],
+     "difficulty": 0.09,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-006",
+     "english": "It is raining outside today.",
+     "persian": "امروز بیرون باران می‌بارد.",
+     "ipa": "ɪt ɪz ˈɹeɪnɪŋ aʊtˈsaɪd təˈdeɪ",
+     "vocab": [
+      {
+       "word": "raining"
+      },
+      {
+       "word": "outside"
+      }
+     ],
+     "difficulty": 0.07,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-007",
+     "english": "The train leaves at seven in the evening.",
+     "persian": "قطار ساعت هفت عصر حرکت می‌کند.",
+     "ipa": "ðə tɹeɪn liːvz ət ˈsɛvən ɪn ði ˈiːvnɪŋ",
+     "vocab": [
+      {
+       "word": "train"
+      },
+      {
+       "word": "evening"
+      }
+     ],
+     "difficulty": 0.12,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-008",
+     "english": "Please close the window before you go.",
+     "persian": "لطفاً قبل از رفتن پنجره را ببند.",
+     "ipa": "pliːz kləʊz ðə ˈwɪndəʊ bɪˈfɔː juː ɡəʊ",
+     "vocab": [
+      {
+       "word": "close"
+      },
+      {
+       "word": "window"
+      }
+     ],
+     "difficulty": 0.11,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-009",
+     "english": "He reads the newspaper at breakfast.",
+     "persian": "او صبحانه‌خوردن روزنامه می‌خواند.",
+     "ipa": "hiː ɹiːdz ðə ˈnjuːzpeɪpə ət ˈbɹɛkfəst",
+     "vocab": [
+      {
+       "word": "newspaper"
+      },
+      {
+       "word": "breakfast"
+      }
+     ],
+     "difficulty": 0.14,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    },
+    {
+     "id": "sample-010",
+     "english": "Our neighbour waters the flowers every day.",
+     "persian": "همسایه‌ی ما هر روز به گل‌ها آب می‌دهد.",
+     "ipa": "aʊə ˈneɪbə ˈwɔːtəz ðə ˈflaʊəz ˈɛvɹi deɪ",
+     "vocab": [
+      {
+       "word": "neighbour"
+      },
+      {
+       "word": "flowers"
+      }
+     ],
+     "difficulty": 0.16,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A1"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "cards": [
+    {
+     "id": "sample-011",
+     "english": "I forgot to bring my umbrella this morning.",
+     "persian": "امروز صبح یادم رفت چترم را بیاورم.",
+     "ipa": "aɪ fəˈɡɒt tə bɹɪŋ maɪ ʌmˈbɹɛlə ðɪs ˈmɔːnɪŋ",
+     "vocab": [
+      {
+       "word": "forgot"
+      },
+      {
+       "word": "umbrella"
+      }
+     ],
+     "difficulty": 0.24,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-012",
+     "english": "The restaurant was full, so we waited outside.",
+     "persian": "رستوران پر بود، پس بیرون منتظر ماندیم.",
+     "ipa": "ðə ˈɹɛstɹɒnt wəz fʊl səʊ wiː ˈweɪtɪd aʊtˈsaɪd",
+     "vocab": [
+      {
+       "word": "restaurant"
+      },
+      {
+       "word": "waited"
+      }
+     ],
+     "difficulty": 0.27,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-013",
+     "english": "She speaks both English and Persian at home.",
+     "persian": "او در خانه هم انگلیسی و هم فارسی صحبت می‌کند.",
+     "ipa": "ʃiː spiːks bəʊθ ˈɪŋɡlɪʃ ænd ˈpɜːʒən ət həʊm",
+     "vocab": [
+      {
+       "word": "speaks"
+      },
+      {
+       "word": "Persian"
+      }
+     ],
+     "difficulty": 0.22,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-014",
+     "english": "We watched a film and then went for a walk.",
+     "persian": "ما یک فیلم دیدیم و بعد به قدم زدن رفتیم.",
+     "ipa": "wiː wɒtʃt ə fɪlm ænd ðɛn wɛnt fɔː ə wɔːk",
+     "vocab": [
+      {
+       "word": "watched"
+      },
+      {
+       "word": "walk"
+      }
+     ],
+     "difficulty": 0.25,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-015",
+     "english": "The doctor told me to rest for two days.",
+     "persian": "دکتر به من گفت دو روز استراحت کنم.",
+     "ipa": "ðə ˈdɒktə təʊld miː tə ɹɛst fɔː tuː deɪz",
+     "vocab": [
+      {
+       "word": "doctor"
+      },
+      {
+       "word": "rest"
+      }
+     ],
+     "difficulty": 0.26,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-016",
+     "english": "Could you repeat that more slowly, please?",
+     "persian": "می‌شود آن را آهسته‌تر تکرار کنید، لطفاً؟",
+     "ipa": "kʊd juː ɹɪˈpiːt ðæt mɔː ˈsləʊli pliːz",
+     "vocab": [
+      {
+       "word": "repeat"
+      },
+      {
+       "word": "slowly"
+      }
+     ],
+     "difficulty": 0.29,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-017",
+     "english": "I have been learning English for three years.",
+     "persian": "سه سال است که انگلیسی یاد می‌گیرم.",
+     "ipa": "aɪ hæv biːn ˈlɜːnɪŋ ˈɪŋɡlɪʃ fɔː θɹiː jɪəz",
+     "vocab": [
+      {
+       "word": "learning"
+      },
+      {
+       "word": "years"
+      }
+     ],
+     "difficulty": 0.31,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-018",
+     "english": "He fixed the bicycle without any help.",
+     "persian": "او دوچرخه را بدون هیچ کمکی تعمیر کرد.",
+     "ipa": "hiː fɪkst ðə ˈbaɪsɪkl̩ wɪðˈaʊt ˈɛni hɛlp",
+     "vocab": [
+      {
+       "word": "fixed"
+      },
+      {
+       "word": "bicycle"
+      }
+     ],
+     "difficulty": 0.33,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-019",
+     "english": "The meeting starts earlier than usual tomorrow.",
+     "persian": "جلسه‌ی فردا زودتر از معمول شروع می‌شود.",
+     "ipa": "ðə ˈmiːtɪŋ stɑːts ˈɜːliə ðæn ˈjuːʒuəl təˈmɒɹəʊ",
+     "vocab": [
+      {
+       "word": "meeting"
+      },
+      {
+       "word": "earlier"
+      }
+     ],
+     "difficulty": 0.3,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    },
+    {
+     "id": "sample-020",
+     "english": "Our garden looks best in the spring.",
+     "persian": "باغ ما در بهار بهترین حال را دارد.",
+     "ipa": "aʊə ˈɡɑːdn̩ lʊks bɛst ɪn ðə spɹɪŋ",
+     "vocab": [
+      {
+       "word": "garden"
+      },
+      {
+       "word": "spring"
+      }
+     ],
+     "difficulty": 0.28,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "A2"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "cards": [
+    {
+     "id": "sample-021",
+     "english": "The plan depends on whether the weather improves.",
+     "persian": "این برنامه بستگی دارد به این‌که هوا بهتر شود.",
+     "ipa": "ðə plæn dɪˈpɛndz ɒn ˈwɛðə ðə ˈwɛðə ɪmˈpɹuːvz",
+     "vocab": [
+      {
+       "word": "depends"
+      },
+      {
+       "word": "improves"
+      }
+     ],
+     "difficulty": 0.46,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-022",
+     "english": "She apologised for arriving late to the interview.",
+     "persian": "او بابت دیر رسیدن به مصاحبه عذرخواهی کرد.",
+     "ipa": "ʃiː əˈpɒlədʒaɪzd fɔː əˈɹaɪvɪŋ leɪt tə ði ˈɪntəvjuː",
+     "vocab": [
+      {
+       "word": "apologised"
+      },
+      {
+       "word": "interview"
+      }
+     ],
+     "difficulty": 0.49,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-023",
+     "english": "Despite the delay, everyone reached the station safely.",
+     "persian": "با وجود تأخیر، همه سالم به ایستگاه رسیدند.",
+     "ipa": "dɪˈspaɪt ðə dɪˈleɪ ˈɛvɹiwʌn ɹiːtʃt ðə ˈsteɪʃn̩ ˈseɪfli",
+     "vocab": [
+      {
+       "word": "despite"
+      },
+      {
+       "word": "safely"
+      }
+     ],
+     "difficulty": 0.52,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-024",
+     "english": "I would rather take the slower route than risk a shortcut.",
+     "persian": "ترجیح می‌دهم مسیر کندتر را بروم تا این‌که میان‌بر را خطر کنم.",
+     "ipa": "aɪ wʊd ˈɹɑːðə teɪk ðə ˈsləʊə ɹuːt ðæn ɹɪsk ə ˈʃɔːtkʌt",
+     "vocab": [
+      {
+       "word": "rather"
+      },
+      {
+       "word": "shortcut"
+      }
+     ],
+     "difficulty": 0.55,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-025",
+     "english": "The committee postponed the decision until next month.",
+     "persian": "کمیته تصمیم را تا ماه آینده به تعویق انداخت.",
+     "ipa": "ðə kəˈmɪti pəʊstˈpəʊnd ðə dɪˈsɪʒn̩ ʌnˈtɪl nɛkst mʌnθ",
+     "vocab": [
+      {
+       "word": "committee"
+      },
+      {
+       "word": "postponed"
+      }
+     ],
+     "difficulty": 0.58,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-026",
+     "english": "Learning a language rewards patience more than talent.",
+     "persian": "یادگیری زبان بیشتر از استعداد، صبر را پاداش می‌دهد.",
+     "ipa": "ˈlɜːnɪŋ ə ˈlæŋɡwɪdʒ ɹɪˈwɔːdz ˈpeɪʃn̩s mɔː ðæn ˈtælənt",
+     "vocab": [
+      {
+       "word": "rewards"
+      },
+      {
+       "word": "patience"
+      }
+     ],
+     "difficulty": 0.5,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-027",
+     "english": "He explained the rules carefully so nobody would complain.",
+     "persian": "او قوانین را با دقت توضیح داد تا کسی شکایت نکند.",
+     "ipa": "hiː ɪkˈspleɪnd ðə ɹuːlz ˈkeəfli səʊ ˈnəʊbədi wʊd kəmˈpleɪn",
+     "vocab": [
+      {
+       "word": "explained"
+      },
+      {
+       "word": "complain"
+      }
+     ],
+     "difficulty": 0.47,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-028",
+     "english": "Although the road was narrow, the driver stayed calm.",
+     "persian": "با این‌که جاده باریک بود، راننده آرام ماند.",
+     "ipa": "ɔːlˈðəʊ ðə ɹəʊd wəz ˈnæɹəʊ ðə ˈdɹaɪvə steɪd kɑːm",
+     "vocab": [
+      {
+       "word": "although"
+      },
+      {
+       "word": "narrow"
+      }
+     ],
+     "difficulty": 0.53,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-029",
+     "english": "The library keeps older newspapers in the basement.",
+     "persian": "کتابخانه روزنامه‌های قدیمی‌تر را در زیرزمین نگه می‌دارد.",
+     "ipa": "ðə ˈlaɪbɹəɹi kiːps ˈəʊldə ˈnjuːzpeɪpəz ɪn ðə ˈbeɪsmənt",
+     "vocab": [
+      {
+       "word": "library"
+      },
+      {
+       "word": "basement"
+      }
+     ],
+     "difficulty": 0.45,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    },
+    {
+     "id": "sample-030",
+     "english": "We agreed to share the cost of the repair fairly.",
+     "persian": "ما توافق کردیم هزینه‌ی تعمیر را منصفانه تقسیم کنیم.",
+     "ipa": "wiː əˈɡɹiːd tə ʃeə ðə kɒst ɒv ðə ɹɪˈpeə ˈfeəli",
+     "vocab": [
+      {
+       "word": "agreed"
+      },
+      {
+       "word": "fairly"
+      }
+     ],
+     "difficulty": 0.48,
+     "reviewed": true,
+     "source": "original",
+     "license": "Apache-2.0",
+     "note": "B1"
+    }
+   ]
+  }
+ ]
+}

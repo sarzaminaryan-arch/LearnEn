@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Foreground layer: a stacked pair of flashcards with a small spark, drawn as
+  plain vector paths. Everything lives inside the 72x72dp safe zone.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Back card, slightly rotated, in the light container tint -->
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:rotation="8">
+        <path
+            android:fillColor="#DCE7F7"
+            android:pathData="M32,34h44a5,5 0,0 1,5 5v30a5,5 0,0 1,-5 5h-44a5,5 0,0 1,-5 -5v-30a5,5 0,0 1,5 -5z" />
+    </group>
+
+    <!-- Front card -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,38h44a5,5 0,0 1,5 5v30a5,5 0,0 1,-5 5h-44a5,5 0,0 1,-5 -5v-30a5,5 0,0 1,5 -5z" />
+
+    <!-- Text lines on the front card -->
+    <path
+        android:fillColor="#3569B7"
+        android:pathData="M33,48h22v3.4h-22z" />
+    <path
+        android:fillColor="#C88B00"
+        android:pathData="M33,56h30v3.4h-30z" />
+    <path
+        android:fillColor="#9BB4D8"
+        android:pathData="M33,64h16v3.4h-16z" />
+
+    <!-- Accent spark -->
+    <path
+        android:fillColor="#C88B00"
+        android:pathData="M76,26l2.1,5.4l5.4,2.1l-5.4,2.1l-2.1,5.4l-2.1,-5.4l-5.4,-2.1l5.4,-2.1z" />
+</vector>

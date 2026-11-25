@@ -1,0 +1,51 @@
+# Gradle
+.gradle/
+build/
+app/build/
+
+# Room schema snapshots ARE committed: they are the migration record.
+# (app/schemas is intentionally not ignored.)
+
+# Local configuration (never commit)
+local.properties
+keystore.properties
+*.jks
+*.keystore
+*.p12
+*.pepk
+
+# IDE
+.idea/
+*.iml
+*.hprof
+.cxx/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+tools/.cache/
+
+# Generated content cache
+.cache/lexiflash/
+
+# Logs
+*.log
+
+# Generated deck output from tools/build_deck.py
+build/generated/
+
+# Generated deck cache and downloaded corpora
+tatoeba/
+
+# Vector/raster art exports are never committed: the icon is XML only.
+*.png
+*.jpg
+*.jpeg
+*.webp

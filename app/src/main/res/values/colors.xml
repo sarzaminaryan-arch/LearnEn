@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand fallback palette. The Compose theme recomputes on-colours for
+         WCAG AA contrast; these XML values are used by the launcher icon and
+         the splash window background only. -->
+    <color name="brand_primary">#3569B7</color>
+    <color name="brand_primary_container">#DCE7F7</color>
+    <color name="brand_accent">#C88B00</color>
+    <color name="brand_background_light">#F6F7F8</color>
+    <color name="brand_background_dark">#101419</color>
+    <color name="launcher_background">#3569B7</color>
+    <color name="window_background">#F6F7F8</color>
+</resources>

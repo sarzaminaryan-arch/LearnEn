@@ -1,0 +1,4 @@
+# Runtime dependencies for tools/build_deck.py
+# Pinned so a weekly Tatoeba refresh cannot change the generated deck unnoticed.
+requests==2.32.3
+wordfreq==3.1.1
