@@ -148,16 +148,58 @@ jobs:
           echo "Bundles:"
           find app/build/outputs/bundle -name "*.aab" -exec ls -lh {} \; || true
 
-      - name: Sign-check the produced APKs
+      # apksigner is the authority on this. Grepping for META-INF/*.RSA detects
+      # only v1 (JAR) signing, while AGP signs with the v2/v3 schemes, whose
+      # signature sits in the APK Signing Block rather than in an entry. The old
+      # check therefore reported "unsigned" for correctly signed builds.
+      - name: Verify the APKs are signed
+        run: |
+          set -euo pipefail
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort | tail -n 1)
+          if [ -z "$APKSIGNER" ]; then
+            echo "::warning::apksigner not found; skipping the signature check"
+            exit 0
+          fi
+          echo "Using $APKSIGNER"
+          FAILED=0
+          for apk in $(find app/build/outputs/apk -name "*.apk"); do
+            echo "=== $apk ==="
+            if "$APKSIGNER" verify --print-certs "$apk"; then
+              echo "  VERIFIED"
+            else
+              echo "::error::$apk is not correctly signed"
+              FAILED=1
+            fi
+          done
+          exit $FAILED
+
+      # Print what actually dominates the artefact so a size regression is
+      # attributable rather than guessed at.
+      - name: Report APK composition
         run: |
           set -euo pipefail
           for apk in $(find app/build/outputs/apk -name "*.apk"); do
-            echo "=== $apk ==="
-            if unzip -l "$apk" | grep -q 'META-INF/.*\.\(RSA\|DSA\|EC\)$'; then
-              echo "  signed"
-            else
-              echo "::warning::$apk is unsigned"
-            fi
+            echo "=== $apk ($(du -h "$apk" | cut -f1)) ==="
+            unzip -l "$apk" \
+              | awk 'NR>3 && $1 ~ /^[0-9]+$/ {
+                       size=$1; name=$4
+                       if (name ~ /^lib\//) lib += size
+                       else if (name ~ /^assets\//) assets += size
+                       else if (name ~ /^classes.*\.dex$/) dex += size
+                       else if (name ~ /^res\//) res += size
+                       else other += size
+                       total += size
+                     }
+                     END {
+                       printf "  native libs: %8.1f MB\n", lib/1048576
+                       printf "  assets:      %8.1f MB\n", assets/1048576
+                       printf "  dex:         %8.1f MB\n", dex/1048576
+                       printf "  resources:   %8.1f MB\n", res/1048576
+                       printf "  other:       %8.1f MB\n", other/1048576
+                       printf "  total:       %8.1f MB\n", total/1048576
+                     }'
+            echo "  --- largest entries ---"
+            unzip -l "$apk" | sort -k1,1 -rn | head -8 | sed 's/^/    /'
           done
 
       - name: Upload APKs and bundles
