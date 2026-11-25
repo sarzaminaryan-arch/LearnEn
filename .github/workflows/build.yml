@@ -107,6 +107,24 @@ jobs:
           done || true
           exit $STATUS
 
+      # Instrumented tests need an emulator, which this workflow does not run.
+      # Compiling them anyway is what keeps them honest: a signature change that
+      # breaks DatabaseRoundTripTest fails here instead of months later.
+      - name: Compile instrumented tests ${{ matrix.flavor }} ${{ matrix.variant }}
+        if: matrix.variant == 'Debug'
+        run: |
+          set +e
+          gradle :app:assemble${{ matrix.flavor }}${{ matrix.variant }}AndroidTest --stacktrace > androidtest-output.txt 2>&1
+          STATUS=$?
+          tail -n 120 androidtest-output.txt
+          grep -o 'e: file://[^ ]*' androidtest-output.txt | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          grep -E '^e: |^\* What went wrong|^> ' androidtest-output.txt | head -n 40 | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          exit $STATUS
+
       # The merged-manifest path changes between AGP versions, so it is located
       # rather than hard-coded. Checking the merged manifest (not the source one)
       # is what actually proves no dependency smuggled a permission in.
