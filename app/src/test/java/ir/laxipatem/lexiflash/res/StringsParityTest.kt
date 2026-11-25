@@ -122,8 +122,9 @@ class StringsParityTest {
             "catalog_url_hint", "about_license_id", "app_id"
         )
         // A pure format string such as "%1$d / %2$d" carries no prose to translate.
-        // Note the escaped dollar: an unescaped "$0" would start a string template.
-        val formatCharacters = "%\$0123456789.,:/-"
+        // The set has to include the type specifiers (d, s, f) or "%1$d" itself
+        // would look like prose. The dollar is escaped: "$0" would open a template.
+        val formatCharacters = "%\$0123456789.,:/ -sdbfxXeE"
         fun isFormatOnly(value: String): Boolean =
             value.all { it.isWhitespace() || it in formatCharacters } && value.isNotBlank()
 
