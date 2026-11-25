@@ -59,7 +59,7 @@ class DatabaseRoundTripTest {
         val deckId = deckDao.insertDeck(deck(partCount = 1))
         deckDao.upsertCards(listOf(card(deckId, id = "c1"), card(deckId, id = "c2")))
         // Only one of the two cards has been reviewed.
-        deckDao.upsertState(state(cardId = "c1", dueAt = 500L, seen = true))
+        database.reviewDao().upsertState(state(cardId = "c1", dueAt = 500L, seen = true))
 
         val rows = deckDao.observePartCards(deckId, partIndex = 1).first()
         assertEquals("both cards must be listed", 2, rows.size)
@@ -80,7 +80,7 @@ class DatabaseRoundTripTest {
                 card(deckId, id = "p2a", partIndex = 2)
             )
         )
-        deckDao.upsertState(state(cardId = "p1a", dueAt = 100L, seen = true))
+        database.reviewDao().upsertState(state(cardId = "p1a", dueAt = 100L, seen = true))
 
         val oneShot = deckDao.cardsWithStateOfPart(deckId, partIndex = 1)
         val observed = deckDao.observePartCards(deckId, partIndex = 1).first()
@@ -118,7 +118,7 @@ class DatabaseRoundTripTest {
         // counted here.
         assertEquals("an unseen card is not due", 0, deckDao.observeDueCount(now = 5_000L).first())
 
-        deckDao.upsertState(state(cardId = "c1", dueAt = 4_000L, seen = true))
+        database.reviewDao().upsertState(state(cardId = "c1", dueAt = 4_000L, seen = true))
         assertEquals("a seen card past its due date is due", 1, deckDao.observeDueCount(now = 5_000L).first())
         assertEquals("a seen card before its due date is not", 0, deckDao.observeDueCount(now = 1_000L).first())
     }
