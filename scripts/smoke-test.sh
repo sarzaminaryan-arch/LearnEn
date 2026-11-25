@@ -87,8 +87,10 @@ fi
 
 # ------------------------------------------------------------------- launch
 adb logcat -c
-adb shell am start -W -n "$PKG/.MainActivity"
-echo "am start exit: $?"
+AMOUT=$(adb shell am start -W -n "$PKG/.MainActivity" 2>&1)
+AMRC=$?
+echo "$AMOUT"
+echo "am start exit: $AMRC"
 
 # Compose has to lay out and the warm-up has to seed the deck. A launch crash
 # happens well inside this window.
@@ -100,6 +102,33 @@ if adb shell pidof "$PKG" > /dev/null 2>&1; then
   ALIVE=yes
 fi
 echo "::notice::process alive: $ALIVE"
+
+# ------------------------------------------------------- export the evidence
+# The uploaded artifact is fetched from an Azure blob host that is not reachable
+# from where this log has to be read, and the job log itself is not readable
+# either. Annotations are, so the interesting slice of logcat is republished as
+# a run annotation, in chunks. Newlines terminate a workflow command, so they
+# are folded into a visible marker first.
+emit_annotation() {
+  # $1 = file with the text to publish
+  # GitHub truncates long annotations, so each chunk is kept to 30 lines and
+  # about 3 KB, well inside the limit.
+  local total chunks body
+  total=$(wc -c < "$1" | tr -d ' ')
+  chunks=$(( (total + 2500) / 3000 ))
+  [ "$chunks" -lt 1 ] && chunks=1
+  [ "$chunks" -gt 24 ] && chunks=24
+  local i=1
+  while [ "$i" -le "$chunks" ]; do
+    body=$(sed -n "$(( (i-1)*30 + 1 )),$(( i*30 ))p" "$1" \
+      | tr -d '\r' \
+      | head -c 3000 \
+      | sed -e 's/%/%25/g' -e 's/$/ | /' \
+      | tr -d '\n')
+    printf '::notice title=crash log %s/%s::%s\n' "$i" "$chunks" "$body"
+    i=$(( i + 1 ))
+  done
+}
 
 CRASH=$(adb logcat -d -b crash 2>&1)
 FATAL=$(adb logcat -d 2>&1 | grep -c "FATAL EXCEPTION" || true)
@@ -121,6 +150,18 @@ LOG="${GITHUB_WORKSPACE:-$PWD}/smoke-report.txt"
   adb logcat -d
 } > "$LOG" 2>&1
 echo "::notice::report written to $LOG"
+
+# Anything the runtime, the activity manager or our own process said.
+adb logcat -d 2>&1 \
+  | grep -i -E "AndroidRuntime|FATAL|lexiflash|ActivityTaskManager|ActivityManager|System.err|am_crash|Process .* has died|Force finishing|Unable to start" \
+  | tail -n 400 > /tmp/excerpt.txt
+echo "=========== EXCERPT ($(wc -l < /tmp/excerpt.txt) lines) ==========="
+cat /tmp/excerpt.txt
+emit_annotation /tmp/excerpt.txt
+
+# The launcher's own verdict, in case the activity was never started at all.
+printf '%s\n' "$AMOUT" > /tmp/am.txt
+emit_annotation /tmp/am.txt
 
 echo "=========== CRASH BUFFER ==========="
 echo "$CRASH"
