@@ -33,9 +33,41 @@ ls -lh "$APK"
 
 # The package id carries a suffix for debug and for the online flavour, so it is
 # read out of the APK rather than assumed.
-PKG=$(unzip -p "$APK" AndroidManifest.xml 2>/dev/null | tr -d '\0' | grep -ao 'ir\.laxipatem\.lexiflash[a-z.]*' | head -n 1)
+# aapt2 is the authority: it reads the compiled manifest and prints exactly the
+# package id, including the debug/online suffix. Grepping the binary string pool
+# was tried first and is unreliable: it also matches the FileProvider authority,
+# and NUL-stripping glues adjacent strings together.
+find_aapt2() {
+  for candidate in \
+    "$(command -v aapt2 2>/dev/null)" \
+    "$ANDROID_HOME/build-tools/"*/aapt2 \
+    "$ANDROID_SDK_ROOT/build-tools/"*/aapt2 \
+    /usr/local/lib/android/sdk/build-tools/*/aapt2
+  do
+    if [ -n "$candidate" ] && [ -x "$candidate" ]; then
+      echo "$candidate"
+      return 0
+    fi
+  done
+  return 1
+}
+
+AAPT2=$(find_aapt2 || true)
+echo "aapt2=${AAPT2:-not found}"
+
+PKG=""
+if [ -n "$AAPT2" ]; then
+  PKG=$("$AAPT2" dump packagename "$APK" 2>/dev/null | tr -d '\r' | head -n 1)
+fi
 if [ -z "$PKG" ]; then
-  PKG=$(aapt2 dump packagename "$APK" 2>/dev/null | head -n 1)
+  # Fallback: the pool approach, but only accept an exact id (no trailing dot,
+  # no authority suffix) and prefer the longest match that the APK itself lists.
+  PKG=$(unzip -p "$APK" AndroidManifest.xml 2>/dev/null \
+    | tr '\0' '\n' \
+    | grep -ao '^ir\.laxipatem\.lexiflash[A-Za-z0-9_.]*$' \
+    | grep -v 'fileprovider' \
+    | sort -r \
+    | head -n 1)
 fi
 if [ -z "$PKG" ]; then
   PKG="$PACKAGE_HINT"
@@ -71,6 +103,24 @@ echo "::notice::process alive: $ALIVE"
 
 CRASH=$(adb logcat -d -b crash 2>&1)
 FATAL=$(adb logcat -d 2>&1 | grep -c "FATAL EXCEPTION" || true)
+
+# GITHUB_WORKSPACE is stable across the emulator action's cwd handling, so the
+# upload step finds the file without globbing.
+LOG="${GITHUB_WORKSPACE:-$PWD}/smoke-report.txt"
+{
+  echo "variant=$VARIANT flavor=$FLAVOR"
+  echo "apk=$APK"
+  echo "package=$PKG"
+  echo "alive=$ALIVE"
+  echo "fatal_count=$FATAL"
+  echo
+  echo "=========== CRASH BUFFER ==========="
+  echo "$CRASH"
+  echo
+  echo "=========== FULL LOGCAT ==========="
+  adb logcat -d
+} > "$LOG" 2>&1
+echo "::notice::report written to $LOG"
 
 echo "=========== CRASH BUFFER ==========="
 echo "$CRASH"
