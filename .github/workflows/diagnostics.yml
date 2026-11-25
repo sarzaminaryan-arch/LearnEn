@@ -51,10 +51,31 @@ jobs:
             2>&1 | tee /tmp/compile.log
           echo "gradle exit: $?"
 
+      # The unit tests are a separate compilation unit (and the step that failed
+      # in the original workflow), so they have to be compiled and run too.
+      - name: Compile and run unit tests
+        id: tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          gradle :app:testOfflineDebugUnitTest --stacktrace --console=plain \
+            2>&1 | tee /tmp/test.log
+          echo "gradle exit: $?"
+
       - name: Extract compiler errors into the summary
         if: always()
         run: |
           {
+            echo "## Test output"
+            echo ""
+            echo '```'
+            if [ -f /tmp/test.log ]; then
+              grep -E "^e: |FAILED|tests completed|BUILD " /tmp/test.log | head -n 80 || true
+            else
+              echo "no test.log produced"
+            fi
+            echo '```'
+            echo ""
             echo "## Compiler output"
             echo ""
             echo '```'
@@ -74,11 +95,19 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
           # Also surface the first errors as annotations, which the API can read.
-          if [ -f /tmp/compile.log ]; then
-            grep -E "^e: file://" /tmp/compile.log | head -n 25 | while IFS= read -r line; do
+          for log in /tmp/compile.log /tmp/test.log; do
+            [ -f "$log" ] || continue
+            grep -E "^e: file://" "$log" | head -n 25 | while IFS= read -r line; do
               file=$(echo "$line" | sed -E 's|^e: file://[^/]*/[^/]*/[^/]*/[^/]*/[^/]*/[^/]*/([^:]+):.*|\1|')
               msg=$(echo "$line" | sed -E 's|^e: file://[^ ]* ||')
               echo "::error file=$file::$msg"
+            done
+          done
+
+          # A failed assertion is not an "e:" line, so name it explicitly.
+          if [ -f /tmp/test.log ]; then
+            grep -E "^.*FAILED$" /tmp/test.log | head -n 20 | while IFS= read -r line; do
+              echo "::error::$line"
             done
           fi
 
