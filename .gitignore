@@ -49,3 +49,4 @@ tatoeba/
 *.jpg
 *.jpeg
 *.webp
+dist/
