@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.5.2">
+    <!-- Empty baseline. Kept in the repository so that a developer can record
+         accepted warnings locally without editing the lint configuration. -->
+</issues>

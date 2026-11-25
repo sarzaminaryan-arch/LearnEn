@@ -1,0 +1,78 @@
+[versions]
+# --- Toolchain ---------------------------------------------------------------
+# The Gradle version is pinned in .github/workflows/build.yml and release.yml
+# (gradle-version: "8.7") and mirrored in gradle/wrapper/gradle-wrapper.properties.
+# AGP 8.5.2 requires Gradle 8.7 or newer and JDK 17.            # VERIFY VERSION
+agp = "8.5.2"                                                    # VERIFY VERSION
+kotlin = "1.9.24"                                                # VERIFY VERSION
+ksp = "1.9.24-1.0.20"                                            # VERIFY VERSION
+# Compose Compiler 1.5.14 is the release that targets Kotlin 1.9.24.
+composeCompiler = "1.5.14"                                       # VERIFY VERSION
+composeBom = "2024.06.00"                                        # VERIFY VERSION
+
+# --- AndroidX ----------------------------------------------------------------
+coreKtx = "1.13.1"                                               # VERIFY VERSION
+activityCompose = "1.9.1"                                        # VERIFY VERSION
+navigationCompose = "2.7.7"                                      # VERIFY VERSION
+lifecycle = "2.8.4"                                              # VERIFY VERSION
+room = "2.6.1"                                                   # VERIFY VERSION
+datastore = "1.1.1"                                              # VERIFY VERSION
+documentfile = "1.0.1"                                           # VERIFY VERSION
+
+# --- Kotlin / coroutines -----------------------------------------------------
+coroutines = "1.8.1"                                             # VERIFY VERSION
+
+# --- Online flavour only -----------------------------------------------------
+mlkitTranslate = "17.0.2"                                        # VERIFY VERSION
+
+# --- Test --------------------------------------------------------------------
+junit = "4.13.2"                                                 # VERIFY VERSION
+androidxTestCore = "1.6.1"                                        # VERIFY VERSION
+androidxTestExtJunit = "1.2.1"                                   # VERIFY VERSION
+espresso = "3.6.1"                                               # VERIFY VERSION
+# org.json is a stub on the JVM test classpath; this real implementation is
+# only used by unit tests so that DeckJson parsing can be tested off-device.
+orgJson = "20240303"                                             # VERIFY VERSION
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfile" }
+
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkitTranslate" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExtJunit" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+org-json = { module = "org.json:json", version.ref = "orgJson" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

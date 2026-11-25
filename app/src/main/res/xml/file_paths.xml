@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Exported deck.json files live in cacheDir/exports and are shared
+         read-only through an ACTION_SEND intent. -->
+    <cache-path
+        name="exports"
+        path="exports/" />
+</paths>

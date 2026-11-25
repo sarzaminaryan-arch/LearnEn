@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- برنامه -->
+    <string name="app_name">فلش‌لکس</string>
+    <string name="app_tagline">فلش‌کارت جمله‌به‌جمله، کوییز و مرور فاصله‌دار برای فارسی‌زبانانی که انگلیسی می‌آموزند.</string>
+    <string name="developer_credit">ساخته‌ی محمدرضا لک (laxipatem)</string>
+
+    <!-- ناوبری پایین -->
+    <string name="nav_home">یادگیری</string>
+    <string name="nav_review">مرور</string>
+    <string name="nav_progress">پیشرفت</string>
+    <string name="nav_settings">تنظیمات</string>
+
+    <!-- کنش‌های مشترک -->
+    <string name="action_retry">تلاش مجدد</string>
+    <string name="action_cancel">انصراف</string>
+    <string name="action_save">ذخیره</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_close">بستن</string>
+    <string name="action_back">بازگشت</string>
+    <string name="action_next">بعدی</string>
+    <string name="action_done">تمام</string>
+    <string name="action_confirm">تأیید</string>
+    <string name="action_start">شروع</string>
+    <string name="action_continue">ادامه</string>
+    <string name="action_import">ایمپورت</string>
+    <string name="action_export">خروجی</string>
+    <string name="action_play_audio">پخش تلفظ</string>
+    <string name="action_skip">رد کردن</string>
+
+    <!-- حالت‌های عمومی -->
+    <string name="state_loading">در حال بارگذاری…</string>
+    <string name="state_empty">هنوز چیزی برای نمایش نیست</string>
+    <string name="state_error">خطایی رخ داد</string>
+    <string name="state_error_detail">%1$s</string>
+    <string name="state_empty_deck">این دسته هنوز کارتی ندارد.</string>
+
+    <!-- خانه -->
+    <string name="home_title">یادگیری</string>
+    <string name="home_core_deck">دسته‌ی اصلی</string>
+    <string name="home_imported_deck">دسته‌ی ایمپورت‌شده</string>
+    <string name="home_open_deck">باز کردن دسته</string>
+    <string name="home_progress_label">%1$d از %2$d کارت دیده شده</string>
+    <string name="home_parts_title">بخش‌ها</string>
+    <string name="home_part_number">بخش %1$d</string>
+    <string name="home_part_summary">%1$d کارت · %2$d دیده‌شده</string>
+    <string name="home_part_locked_desc">قفل است. بخش قبلی را کامل کنید و کوییز آن را پاس کنید تا باز شود.</string>
+    <string name="home_part_open_desc">باز و آماده‌ی مطالعه.</string>
+    <string name="home_part_completed_desc">کامل شده. هر زمان بخواهید می‌توانید دوباره مرورش کنید.</string>
+    <string name="home_import_cta">ایمپورت زیرنویس شخصی</string>
+    <string name="home_deck_card_count">%1$d کارت</string>
+    <string name="home_online_catalog">مرور کاتالوگ آنلاین</string>
+
+    <!-- جزئیات دسته -->
+    <string name="deck_detail_title">جزئیات دسته</string>
+    <string name="deck_detail_license">مجوز: %1$s</string>
+    <string name="deck_detail_source">منبع: %1$s</string>
+    <string name="deck_detail_parts">%1$d بخش</string>
+    <string name="deck_detail_delete">حذف این دسته</string>
+    <string name="deck_detail_delete_confirm">«%1$s» و تمام تاریخچه‌ی مرورش حذف شود؟ این کار برگشت‌پذیر نیست.</string>
+
+    <!-- مطالعه -->
+    <string name="study_title">مطالعه</string>
+    <string name="study_progress">%1$d / %2$d</string>
+    <string name="study_tap_to_flip">برای دیدن پاسخ روی کارت بزنید</string>
+    <string name="study_pending_translation">ترجمه بعداً</string>
+    <string name="study_section_ipa">تلفظ</string>
+    <string name="study_section_vocab">کلمات کلیدی</string>
+    <string name="study_section_note">یادداشت</string>
+    <string name="study_finished_title">بخش تمام شد</string>
+    <string name="study_finished_body">همه‌ی کارت‌های این بخش را مرور کردید. برای باز شدن بخش بعد، کوییز را بدهید.</string>
+    <string name="study_start_quiz">شروع کوییز</string>
+    <string name="study_back_to_parts">بازگشت به بخش‌ها</string>
+
+    <!-- دکمه‌های امتیاز -->
+    <string name="rating_again">دوباره</string>
+    <string name="rating_hard">سخت</string>
+    <string name="rating_good">خوب</string>
+    <string name="rating_easy">آسان</string>
+    <string name="rating_again_when">تا %1$d دقیقه دیگر</string>
+    <string name="rating_interval_days">%1$d روز دیگر</string>
+    <string name="rating_interval_months">%1$d ماه دیگر</string>
+    <string name="rating_interval_years">%1$d سال دیگر</string>
+
+    <!-- کوییز -->
+    <string name="quiz_title">کوییز</string>
+    <string name="quiz_progress">سؤال %1$d از %2$d</string>
+    <string name="quiz_question_meaning">این جمله چه معنایی دارد؟</string>
+    <string name="quiz_question_reverse">کدام جمله‌ی انگلیسی با این ترجمه‌ی فارسی می‌خواند؟</string>
+    <string name="quiz_question_cloze">کدام کلمه در جای خالی می‌نشیند؟</string>
+    <string name="quiz_correct">درست</string>
+    <string name="quiz_incorrect">درست نبود</string>
+    <string name="quiz_correct_answer">پاسخ درست: %1$s</string>
+    <string name="quiz_explanation_ipa">تلفظ: %1$s</string>
+    <string name="quiz_explanation_vocab">کلمه‌ی کلیدی: %1$s</string>
+    <string name="quiz_show_answer">نمایش پاسخ</string>
+    <string name="quiz_empty">کارت‌های این بخش برای ساختن کوییز کافی نیست.</string>
+    <string name="quiz_exit_confirm">از کوییز خارج می‌شوید؟ پیشرفت این کوییز از دست می‌رود.</string>
+    <string name="quiz_pick_one">یک گزینه را انتخاب کنید</string>
+
+    <!-- نتیجه‌ی کوییز -->
+    <string name="quiz_result_title">نتیجه‌ی کوییز</string>
+    <string name="quiz_result_score">%1$d از %2$d درست</string>
+    <string name="quiz_result_percent">%1$d%%</string>
+    <string name="quiz_result_passed">آفرین. بخش بعد باز شد.</string>
+    <string name="quiz_result_not_passed">برای باز شدن بخش بعد به %1$d%% نیاز دارید. هر چند بار که بخواهید می‌توانید دوباره تلاش کنید.</string>
+    <string name="quiz_result_next_part">رفتن به بخش بعد</string>
+    <string name="quiz_result_retry">تلاش مجدد کوییز</string>
+    <string name="quiz_result_back">بازگشت به بخش‌ها</string>
+    <string name="quiz_result_last_part">این آخرین بخش این دسته است.</string>
+
+    <!-- مرور -->
+    <string name="review_title">مرور</string>
+    <string name="review_empty_title">امروز کاری ندارید</string>
+    <string name="review_empty_body">هر چه برای الان برنامه‌ریزی شده بود مرور کردید. بعداً برگردید یا بخشی از دسته‌ی اصلی را مطالعه کنید.</string>
+    <string name="review_due_count">%1$d کارت موعددار</string>
+    <string name="review_finished">جلسه‌ی مرور تمام شد</string>
+    <string name="review_finished_body">صف کارهای الان را خالی کردید.</string>
+
+    <!-- پیشرفت -->
+    <string name="progress_title">پیشرفت</string>
+    <string name="progress_streak">زنجیره‌ی روزها</string>
+    <string name="progress_streak_value">%1$d</string>
+    <string name="progress_accuracy">دقت</string>
+    <string name="progress_accuracy_value">%1$d%%</string>
+    <string name="progress_accuracy_hint">سهم مرورهایی که در ۳۰ روز گذشته با «سخت» یا بهتر ارزیابی شده‌اند.</string>
+    <string name="progress_due">کارت‌های موعددار</string>
+    <string name="progress_due_value">%1$d</string>
+    <string name="progress_daily_goal">هدف روزانه</string>
+    <string name="progress_daily_goal_value">%1$d / %2$d</string>
+    <string name="progress_part_title">بخش %1$d</string>
+    <string name="progress_parts_header">بخش‌های پوشش‌داده‌شده</string>
+    <string name="progress_reviews_total">کل مرورها</string>
+    <string name="progress_reviews_total_value">%1$d</string>
+
+    <!-- تنظیمات -->
+    <string name="settings_title">تنظیمات</string>
+    <string name="settings_section_appearance">ظاهر</string>
+    <string name="settings_theme">تم</string>
+    <string name="settings_theme_system">پیرو سیستم</string>
+    <string name="settings_theme_light">روشن</string>
+    <string name="settings_theme_dark">تیره</string>
+    <string name="settings_dynamic_color">رنگ پویا</string>
+    <string name="settings_dynamic_color_desc">استفاده از رنگ کاغذدیواری در اندروید ۱۲ و بالاتر.</string>
+    <string name="settings_section_language">زبان</string>
+    <string name="settings_language">زبان برنامه</string>
+    <string name="settings_language_fa">فارسی</string>
+    <string name="settings_language_en">انگلیسی</string>
+    <string name="settings_persian_digits">ارقام فارسی</string>
+    <string name="settings_persian_digits_desc">نمایش اعداد با ارقام فارسی.</string>
+    <string name="settings_section_study">مطالعه</string>
+    <string name="settings_daily_goal">هدف روزانه</string>
+    <string name="settings_daily_goal_desc">تعداد کارت برای مرور در هر روز.</string>
+    <string name="settings_tts_speed">سرعت خواندن</string>
+    <string name="settings_unlock_all">باز کردن همه‌ی بخش‌ها</string>
+    <string name="settings_unlock_all_desc">نادیده گرفتن شرط کوییز و باز شدن همه‌ی بخش‌های همه‌ی دسته‌ها.</string>
+    <string name="settings_section_online">قابلیت‌های آنلاین</string>
+    <string name="settings_catalog_url">نشانی کاتالوگ</string>
+    <string name="settings_catalog_url_desc">نشانی HTTPS فایل کاتالوگ.</string>
+    <string name="settings_catalog_url_reset">بازگشت به پیش‌فرض</string>
+    <string name="settings_catalog_url_invalid">یک نشانی معتبر HTTPS وارد کنید.</string>
+    <string name="settings_section_data">داده‌ها</string>
+    <string name="settings_delete_all">حذف همه‌ی داده‌ها</string>
+    <string name="settings_delete_all_desc">پاک کردن همه‌ی دسته‌ها، مرورها و تنظیمات از این دستگاه.</string>
+    <string name="settings_delete_all_confirm">همه‌ی دسته‌ها، تاریخچه‌ی مرور و تنظیمات حذف شود؟ این کار برگشت‌پذیر نیست.</string>
+    <string name="settings_section_about">درباره</string>
+    <string name="settings_about">درباره و مجوزها</string>
+    <string name="settings_version">نسخه %1$s</string>
+
+    <!-- ایمپورت -->
+    <string name="import_title">ایمپورت</string>
+    <string name="import_step_pick">انتخاب فایل</string>
+    <string name="import_pick_cta">انتخاب فایل زیرنویس یا دسته</string>
+    <string name="import_supported_formats">قالب‌های پشتیبانی‌شده: SRT، VTT، ASS/SSA، TXT، CSV/TSV و deck.json</string>
+    <string name="import_bilingual_cta">جفت کردن زیرنویس انگلیسی و فارسی</string>
+    <string name="import_bilingual_english">فایل زیرنویس انگلیسی</string>
+    <string name="import_bilingual_persian">فایل زیرنویس فارسی</string>
+    <string name="import_disclaimer_title">پیش از ایمپورت</string>
+    <string name="import_disclaimer_body">فایل روی دستگاه شما می‌ماند. مسئولیت این‌که حق استفاده از محتوای آن را دارید با شماست. فلش‌لکس هیچ زیرنویس یا ترنسکریپتی دانلود نمی‌کند.</string>
+    <string name="import_disclaimer_accept">متوجه شدم</string>
+    <string name="import_processing">در حال خواندن فایل…</string>
+    <string name="import_failed">این فایل خوانده نشد.</string>
+    <string name="import_unsupported">این قالب فایل پشتیبانی نمی‌شود.</string>
+    <string name="import_preview_title">پیش‌نمایش</string>
+    <string name="import_deck_name">نام دسته</string>
+    <string name="import_part_count">تعداد بخش‌ها</string>
+    <string name="import_card_count">%1$d کارت</string>
+    <string name="import_card_pending">ترجمه بعداً</string>
+    <string name="import_edit_translation">ویرایش ترجمه</string>
+    <string name="import_translation_hint">ترجمه‌ی فارسی</string>
+    <string name="import_remove_card">حذف کارت</string>
+    <string name="import_save_cta">ذخیره‌ی دسته</string>
+    <string name="import_saved">دسته ذخیره شد</string>
+    <string name="import_no_cards">هیچ جمله‌ی قابل‌استفاده‌ای در این فایل پیدا نشد.</string>
+    <string name="import_machine_translated">ترجمه‌ی ماشینی</string>
+    <string name="import_translate_cta">ترجمه‌ی فارسیِ جامانده با ML Kit</string>
+    <string name="import_translate_consent">ترجمه روی دستگاه شما انجام می‌شود. مدل زبانی مربوط (حدود ۳۰ مگابایت) یک بار و فقط وقتی خودتان بخواهید دانلود می‌شود.</string>
+    <string name="import_translate_running">در حال ترجمه…</string>
+    <string name="import_translate_done">%1$d کارت ترجمه شد</string>
+    <string name="import_translate_failed">ترجمه کامل نشد.</string>
+    <string name="import_translate_offline">ترجمه فقط در نسخه‌ی آنلاین در دسترس است.</string>
+
+    <!-- کاتالوگ آنلاین -->
+    <string name="catalog_title">کاتالوگ آنلاین</string>
+    <string name="catalog_fetch">دریافت کاتالوگ</string>
+    <string name="catalog_empty">کاتالوگ خالی است.</string>
+    <string name="catalog_failed">کاتالوگ دریافت نشد.</string>
+    <string name="catalog_download">دانلود</string>
+    <string name="catalog_downloaded">«%1$s» به دسته‌های شما افزوده شد</string>
+    <string name="catalog_cards">%1$d کارت</string>
+    <string name="catalog_offline_note">این نسخه دسترسی شبکه ندارد. قابلیت‌های آنلاین فقط در نسخه‌ی آنلاین هست.</string>
+
+    <!-- TTS -->
+    <string name="tts_unavailable">صدای انگلیسی روی این دستگاه نصب نیست.</string>
+    <string name="tts_install">نصب داده‌ی صوتی</string>
+    <string name="tts_install_failed">هیچ برنامه‌ای روی این دستگاه نمی‌تواند داده‌ی صوتی نصب کند.</string>
+
+    <!-- خروجی -->
+    <string name="export_title">خروجی دسته</string>
+    <string name="export_share">اشتراک‌گذاری deck.json</string>
+    <string name="export_failed">خروجی دسته انجام نشد.</string>
+
+    <!-- درباره -->
+    <string name="about_title">درباره</string>
+    <string name="about_app_section">درباره‌ی این برنامه</string>
+    <string name="about_body">فلش‌لکس فارسی انگلیسی را با فلش‌کارت جمله‌به‌جمله، کوییز و تکرار فاصله‌دار آموزش می‌دهد. دسته‌ی اصلی از جمله‌های آزاد تاتوئبا ساخته شده که با ترجمه‌های انسانی جفت شده‌اند.</string>
+    <string name="about_disclaimer">هیچ وابستگی به TED، اینتراستلار یا هیچ دارنده‌ی حقوق دیگری وجود ندارد. Not affiliated with TED, Interstellar or any rights holder.</string>
+    <string name="about_data_section">داده‌ها و اعتبار</string>
+    <string name="about_tatoeba">تاتوئبا</string>
+    <string name="about_tatoeba_body">جمله‌های نمونه از تاتوئبا (https://tatoeba.org) هستند و زیر مجوز CC BY 2.0 FR و بخشی از پیکره زیر CC0 1.0 استفاده شده‌اند. ترجمه‌ها را داوطلبان تاتوئبا نوشته‌اند.</string>
+    <string name="about_licenses_section">مجوزهای متن‌باز</string>
+    <string name="about_licenses_body">این برنامه زیر مجوز Apache License 2.0 منتشر شده است. از AndroidX، Jetpack Compose، Room، Kotlin، kotlinx.coroutines و DataStore استفاده می‌کند که همه زیر Apache License 2.0 هستند. نسخه‌ی آنلاین از ML Kit گوگل زیر شرایط سرویس APIهای گوگل استفاده می‌کند.</string>
+    <string name="about_privacy">حریم خصوصی</string>
+    <string name="about_privacy_body">بدون تحلیل‌گر، بدون تبلیغ و بدون ردیاب. داده‌های مطالعه از دستگاه شما بیرون نمی‌رود. نسخه‌ی آفلاین هیچ مجوز شبکه‌ای ندارد.</string>
+    <string name="about_open_tatoeba">باز کردن tatoeba.org</string>
+
+    <!-- دسترس‌پذیری -->
+    <string name="cd_part_locked">قفل</string>
+    <string name="cd_part_open">باز</string>
+    <string name="cd_part_completed">کامل‌شده</string>
+    <string name="cd_flip_card">فلش‌کارت</string>
+    <string name="cd_expand">گسترش</string>
+    <string name="cd_correct">پاسخ درست</string>
+    <string name="cd_wrong">پاسخ نادرست</string>
+    <string name="cd_back">بازگشت</string>
+    <string name="cd_rating_again">ارزیابی کارت به‌عنوان دوباره</string>
+    <string name="cd_rating_hard">ارزیابی کارت به‌عنوان سخت</string>
+    <string name="cd_rating_good">ارزیابی کارت به‌عنوان خوب</string>
+    <string name="cd_rating_easy">ارزیابی کارت به‌عنوان آسان</string>
+    <string name="cd_speech">شنیدن جمله</string>
+    <string name="cd_progress_bar">پیشرفت</string>
+
+    <!-- خطاهای نمایش‌داده‌شده به کاربر -->
+    <string name="error_deck_not_found">این دسته دیگر در دسترس نیست.</string>
+    <string name="error_part_not_found">این بخش دیگر در دسترس نیست.</string>
+    <string name="error_generic">لطفاً کمی بعد دوباره تلاش کنید.</string>
+    <string name="error_persist_failed">مرور شما ذخیره نشد.</string>
+
+    <!-- جمع‌ها -->
+    <plurals name="plural_cards">
+        <item quantity="one">%1$d کارت</item>
+        <item quantity="other">%1$d کارت</item>
+    </plurals>
+    <plurals name="plural_days">
+        <item quantity="one">%1$d روز</item>
+        <item quantity="other">%1$d روز</item>
+    </plurals>
+    <plurals name="plural_parts">
+        <item quantity="one">%1$d بخش</item>
+        <item quantity="other">%1$d بخش</item>
+    </plurals>
+    <plurals name="plural_due">
+        <item quantity="one">%1$d کارت موعددار</item>
+        <item quantity="other">%1$d کارت موعددار</item>
+    </plurals>
+</resources>

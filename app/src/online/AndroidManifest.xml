@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      Only the :online flavour declares INTERNET. The :offline flavour has no
+      network permission at all, which is asserted by a CI step that greps the
+      merged manifest.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>
