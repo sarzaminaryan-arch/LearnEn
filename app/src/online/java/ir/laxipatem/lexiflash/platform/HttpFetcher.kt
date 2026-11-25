@@ -91,7 +91,8 @@ internal object HttpFetcher {
                 val body = readBounded(connection, maxBytes)
                 val charset = charsetOf(connection.contentType)
                 return HttpTextResponse(
-                    body = body.toString(charset.name()),
+                    // ByteArray.toString expects the Charset itself, not its name.
+                    body = body.toString(charset),
                     contentType = connection.contentType,
                     finalUrl = current.toString()
                 )
@@ -135,7 +136,7 @@ internal object HttpFetcher {
      * deliberately soft: a missing or odd Content-Type never fails the request,
      * because the body is validated as JSON by the caller anyway.
      */
-    private fun charsetOf(contentType: String?): Charset {
+    private fun charsetOf(contentType: String?): java.nio.charset.Charset {
         if (contentType != null) {
             val marker = "charset="
             val index = contentType.lowercase().indexOf(marker)
@@ -144,11 +145,10 @@ internal object HttpFetcher {
                     .substringBefore(';')
                     .trim()
                     .trim('"')
-                runCatching { return Charset.forName(raw) }
+                runCatching { return java.nio.charset.Charset.forName(raw) }
             }
         }
         return Charsets.UTF_8
     }
 }
 
-private typealias Charset = java.nio.charset.Charset
