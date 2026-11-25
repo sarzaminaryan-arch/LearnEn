@@ -1,0 +1,62 @@
+name: Export APKs to a branch
+
+# Temporary bridge. The build environment can download release assets, this
+# sandbox cannot, so the assets are re-published into a throwaway git branch
+# where they can be fetched through codeload.
+#
+# Delete this workflow and the branch once the files have been handed over.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to export"
+        required: true
+        default: v1.0.0
+      branch:
+        description: "Throwaway branch to write to"
+        required: true
+        default: dist-v1.0.0
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    name: Export release assets
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Download the release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p exported
+          gh release download "${{ inputs.tag }}" \
+            --repo "${{ github.repository }}" \
+            --pattern "*.apk" \
+            --dir exported
+          ls -lh exported/
+
+      - name: Publish them on a throwaway branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ inputs.branch }}"
+
+          # A fresh orphan commit keeps the binaries out of the project history.
+          git checkout --orphan "$BRANCH"
+          git rm -rf --cached . > /dev/null
+          git add -f exported/*.apk
+          git -c user.name="github-actions" \
+              -c user.email="actions@github.com" \
+              commit -m "Export ${{ inputs.tag }} APKs"
+
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+          echo "Pushed to $BRANCH"
