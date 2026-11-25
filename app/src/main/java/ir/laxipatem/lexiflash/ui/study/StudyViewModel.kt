@@ -82,7 +82,8 @@ class StudyViewModel(
             runCatching {
                 val deck = container.decks.deck(deckId)
                     ?: throw IllegalStateException("deck-missing")
-                val cards = container.decks.cardsOfPart(deckId, partIndex)
+                // The queue needs each card's FSRS memory to show predictions.
+                val cards = container.decks.cardsWithStateOfPart(deckId, partIndex)
                 deck.title to cards
             }.onSuccess { (title, cards) ->
                 val studyCards = cards

@@ -115,7 +115,6 @@ fun HomeScreen(
                     DeckCard(
                         deck = deck,
                         selected = deck.id == state.selectedDeckId,
-                        usePersianDigits = settings.persianDigits,
                         onClick = { viewModel.selectDeck(deck.id) }
                     )
                 }
@@ -177,9 +176,9 @@ fun HomeScreen(
 private fun DeckCard(
     deck: DeckUiModel,
     selected: Boolean,
-    usePersianDigits: Boolean,
     onClick: () -> Unit
 ) {
+    // DeckCard has no numeric text, so it takes no digit-formatting flag.
     val border = CardDefaults.outlinedCardBorder()
     Card(
         onClick = onClick,

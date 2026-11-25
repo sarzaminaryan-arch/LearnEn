@@ -1,6 +1,5 @@
 package ir.laxipatem.lexiflash.ui.nav
 
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -246,9 +245,3 @@ fun AppNavHost(
         }
     }
 }
-
-/** Reading a `Uri` argument is deferred to the screen that needs it. */
-internal fun NavType.Companion.uriType(): NavType<String> = NavType.StringType
-
-/** Converts a string argument back into a Uri, or null. */
-internal fun String?.toUriOrNull(): Uri? = this?.let { runCatching { Uri.parse(it) }.getOrNull() }

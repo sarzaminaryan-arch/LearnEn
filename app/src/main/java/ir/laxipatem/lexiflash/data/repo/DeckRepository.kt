@@ -264,6 +264,10 @@ class DeckRepository(
     suspend fun cardsOfPart(deckId: Long, partIndex: Int) =
         withContext(ioDispatcher) { deckDao.cardsOfPart(deckId, partIndex) }
 
+    /** Cards of a part together with their FSRS state, for a study session. */
+    suspend fun cardsWithStateOfPart(deckId: Long, partIndex: Int) =
+        withContext(ioDispatcher) { deckDao.cardsWithStateOfPart(deckId, partIndex) }
+
     /** Rebuilds a deck.json document from the stored cards. */
     suspend fun exportDeck(deckId: Long): Result<String> = withContext(ioDispatcher) {
         runCatching {

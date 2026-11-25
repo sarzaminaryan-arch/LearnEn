@@ -167,6 +167,28 @@ interface DeckDao {
     )
     fun observePartCards(deckId: Long, partIndex: Int): Flow<List<CardWithState>>
 
+    /**
+     * One-shot twin of [observePartCards].
+     *
+     * The study session snapshots its queue when the screen opens, precisely so
+     * a rating does not re-shuffle the list under the learner's finger.
+     */
+    @Query(
+        """
+        SELECT c.id AS id, c.deckId AS deckId, c.partIndex AS partIndex, c.orderInPart AS orderInPart,
+               c.english AS english, c.persian AS persian, c.ipa AS ipa, c.vocabJson AS vocabJson,
+               c.note AS note, c.startMs AS startMs, c.translatePending AS translatePending,
+               s.stability AS stability, s.difficulty AS difficulty, s.state AS state,
+               s.lastReviewAt AS lastReviewAt, s.dueAt AS dueAt, s.reps AS reps,
+               s.lapses AS lapses, s.seen AS seen
+        FROM cards c
+        LEFT JOIN card_states s ON s.cardId = c.id
+        WHERE c.deckId = :deckId AND c.partIndex = :partIndex
+        ORDER BY c.orderInPart ASC
+        """
+    )
+    suspend fun cardsWithStateOfPart(deckId: Long, partIndex: Int): List<CardWithState>
+
     @Query(
         """
         SELECT c.id AS id, c.deckId AS deckId, c.partIndex AS partIndex, c.orderInPart AS orderInPart,

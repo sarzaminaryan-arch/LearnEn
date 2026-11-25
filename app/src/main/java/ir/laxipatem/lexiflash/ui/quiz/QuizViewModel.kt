@@ -31,7 +31,12 @@ data class QuizUiState(
     val total: Int get() = questions.size
     val answered: Boolean get() = selectedIndex != null
     val isCurrentCorrect: Boolean
-        get() = currentQuestion != null && selectedIndex == currentQuestion.correctIndex
+        get() {
+            // `currentQuestion` has a custom getter, so it cannot be smart cast;
+            // bind it to a local first.
+            val question = currentQuestion ?: return false
+            return selectedIndex == question.correctIndex
+        }
     val progress: Float
         get() = if (questions.isEmpty()) 0f else currentIndex.toFloat() / questions.size.toFloat()
 }

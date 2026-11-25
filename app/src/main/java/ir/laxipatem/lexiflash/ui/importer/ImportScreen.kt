@@ -84,6 +84,9 @@ fun ImportScreen(
         }
     }
 
+    // Holds the English file while the learner picks the matching Persian one.
+    var pendingEnglish by remember { mutableStateOf<Pair<Uri, String>?>(null) }
+
     val singlePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
@@ -110,8 +113,6 @@ fun ImportScreen(
             pendingEnglish = null
         }
     }
-
-    var pendingEnglish by remember { mutableStateOf<Pair<Uri, String>?>(null) }
 
     Scaffold(
         topBar = {
