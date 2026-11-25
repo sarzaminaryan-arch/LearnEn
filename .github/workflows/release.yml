@@ -68,26 +68,49 @@ jobs:
           key: gradle-release-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml', '**/*.gradle.kts') }}
           restore-keys: gradle-release-${{ runner.os }}-
 
-      - name: Decode the keystore when the secret is present
+      - name: Prepare signing material
         id: keystore
         env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          SECRET_KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          SECRET_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          SECRET_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          SECRET_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          if [ -n "${KEYSTORE_BASE64:-}" ]; then
-            echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
-            echo "signed=true" >> "$GITHUB_OUTPUT"
-            echo "Signing material decoded."
+          set -euo pipefail
+          if [ -n "${SECRET_KEYSTORE_BASE64:-}" ]; then
+            echo "$SECRET_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+            echo "mode=maintainer" >> "$GITHUB_OUTPUT"
+            {
+              echo "KEYSTORE_PATH=$RUNNER_TEMP/release.jks"
+              echo "KEYSTORE_PASSWORD=$SECRET_KEYSTORE_PASSWORD"
+              echo "KEY_ALIAS=$SECRET_KEY_ALIAS"
+              echo "KEY_PASSWORD=$SECRET_KEY_PASSWORD"
+            } >> "$GITHUB_ENV"
+            echo "Maintainer keystore decoded."
           else
-            echo "signed=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::No KEYSTORE_BASE64 secret: the release build will be UNSIGNED."
+            # No maintainer keystore configured. A generated one keeps the
+            # artefacts installable for testing, but it is NOT suitable for
+            # publishing: stores tie future updates to the original key.
+            keytool -genkeypair \
+              -keystore "$RUNNER_TEMP/release.jks" \
+              -alias lexiflash-test \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -storepass testpassword -keypass testpassword \
+              -dname "CN=LexiFlash Test Build, OU=CI, O=LexiFlash, C=IR"
+            echo "mode=generated" >> "$GITHUB_OUTPUT"
+            {
+              echo "KEYSTORE_PATH=$RUNNER_TEMP/release.jks"
+              echo "KEYSTORE_PASSWORD=testpassword"
+              echo "KEY_ALIAS=lexiflash-test"
+              echo "KEY_PASSWORD=testpassword"
+            } >> "$GITHUB_ENV"
+            echo "::warning::No KEYSTORE_BASE64 secret: signed with a throwaway key. The APKs install and can be sideloaded, but a store release needs your own keystore."
           fi
 
+      # The signing variables come from $GITHUB_ENV (set in the previous step).
+      # A step-level env block would override them, which is exactly the bug that
+      # made the generated key invisible to Gradle.
       - name: Assemble signed release
-        env:
-          KEYSTORE_PATH: ${{ steps.keystore.outputs.signed == 'true' && format('{0}/release.jks', runner.temp) || '' }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -euo pipefail
           TARGET="${{ github.event.inputs.variant || 'both' }}"
@@ -102,7 +125,12 @@ jobs:
       - name: Verify the offline release carries no INTERNET permission
         run: |
           set -euo pipefail
-          MANIFEST=$(find app/build/intermediates -path "*merged_manifest*offlinerelease*" -name AndroidManifest.xml | head -n 1)
+          # AGP writes intermediates/merged_manifest/offlineRelease/... ,
+          # so the directory name is camel-cased, not lower-cased.
+          MANIFEST=$(find app/build/intermediates -ipath "*merged_manifest*offlinerelease*" -name AndroidManifest.xml | head -n 1)
+          if [ -z "$MANIFEST" ]; then
+            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath "*offline*release*" | head -n 1)
+          fi
           if [ -z "$MANIFEST" ]; then
             echo "::error::Could not locate the offline release merged manifest"
             exit 1
@@ -150,7 +178,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: LexiFlash Persian ${{ github.ref_name }}
-          draft: true
+          # Published, not a draft: the download link is the deliverable.
+          draft: false
           generate_release_notes: true
           body: |
             ## LexiFlash Persian ${{ github.ref_name }}
@@ -162,6 +191,25 @@ jobs:
 
             Content is derived from [Tatoeba](https://tatoeba.org) under CC BY 2.0 FR
             (parts CC0 1.0). Full attribution is in `docs/CREDITS.csv` and `NOTICE.md`.
+
+            ### Installation
+
+            Download and open the APK on the device. Android will ask you to allow
+            installing from this source; that prompt is expected for any app that
+            did not come from a store.
+
+            * `app-offline-release.apk` - zero permissions, no network code at all.
+            * `app-online-release.apk` - adds `INTERNET` for the opt-in catalogue and
+              on-device translation. Its application id ends in `.online`, so both
+              flavours can be installed side by side.
+
+            ### Signing
+
+            If this release was built without a `KEYSTORE_BASE64` secret, the APKs are
+            signed with a throwaway key generated during the build. They install and
+            can be sideloaded, but a store submission needs an APK signed with your
+            own keystore, whose fingerprint matches the application id you register.
+            See the signing section of `README.md`.
 
             Not affiliated with TED, Interstellar or any rights holder.
           files: |
