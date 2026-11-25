@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 
 /**
  * Local store for every deck, card, review and quiz result.
@@ -25,7 +24,6 @@ import androidx.room.TypeConverters
     version = 1,
     exportSchema = true
 )
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun deckDao(): DeckDao

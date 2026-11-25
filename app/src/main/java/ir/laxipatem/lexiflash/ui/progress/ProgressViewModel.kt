@@ -135,7 +135,7 @@ class ProgressViewModel(private val container: AppContainer) : ViewModel() {
             _exportState.update { it.copy(isExporting = true, error = false, uri = null) }
             runCatching {
                 val json = container.decks.exportDeck(deckId).getOrThrow()
-                val title = state.deckTitle.ifBlank { "lexiflash-deck" }
+                val title = state.deckTitle.ifBlank { DEFAULT_EXPORT_NAME }
                 container.exporter.writeDeckFile(title, json).getOrThrow()
             }.onSuccess { exported ->
                 _exportState.update { ExportUiState(uri = exported.uri.toString()) }
@@ -144,6 +144,13 @@ class ProgressViewModel(private val container: AppContainer) : ViewModel() {
             }
         }
     }
+
+    /**
+     * Subject line for the share sheet: the deck title the learner sees, or a
+     * stable fallback when the deck has no title yet.
+     */
+    val exportSubject: String
+        get() = uiState.value.deckTitle.ifBlank { DEFAULT_EXPORT_NAME }
 
     /** Clears the export banner after it has been shown. */
     fun clearExportResult() {
@@ -157,5 +164,8 @@ class ProgressViewModel(private val container: AppContainer) : ViewModel() {
 
     companion object {
         private const val STOP_TIMEOUT_MS = 5_000L
+
+        /** Fallback file name when a deck has no title. */
+        const val DEFAULT_EXPORT_NAME = "lexiflash-deck"
     }
 }

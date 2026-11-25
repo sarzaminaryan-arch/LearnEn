@@ -31,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ir.laxipatem.lexiflash.AppContainer
 import ir.laxipatem.lexiflash.R
+import ir.laxipatem.lexiflash.platform.DeckExporter
 import ir.laxipatem.lexiflash.ui.common.Formatters
 import ir.laxipatem.lexiflash.ui.common.LoadingState
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
@@ -147,6 +148,8 @@ fun ProgressScreen(container: AppContainer) {
                 item {
                     ExportCard(
                         export = export,
+                        exporter = container.exporter,
+                        subject = viewModel.exportSubject,
                         onExport = viewModel::exportDeck,
                         onDismiss = viewModel::clearExportResult
                     )
@@ -163,6 +166,8 @@ fun ProgressScreen(container: AppContainer) {
 @Composable
 private fun ExportCard(
     export: ExportUiState,
+    exporter: DeckExporter,
+    subject: String,
     onExport: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -185,15 +190,14 @@ private fun ExportCard(
         export.uri?.let { uri ->
             Button(
                 onClick = {
-                    val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                        type = "application/json"
-                        putExtra(android.content.Intent.EXTRA_STREAM, android.net.Uri.parse(uri))
-                        addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
+                    // One builder in DeckExporter owns the MIME type, the subject
+                    // and the read grant, so the share sheet cannot drift from
+                    // what the exporter actually wrote.
                     context.startActivity(
-                        android.content.Intent.createChooser(
-                            intent,
-                            context.getString(R.string.export_share)
+                        exporter.shareIntent(
+                            uri = uri,
+                            subject = subject,
+                            chooserTitle = context.getString(R.string.export_share)
                         )
                     )
                     onDismiss()

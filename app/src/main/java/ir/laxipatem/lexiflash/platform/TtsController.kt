@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
 import java.util.Locale
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,9 +30,6 @@ class TtsController(private val context: Context) {
     private val _state = MutableStateFlow<TtsState>(TtsState.Initialising)
     val state: StateFlow<TtsState> = _state.asStateFlow()
 
-    private val _isSpeaking = MutableStateFlow(false)
-    val isSpeaking: StateFlow<Boolean> = _isSpeaking.asStateFlow()
-
     private var engine: TextToSpeech? = null
     private var pendingInit = false
     private var speed: Float = 1.0f
@@ -52,24 +48,6 @@ class TtsController(private val context: Context) {
             }
             configureLanguage()
         }
-        engine?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-            override fun onStart(utteranceId: String?) {
-                _isSpeaking.value = true
-            }
-
-            override fun onDone(utteranceId: String?) {
-                _isSpeaking.value = false
-            }
-
-            @Deprecated("Required by the platform API level this app supports")
-            override fun onError(utteranceId: String?) {
-                _isSpeaking.value = false
-            }
-
-            override fun onError(utteranceId: String?, errorCode: Int) {
-                _isSpeaking.value = false
-            }
-        })
     }
 
     private fun configureLanguage() {
@@ -109,7 +87,6 @@ class TtsController(private val context: Context) {
 
     fun stop() {
         engine?.stop()
-        _isSpeaking.value = false
     }
 
     /**
@@ -137,7 +114,6 @@ class TtsController(private val context: Context) {
         engine?.shutdown()
         engine = null
         pendingInit = false
-        _isSpeaking.value = false
         _state.value = TtsState.Failed
     }
 

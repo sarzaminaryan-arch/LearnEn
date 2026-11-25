@@ -2,6 +2,7 @@ package ir.laxipatem.lexiflash.platform
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.IOException
@@ -24,7 +25,7 @@ class DeckExporter(
 ) {
 
     /** Result of a successful export. */
-    data class ExportedFile(val file: File, val uri: android.net.Uri)
+    data class ExportedFile(val file: File, val uri: Uri)
 
     /** Writes [json] to a sanitised file name and returns the shareable handle. */
     suspend fun writeDeckFile(deckTitle: String, json: String): Result<ExportedFile> =
@@ -55,16 +56,23 @@ class DeckExporter(
             }
         }
 
-    /** Builds the `ACTION_SEND` chooser intent for [exported]. */
-    fun shareIntent(exported: ExportedFile, subject: String): Intent {
+    /**
+     * Builds the `ACTION_SEND` chooser for an exported deck.
+     *
+     * Takes the URI as a string because the result travels to the UI as a
+     * `String` inside the screen state; keeping one builder here means the
+     * subject, the MIME type and the read-permission grant cannot drift apart
+     * between the export flow and the share sheet.
+     */
+    fun shareIntent(uri: String, subject: String, chooserTitle: String): Intent {
         val send = Intent(Intent.ACTION_SEND).apply {
             type = MIME_TYPE
-            putExtra(Intent.EXTRA_STREAM, exported.uri)
+            putExtra(Intent.EXTRA_STREAM, Uri.parse(uri))
             putExtra(Intent.EXTRA_SUBJECT, subject)
             putExtra(Intent.EXTRA_TEXT, subject)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        return Intent.createChooser(send, subject).apply {
+        return Intent.createChooser(send, chooserTitle).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }

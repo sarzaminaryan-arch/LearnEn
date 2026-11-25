@@ -11,7 +11,6 @@ import java.util.Locale
  */
 object Formatters {
 
-    private val PERSIAN_LOCALE = Locale("fa", "IR")
     private val LATIN_LOCALE = Locale.US
 
     private val PERSIAN_ZERO = '\u06F0'
@@ -67,9 +66,6 @@ object Formatters {
         days < 365 -> IntervalText.Months((days / 30).coerceAtLeast(1))
         else -> IntervalText.Years((days / 365).coerceAtLeast(1))
     }
-
-    /** Localised name of the locale used for Persian digits, exposed for tests. */
-    internal fun persianLocale(): Locale = PERSIAN_LOCALE
 }
 
 /** A scheduled interval expressed in the unit the interface should display. */

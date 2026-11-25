@@ -52,8 +52,6 @@ sealed class JsonValue {
 
     fun asArrayOrNull(): List<JsonValue>? = (this as? Arr)?.items
 
-    fun asObjectOrNull(): Map<String, JsonValue>? = (this as? Obj)?.entries
-
     operator fun get(key: String): JsonValue? = (this as? Obj)?.entries?.get(key)
 
     /** Convenience: `obj.string("title")`. */
@@ -62,8 +60,6 @@ sealed class JsonValue {
     fun int(key: String): Int? = get(key)?.asIntOrNull()
 
     fun long(key: String): Long? = get(key)?.asLongOrNull()
-
-    fun double(key: String): Double? = get(key)?.asDoubleOrNull()
 
     fun bool(key: String): Boolean? = get(key)?.asBoolOrNull()
 

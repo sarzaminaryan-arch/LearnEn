@@ -14,7 +14,6 @@ import ir.laxipatem.lexiflash.data.model.DeckJson
 import ir.laxipatem.lexiflash.data.model.DeckJsonCodec
 import ir.laxipatem.lexiflash.data.model.DeckPartJson
 import ir.laxipatem.lexiflash.importer.DraftDeck
-import ir.laxipatem.lexiflash.importer.ImportService
 import ir.laxipatem.lexiflash.importer.PartSplitter
 import java.io.IOException
 import java.util.UUID
@@ -322,10 +321,6 @@ class DeckRepository(
             .sorted()
             .associateWith { partIndex -> dao.bestScore(deckId, partIndex) }
     }
-
-    /** Groups imported cards into parts for preview and saving. */
-    fun splitIntoParts(cards: List<ImportService.DraftCard>, requestedParts: Int): List<List<ImportService.DraftCard>> =
-        PartSplitter.split(cards, requestedParts)
 
     companion object {
         const val CORE_DECK_KEY = "core"

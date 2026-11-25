@@ -4,8 +4,6 @@ import android.content.Context
 import ir.laxipatem.lexiflash.data.db.AppDatabase
 import ir.laxipatem.lexiflash.data.db.CardStateEntity
 import ir.laxipatem.lexiflash.data.db.ReviewLogEntity
-import ir.laxipatem.lexiflash.data.model.JsonParser
-import ir.laxipatem.lexiflash.data.model.VocabJson
 import ir.laxipatem.lexiflash.domain.fsrs.CardMemory
 import ir.laxipatem.lexiflash.domain.fsrs.Fsrs
 import ir.laxipatem.lexiflash.domain.fsrs.Rating
@@ -79,19 +77,6 @@ class ReviewRepository(
             )
             reviewDao.recordReview(state, log)
             ReviewOutcome(result = result, stateBefore = stateBefore, elapsedDays = elapsedDays)
-        }
-    }
-
-    /**
-     * Turns a card's vocabulary column into meaning strings for the feedback UI.
-     * Malformed JSON yields an empty list rather than an exception.
-     */
-    fun vocabularyOf(vocabJson: String): List<VocabJson> {
-        if (vocabJson.isBlank()) return emptyList()
-        val root = JsonParser.parseOrNull(vocabJson) ?: return emptyList()
-        return root.asArrayOrNull().orEmpty().mapNotNull { item ->
-            val word = item.string("word") ?: return@mapNotNull null
-            VocabJson(word = word, meaning = item.string("meaning"))
         }
     }
 
