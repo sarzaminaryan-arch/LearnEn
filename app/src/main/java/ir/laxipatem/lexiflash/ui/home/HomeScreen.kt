@@ -222,12 +222,13 @@ private fun DeckCard(
                     )
                 }
             }
+            val progressDescription = stringResource(R.string.cd_progress_bar)
             LinearProgressIndicator(
                 progress = { deck.completionRatio },
                 modifier = Modifier
                     .fillMaxWidth()
                     .semantics {
-                        contentDescription = "progress"
+                        contentDescription = progressDescription
                     }
             )
         }
@@ -279,14 +280,18 @@ private fun PartTile(
         UnlockPolicy.PartAccess.COMPLETED -> stringResource(R.string.cd_part_completed)
     }
 
+    // stringResource is @Composable and SemanticsPropertyReceiver is not, so the
+    // label has to be resolved before the semantics block runs.
+    val partLabel = stringResource(R.string.home_part_number, part.index)
+    val tileDescription = "$partLabel. $stateDescription"
+
     Card(
         onClick = { if (!locked) onClick() },
         enabled = !locked,
         modifier = Modifier
             .fillMaxWidth()
             .semantics(mergeDescendants = true) {
-                contentDescription = "${stringResource(R.string.home_part_number, part.index)}. " +
-                    stateDescription
+                contentDescription = tileDescription
             },
         colors = CardDefaults.cardColors(
             containerColor = when {
