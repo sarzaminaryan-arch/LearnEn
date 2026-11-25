@@ -182,28 +182,41 @@ jobs:
       - name: Report APK composition
         run: |
           set -euo pipefail
+          echo "## APK composition" >> "$GITHUB_STEP_SUMMARY"
           for apk in $(find app/build/outputs/apk -name "*.apk"); do
             # stat avoids a du|cut pipeline for the same SIGPIPE reason.
             echo "=== $apk ($(($(stat -c%s "$apk") / 1048576)) MB) ==="
             LISTING="$RUNNER_TEMP/apk-listing.txt"
             unzip -l "$apk" > "$LISTING"
-            awk 'NR>3 && $1 ~ /^[0-9]+$/ {
-                   size=$1; name=$4
-                   if (name ~ /^lib\//) lib += size
-                   else if (name ~ /^assets\//) assets += size
-                   else if (name ~ /^classes.*\.dex$/) dex += size
-                   else if (name ~ /^res\//) res += size
-                   else other += size
-                   total += size
-                 }
-                 END {
-                   printf "  native libs: %8.1f MB\n", lib/1048576
-                   printf "  assets:      %8.1f MB\n", assets/1048576
-                   printf "  dex:         %8.1f MB\n", dex/1048576
-                   printf "  resources:   %8.1f MB\n", res/1048576
-                   printf "  other:       %8.1f MB\n", other/1048576
-                   printf "  total:       %8.1f MB\n", total/1048576
-                 }' "$LISTING"
+            {
+              echo ""
+              echo "### $(basename "$apk")"
+              echo ""
+              echo "| Component | Size |"
+              echo "| --- | --- |"
+              awk 'NR>3 && $1 ~ /^[0-9]+$/ {
+                     size=$1; name=$4
+                     if (name ~ /^lib\//) lib += size
+                     else if (name ~ /^assets\//) assets += size
+                     else if (name ~ /^classes.*\.dex$/) dex += size
+                     else if (name ~ /^res\//) res += size
+                     else other += size
+                     total += size
+                   }
+                   END {
+                     printf "| native libraries | %.1f MB |\n", lib/1048576
+                     printf "| assets | %.1f MB |\n", assets/1048576
+                     printf "| dex | %.1f MB |\n", dex/1048576
+                     printf "| resources | %.1f MB |\n", res/1048576
+                     printf "| other | %.1f MB |\n", other/1048576
+                     printf "| **total uncompressed** | **%.1f MB** |\n", total/1048576
+                   }' "$LISTING"
+              echo ""
+              echo "Largest entries:"
+              echo '```'
+              sed 's/^/  /' "$RUNNER_TEMP/apk-top.txt"
+              echo '```'
+            } | tee -a "$GITHUB_STEP_SUMMARY"
             echo "  --- largest entries ---"
             # Each stage writes a file: no pipe means no SIGPIPE, which under
             # pipefail would fail the step on a large APK.
