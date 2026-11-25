@@ -45,8 +45,27 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Assemble the debug-signed release build
-        run: gradle :app:assemble${{ inputs.flavor == 'offline' && 'Offline' || 'Online' }}Debug --stacktrace
+      # adb refuses an unsigned APK, and the release type only attaches a
+      # signingConfig when one is configured. A throwaway key keeps this job
+      # independent of repository secrets while still producing an installable
+      # artefact.
+      - name: Prepare a throwaway signing key
+        run: |
+          keytool -genkeypair \
+            -keystore "$RUNNER_TEMP/smoke.jks" \
+            -alias smoke \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass smokepass -keypass smokepass \
+            -dname "CN=Smoke Test, O=LexiFlash, C=IR"
+          {
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/smoke.jks"
+            echo "KEYSTORE_PASSWORD=smokepass"
+            echo "KEY_ALIAS=smoke"
+            echo "KEY_PASSWORD=smokepass"
+          } >> "$GITHUB_ENV"
+
+      - name: Assemble the signed release build
+        run: gradle :app:assemble${{ inputs.flavor == 'offline' && 'Offline' || 'Online' }}Release --stacktrace
 
       - name: Run the app on an emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -56,37 +75,64 @@ jobs:
           arch: x86_64
           disable-animations: true
           script: |
-            set -euo pipefail
-            APK=$(find app/build/outputs/apk -name "*.apk" | head -n 1)
-            echo "Installing $APK"
-            adb install -r "$APK"
+            # Everything is captured and re-emitted as annotations: this workflow
+            # exists to surface invisible information, so it must not fail quietly.
+            set -uo pipefail
 
-            # The debug build carries an applicationIdSuffix, so the component
-            # has to be read from the APK rather than assumed.
-            PKG=$(aapt dump badging "$APK" | sed -n "s/package: name='\([^']*\)'.*/\1/p")
-            echo "Package: $PKG"
+            APK=$(find app/build/outputs/apk -path "*release*" -name "*.apk" | head -n 1)
+            # The release build is the one that crashed for the learner, so it is
+            # the one that must be tested. It is minified by R8.
+            echo "::notice::APK=$APK"
+            if [ -z "$APK" ]; then
+              echo "::error::no APK was produced"
+              exit 1
+            fi
+
+            echo "Installing"
+            if ! adb install -r "$APK" 2>&1; then
+              echo "::error::adb install failed"
+              exit 1
+            fi
+
+            # aapt lives under build-tools; resolve it instead of assuming PATH.
+            AAPT=$(find "$ANDROID_HOME/build-tools" -name aapt -type f | sort | tail -n 1)
+            PKG=$(grep -a -o 'package=[^ ]*' "$APK" | head -n 1 | sed "s/package=//;s/'//g")
+            if [ -z "$PKG" ]; then
+              PKG=$(aapt dump badging "$APK" 2>/dev/null | sed -n "s/package: name='\([^']*\)'.*/\1/p")
+            fi
+            echo "::notice::package=$PKG"
+            if [ -z "$PKG" ]; then
+              echo "::error::could not determine the package name"
+              exit 1
+            fi
+
             adb logcat -c
-            adb shell am start -W -n "$PKG/.MainActivity"
-            # Give Compose time to settle and the warm-up to finish.
+            echo "Starting $PKG/.MainActivity"
+            adb shell am start -W -n "$PKG/.MainActivity" 2>&1 || true
             sleep 25
-            echo "=== is the process still alive? ==="
-            if adb shell pidof "$PKG" > /dev/null; then
+
+            echo "=== process alive? ==="
+            if adb shell pidof "$PKG" > /dev/null 2>&1; then
               echo "ALIVE"
             else
-              echo "::error::the app process is gone; it crashed on launch"
-              echo "=== crash trace ==="
-              adb logcat -d -b crash
-              echo "=== relevant logcat ==="
-              adb logcat -d | grep -i -E "lexiflash|AndroidRuntime|FATAL" | tail -n 120
+              echo "::error::the app process is gone after launch"
+              echo "=== crash buffer ==="
+              adb logcat -d -b crash 2>&1 | tail -n 120
+              echo "=== fatal lines ==="
+              adb logcat -d 2>&1 | grep -i -A 25 "FATAL EXCEPTION" | head -n 100
               exit 1
             fi
-            echo "=== foreground activity ==="
-            adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" | head -5
-            echo "=== any FATAL in the buffer? ==="
-            if adb logcat -d | grep -q "FATAL EXCEPTION"; then
-              echo "::error::a fatal exception was logged"
-              adb logcat -d | grep -A 30 "FATAL EXCEPTION" | head -n 80
+
+            echo "=== resumed activity ==="
+            adb shell dumpsys activity activities 2>&1 | grep -i -E "mResumedActivity|topResumedActivity" | head -3
+
+            echo "=== any FATAL? ==="
+            if adb logcat -d 2>&1 | grep -q "FATAL EXCEPTION"; then
+              echo "::error::a fatal exception was logged during launch"
+              adb logcat -d 2>&1 | grep -i -A 30 "FATAL EXCEPTION" | head -n 120
               exit 1
             fi
+
+            echo "::notice::the app started and stayed up"
             echo "=== app log ==="
-            adb logcat -d | grep -i -E "lexiflash|AndroidRuntime" | tail -n 60
+            adb logcat -d 2>&1 | grep -i -E "lexiflash|AndroidRuntime" | tail -n 60
