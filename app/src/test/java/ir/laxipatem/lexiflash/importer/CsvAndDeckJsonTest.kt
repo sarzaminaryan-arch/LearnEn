@@ -1,5 +1,7 @@
 package ir.laxipatem.lexiflash.importer
 
+import ir.laxipatem.lexiflash.data.model.DeckJsonCodec
+import ir.laxipatem.lexiflash.data.model.DeckValidationException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull

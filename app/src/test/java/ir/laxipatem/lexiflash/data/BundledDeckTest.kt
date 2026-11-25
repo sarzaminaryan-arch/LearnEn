@@ -20,7 +20,7 @@ class BundledDeckTest {
     private fun readAsset(name: String): String {
         val file = File(assetsDir, name)
         assertTrue("missing asset ${file.absolutePath}", file.isFile)
-        return file.readText(encoding = Charsets.UTF_8)
+        return file.readText(Charsets.UTF_8)
     }
 
     @Test
@@ -85,7 +85,7 @@ class BundledDeckTest {
     fun `the generated core deck parses when it is present`() {
         val core = File(assetsDir, "core_deck.json")
         org.junit.Assume.assumeTrue("core_deck.json has not been generated", core.isFile)
-        val deck = DeckJsonCodec.parse(core.readText(encoding = Charsets.UTF_8))
+        val deck = DeckJsonCodec.parse(core.readText(Charsets.UTF_8))
         assertTrue("core deck should hold at least 300 cards", deck.cardCount >= 300)
         assertTrue("core deck should have 10 parts", deck.parts.size == 10)
         for (part in deck.parts) {
