@@ -24,14 +24,20 @@ class CsvParser : SubtitleParser {
 
     override fun parse(text: String): List<Cue> {
         val normalized = normalizeNewlines(text)
-        val lines = normalized.split('\n').filter { it.isNotBlank() }
-        if (lines.isEmpty()) return emptyList()
+        val physicalLines = normalized.split('\n')
+        if (physicalLines.all { it.isBlank() }) return emptyList()
 
-        val delimiter = detectDelimiter(lines.first())
+        // A quoted field may contain a newline, so records have to be assembled
+        // before they are split. Splitting on '\n' first would tear such a row in
+        // half and produce two broken cards.
+        val records = joinQuotedRecords(physicalLines).filter { it.isNotBlank() }
+        if (records.isEmpty()) return emptyList()
+
+        val delimiter = detectDelimiter(records.first())
         val cues = ArrayList<Cue>()
         var rowIndex = 0
 
-        for (line in lines) {
+        for (line in records) {
             val fields = splitRow(line, delimiter)
             rowIndex++
             if (fields.isEmpty()) continue
@@ -101,6 +107,45 @@ class CsvParser : SubtitleParser {
         }
         fields += current.toString()
         return fields
+    }
+
+    /**
+     * Joins physical lines into logical CSV records, honouring quoted newlines.
+     *
+     * A record is complete once the number of unescaped quotes is even, which is
+     * the same rule a spreadsheets application applies.
+     */
+    private fun joinQuotedRecords(lines: List<String>): List<String> {
+        val records = ArrayList<String>()
+        val current = StringBuilder()
+        for (line in lines) {
+            if (current.isNotEmpty()) current.append('\n')
+            current.append(line)
+            if (isBalanced(current)) {
+                records += current.toString()
+                current.setLength(0)
+            }
+        }
+        // An unterminated quote still yields its text rather than vanishing.
+        if (current.isNotEmpty()) records += current.toString()
+        return records
+    }
+
+    private fun isBalanced(record: CharSequence): Boolean {
+        var quotes = 0
+        var index = 0
+        while (index < record.length) {
+            val character = record[index]
+            if (character == '"') {
+                if (index + 1 < record.length && record[index + 1] == '"') {
+                    index += 2
+                    continue
+                }
+                quotes++
+            }
+            index++
+        }
+        return quotes % 2 == 0
     }
 
     private fun isHeader(fields: List<String>): Boolean {

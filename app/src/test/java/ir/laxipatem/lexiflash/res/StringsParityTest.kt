@@ -121,11 +121,14 @@ class StringsParityTest {
             "settings_version", "deck_license_apache", "about_license_name",
             "catalog_url_hint", "about_license_id", "app_id"
         )
-        val placeholderOnly = Regex("^[\\s%\\d$.,:/-]*$")
+        // A pure format string such as "%1$d / %2$d" carries no prose to translate.
+        fun isFormatOnly(value: String): Boolean =
+            value.all { it.isWhitespace() || it in "%$0123456789.,:/-" } && value.isNotBlank()
+
         val offenders = persian.strings
             .filterKeys { it !in neutral && !it.startsWith("cd_") }
             .filterValues { value ->
-                value.none { it in '\u0600'..'\u06FF' } && !placeholderOnly.matches(value)
+                value.none { it in '\u0600'..'\u06FF' } && !isFormatOnly(value)
             }
             .keys
         assertTrue("Persian strings with no Persian characters: $offenders", offenders.isEmpty())

@@ -62,7 +62,18 @@ class CsvAndDeckJsonTest {
         val csv = "\"Hello there,\nmy friend.\",\"سلام دوست من.\""
         val cues = CsvParser().parse(csv)
         assertEquals(1, cues.size)
-        assertTrue(cues[0].text.contains("my friend."))
+        assertTrue("keeps the second half of the field: ${cues[0].text}",
+            cues[0].text.contains("my friend."))
+        assertTrue("keeps the Persian column: ${cues[0].text}",
+            cues[0].text.contains("سلام دوست من."))
+    }
+
+    @Test
+    fun `csv does not tear a quoted newline into two cards`() {
+        // Regression: splitting on newlines before honouring quotes produced two
+        // half-sentences instead of one bilingual row.
+        val csv = "\"First part,\nsecond part.\",\"بخش اول،\nبخش دوم.\""
+        assertEquals(1, CsvParser().parse(csv).size)
     }
 
     @Test
@@ -126,10 +137,17 @@ class CsvAndDeckJsonTest {
     }
 
     @Test
-    fun `deck json detection requires a parts key`() {
-        assertTrue(DeckJsonParser().canParse("x.json", minimalDeck))
-        assertTrue(!DeckJsonParser().canParse("x.json", "{\"a\": 1}"))
+    fun `deck json detection trusts the extension, then sniffs the content`() {
+        // The extension wins: a .json file is a deck candidate whatever it holds,
+        // and a malformed one produces a readable validation error on parse.
         assertTrue(DeckJsonParser().canParse("deck.json", ""))
+        assertTrue(DeckJsonParser().canParse("x.json", minimalDeck))
+        assertTrue(DeckJsonParser().canParse("x.json", "{\"a\": 1}"))
+
+        // Without the extension, the content has to announce a parts array.
+        assertTrue(DeckJsonParser().canParse("upload.txt", minimalDeck))
+        assertTrue(!DeckJsonParser().canParse("upload.txt", "{\"a\": 1}"))
+        assertTrue(!DeckJsonParser().canParse("upload.txt", "just words"))
     }
 
     @Test(expected = DeckValidationException::class)
