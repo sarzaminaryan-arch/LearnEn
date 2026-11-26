@@ -1,6 +1,7 @@
 package ir.laxipatem.lexiflash.ui.importer
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -91,13 +92,19 @@ fun ImportScreen(
     val singlePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
-        uri?.let { viewModel.importSingleFile(it, uriName(context, it)) }
+        uri?.let {
+            Log.d("LexiImport", "picker selected uri=$it mime=${runCatching { context.contentResolver.getType(it) }.getOrNull()}")
+            viewModel.importSingleFile(it, uriName(context, it))
+        }
     }
 
     val englishPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
-        pendingEnglish = uri?.let { it to uriName(context, it) }
+        uri?.let {
+            Log.d("LexiImport", "picker selected English uri=$it mime=${runCatching { context.contentResolver.getType(it) }.getOrNull()}")
+            pendingEnglish = it to uriName(context, it)
+        }
     }
 
     val persianPicker = rememberLauncherForActivityResult(
@@ -105,6 +112,7 @@ fun ImportScreen(
     ) { uri: Uri? ->
         val english = pendingEnglish
         if (uri != null && english != null) {
+            Log.d("LexiImport", "picker selected Persian uri=$uri mime=${runCatching { context.contentResolver.getType(uri) }.getOrNull()}")
             viewModel.importBilingual(
                 englishUri = english.first,
                 englishName = english.second,
@@ -474,13 +482,18 @@ private fun PreviewStep(
 private fun uriName(context: android.content.Context, uri: Uri): String {
     val cursor = runCatching {
         context.contentResolver.query(uri, null, null, null, null)
-    }.getOrNull()
+    }.onFailure { Log.d("LexiImport", "filename query failed uri=$uri", it) }.getOrNull()
     cursor?.use {
         val index = it.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
         if (index >= 0 && it.moveToFirst()) {
             val name = it.getString(index)
+            Log.d("LexiImport", "filename query index=$index result=$name")
             if (!name.isNullOrBlank()) return name
+        } else {
+            Log.d("LexiImport", "filename query has no DISPLAY_NAME column or row; index=$index")
         }
-    }
-    return uri.lastPathSegment ?: "imported"
+    } ?: Log.d("LexiImport", "filename query returned null cursor")
+    val fallback = uri.lastPathSegment ?: "imported"
+    Log.d("LexiImport", "using filename fallback=$fallback")
+    return fallback
 }

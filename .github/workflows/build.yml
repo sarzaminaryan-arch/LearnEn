@@ -66,6 +66,24 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml', '**/*.gradle.kts') }}
           restore-keys: gradle-${{ runner.os }}-
 
+      # Release artifacts are for diagnostic installation only. Sign them with a
+      # temporary Android-debug-style key when no project keystore is configured.
+      - name: Prepare temporary debug signing key for release
+        if: matrix.variant == 'Release'
+        run: |
+          keytool -genkeypair \
+            -keystore "$RUNNER_TEMP/diagnostic-debug.jks" \
+            -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=Android Debug, O=Android, C=US"
+          {
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/diagnostic-debug.jks"
+            echo "KEYSTORE_PASSWORD=android"
+            echo "KEY_ALIAS=androiddebugkey"
+            echo "KEY_PASSWORD=android"
+          } >> "$GITHUB_ENV"
+
       # A silent dependency-resolution failure is the most common CI surprise,
       # so report versions before compiling anything.
       - name: Print toolchain versions
@@ -107,11 +125,10 @@ jobs:
           done || true
           exit $STATUS
 
-      # Instrumented tests need an emulator, which this workflow does not run.
-      # Compiling them anyway is what keeps them honest: a signature change that
-      # breaks DatabaseRoundTripTest fails here instead of months later.
-      - name: Compile instrumented tests ${{ matrix.flavor }} ${{ matrix.variant }}
-        if: matrix.variant == 'Debug'
+      # Instrumented tests target the minified release build (testBuildType=release).
+      # Compile that test APK here; the emulator workflow installs and runs it.
+      - name: Compile release instrumented tests ${{ matrix.flavor }}
+        if: matrix.variant == 'Release'
         run: |
           set +e
           gradle :app:assemble${{ matrix.flavor }}${{ matrix.variant }}AndroidTest --stacktrace > androidtest-output.txt 2>&1

@@ -1,5 +1,6 @@
 package ir.laxipatem.lexiflash.platform
 
+import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -66,6 +67,7 @@ internal object HttpFetcher {
                 }
 
                 val code = connection.responseCode
+                Log.d("LexiImport", "HTTP response code=$code host=${current.host}")
                 if (code in 300..399) {
                     val location = connection.getHeaderField("Location")
                         ?: throw HttpStatusException("The server redirected without a Location header.")
@@ -89,6 +91,7 @@ internal object HttpFetcher {
                 }
 
                 val body = readBounded(connection, maxBytes)
+                Log.d("LexiImport", "HTTP response body bytes=${body.size} host=${current.host}")
                 val charset = charsetOf(connection.contentType)
                 return HttpTextResponse(
                     // ByteArray.toString expects the Charset itself, not its name.

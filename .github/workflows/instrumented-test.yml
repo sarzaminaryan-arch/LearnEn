@@ -1,45 +1,25 @@
-name: Instrumented tests on an emulator
+name: Instrumented import and catalogue tests
 
-# Runs the androidTest suite, which is the only place the catalogue and import
-# screens are actually rendered and measured.
-#
-# The smoke test proves the app starts. It does not open a second screen, so a
-# layout crash inside the catalogue or the import wizard sails straight past it.
-# That is exactly the gap the device report exposed.
-#
-# Interpreter note: the emulator action runs its `script` input through
-# `sh -c`, and /bin/sh is dash on Ubuntu, where `set -o pipefail` is fatal. The
-# work therefore lives in scripts/instrumented-test.sh, which the action merely
-# invokes with bash.
+# Runs the real androidTest suite against minified release APKs on both the
+# minimum supported API and a current API, for both distribution flavours.
+# Reports and logcat are published as artifacts and workflow annotations.
 
 on:
   workflow_dispatch:
-    inputs:
-      variant:
-        description: "Build variant to test"
-        required: true
-        default: debug
-        type: choice
-        options: [debug]
-      flavor:
-        description: "Which flavour to test"
-        required: true
-        default: offline
-        type: choice
-        options: [offline, online]
 
 permissions:
   contents: read
 
-concurrency:
-  group: instrumented-${{ github.ref }}-${{ inputs.flavor }}
-  cancel-in-progress: true
-
 jobs:
   instrumented:
-    name: androidTest ${{ inputs.flavor }} ${{ inputs.variant }}
+    name: ${{ matrix.flavor }} release · API ${{ matrix.api_level }}
     runs-on: ubuntu-22.04
-    timeout-minutes: 60
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [offline, online]
+        api_level: [24, 34]
 
     steps:
       - name: Check out
@@ -53,6 +33,23 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: "8.7"
+
+      - name: Create temporary signing key for release test APK
+        run: |
+          keytool -genkeypair \
+            -keystore "$RUNNER_TEMP/instrumented.jks" \
+            -alias instrumented \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass instrumentedpass -keypass instrumentedpass \
+            -dname "CN=Instrumented Test, O=LexiFlash, C=DE"
+          {
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/instrumented.jks"
+            echo "KEYSTORE_PASSWORD=instrumentedpass"
+            echo "KEY_ALIAS=instrumented"
+            echo "KEY_PASSWORD=instrumentedpass"
+          } >> "$GITHUB_ENV"
 
       - name: Enable KVM
         run: |
@@ -61,13 +58,13 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Run the instrumented tests
+      - name: Run instrumented tests on API ${{ matrix.api_level }}
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          VARIANT: ${{ inputs.variant }}
-          FLAVOR: ${{ inputs.flavor }}
+          VARIANT: release
+          FLAVOR: ${{ matrix.flavor }}
         with:
-          api-level: 30
+          api-level: ${{ matrix.api_level }}
           target: google_apis
           arch: x86_64
           disable-animations: true
@@ -76,16 +73,11 @@ jobs:
             -noaudio -no-boot-anim -camera-back none
           script: bash scripts/instrumented-test.sh
 
-      # The job log is not readable from where this needs to be diagnosed, and
-      # the artifact API redirects to a host that is unreachable, so the report
-      # is republished as annotations by the script itself.
-      - name: Upload the test report
+      - name: Upload full test report and logcat
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: instrumented-report-${{ inputs.flavor }}-${{ inputs.variant }}
-          path: |
-            instrumented-report.txt
-            **/instrumented-report.txt
+          name: instrumented-report-${{ matrix.flavor }}-api${{ matrix.api_level }}
+          path: instrumented-report.txt
           if-no-files-found: warn
           retention-days: 14

@@ -1,0 +1,38 @@
+[Script Info]
+Title: Import regression fixture
+ScriptType: v4.00+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,1,1,0,2,10,10,10,1
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:02.00,Default,,0,0,0,,We should check the weather before leaving home.
+Dialogue: 0,0:00:03.00,0:00:05.00,Default,,0,0,0,,Please keep the window open for fresh air.
+Dialogue: 0,0:00:06.00,0:00:08.00,Default,,0,0,0,,The little shop closes at six every evening.
+Dialogue: 0,0:00:09.00,0:00:11.00,Default,,0,0,0,,My sister usually takes the early morning train.
+Dialogue: 0,0:00:12.00,0:00:14.00,Default,,0,0,0,,Could you show me the nearest bus stop?
+Dialogue: 0,0:00:15.00,0:00:17.00,Default,,0,0,0,,They are waiting beside the old stone bridge.
+Dialogue: 0,0:00:18.00,0:00:20.00,Default,,0,0,0,,I left my blue notebook on the kitchen table.
+Dialogue: 0,0:00:21.00,0:00:23.00,Default,,0,0,0,,This quiet street becomes busy after the school bell.
+Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0,0,0,,We can meet outside the library tomorrow afternoon.
+Dialogue: 0,0:00:27.00,0:00:29.00,Default,,0,0,0,,The coffee tastes better with a little warm milk.
+Dialogue: 0,0:00:30.00,0:00:32.00,Default,,0,0,0,,Please remember to bring your reusable shopping bag.
+Dialogue: 0,0:00:33.00,0:00:35.00,Default,,0,0,0,,Our new neighbors moved here last Saturday morning.
+Dialogue: 0,0:00:36.00,0:00:38.00,Default,,0,0,0,,She reads a short story before going to sleep.
+Dialogue: 0,0:00:39.00,0:00:41.00,Default,,0,0,0,,The museum offers free entry on the first Sunday.
+Dialogue: 0,0:00:42.00,0:00:44.00,Default,,0,0,0,,I will call you when the meeting is over.
+Dialogue: 0,0:00:45.00,0:00:47.00,Default,,0,0,0,,He found a useful map inside the travel guide.
+Dialogue: 0,0:00:48.00,0:00:50.00,Default,,0,0,0,,The children planted small flowers near the front gate.
+Dialogue: 0,0:00:51.00,0:00:53.00,Default,,0,0,0,,We need another minute to finish this careful review.
+Dialogue: 0,0:00:54.00,0:00:56.00,Default,,0,0,0,,A gentle breeze came through the open balcony door.
+Dialogue: 0,0:00:57.00,0:00:59.00,Default,,0,0,0,,Please write your address clearly on the yellow envelope.
+Dialogue: 0,0:01:00.00,0:01:02.00,Default,,0,0,0,,The local market sells fresh fruit every Thursday morning.
+Dialogue: 0,0:01:03.00,0:01:05.00,Default,,0,0,0,,Could we sit somewhere away from the busy entrance?
+Dialogue: 0,0:01:06.00,0:01:08.00,Default,,0,0,0,,My brother learned these useful phrases during his trip.
+Dialogue: 0,0:01:09.00,0:01:11.00,Default,,0,0,0,,The blue bus arrives here every twenty minutes.
+Dialogue: 0,0:01:12.00,0:01:14.00,Default,,0,0,0,,I prefer walking when the weather is mild and sunny.
+Dialogue: 0,0:01:15.00,0:01:17.00,Default,,0,0,0,,Our teacher shared a helpful example with the class.
+Dialogue: 0,0:01:18.00,0:01:20.00,Default,,0,0,0,,The new bakery makes warm bread before sunrise.
+Dialogue: 0,0:01:21.00,0:01:23.00,Default,,0,0,0,,Please turn left after the small green pharmacy.
+Dialogue: 0,0:01:24.00,0:01:26.00,Default,,0,0,0,,We saved enough time to visit the bookshop nearby.
+Dialogue: 0,0:01:27.00,0:01:29.00,Default,,0,0,0,,Her careful notes helped everyone understand the instructions.

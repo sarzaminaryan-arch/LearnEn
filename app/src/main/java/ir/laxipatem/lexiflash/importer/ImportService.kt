@@ -1,5 +1,6 @@
 package ir.laxipatem.lexiflash.importer
 
+import android.util.Log
 import ir.laxipatem.lexiflash.data.model.DeckJson
 
 /**
@@ -50,22 +51,27 @@ class ImportService(
      */
     fun importSingleFile(bytes: ByteArray, fileName: String, fallbackTitle: String): Result<SingleFileResult> =
         runCatching {
-            val text = EncodingDetector.decode(bytes)
+            Log.d(TAG, "single import started file=$fileName bytes=${bytes.size}")
+            val (text, charset) = EncodingDetector.decodeWithCharset(bytes)
+            Log.d(TAG, "single import encoding=${charset.name()}")
             if (text.isBlank()) {
                 throw IllegalArgumentException("The file is empty.")
             }
             val head = text.take(HEAD_CHARS)
             val parser = detectParser(fileName, head)
                 ?: throw IllegalArgumentException("Unsupported file format: $fileName")
+            Log.d(TAG, "single import parser=${parser::class.simpleName}")
 
             // A deck.json import keeps its own structure and title.
             if (parser is DeckJsonParser) {
                 val cues = parser.parse(text)
                 val deck = parser.lastDeck
                     ?: throw IllegalArgumentException("The deck file could not be read.")
+                val cards = deckToDraftCards(deck, cues)
+                Log.d(TAG, "single import parsed cards=${cards.size} format=deck.json")
                 return@runCatching SingleFileResult(
                     deckTitle = deck.title,
-                    cards = deckToDraftCards(deck, cues),
+                    cards = cards,
                     detectedFormat = "deck.json"
                 )
             }
@@ -75,17 +81,19 @@ class ImportService(
             if (lines.isEmpty()) {
                 throw IllegalArgumentException("No usable sentences were found in this file.")
             }
+            val cards = lines.map { line ->
+                val split = splitBilingualText(line.text)
+                DraftCard(
+                    english = split.first,
+                    persian = split.second,
+                    startMs = line.startMs,
+                    pendingTranslation = split.second.isNullOrBlank()
+                )
+            }
+            Log.d(TAG, "single import parsed cards=${cards.size} format=${parser::class.simpleName}")
             SingleFileResult(
                 deckTitle = titleFromFileName(fileName, fallbackTitle),
-                cards = lines.map { line ->
-                    val split = splitBilingualText(line.text)
-                    DraftCard(
-                        english = split.first,
-                        persian = split.second,
-                        startMs = line.startMs,
-                        pendingTranslation = split.second.isNullOrBlank()
-                    )
-                },
+                cards = cards,
                 detectedFormat = parser::class.simpleName ?: "text"
             )
         }
@@ -106,8 +114,10 @@ class ImportService(
         /** When true, a reused Persian line is written to every English cue. */
         reuseTranslations: Boolean = true
     ): Result<BilingualResult> = runCatching {
-        val englishText = EncodingDetector.decode(englishBytes)
-        val persianText = EncodingDetector.decode(persianBytes)
+        Log.d(TAG, "bilingual import started en=$englishName bytes=${englishBytes.size} fa=$persianName bytes=${persianBytes.size}")
+        val (englishText, englishCharset) = EncodingDetector.decodeWithCharset(englishBytes)
+        val (persianText, persianCharset) = EncodingDetector.decodeWithCharset(persianBytes)
+        Log.d(TAG, "bilingual import encodings en=${englishCharset.name()} fa=${persianCharset.name()}")
         if (englishText.isBlank()) throw IllegalArgumentException("The English file is empty.")
         if (persianText.isBlank()) throw IllegalArgumentException("The Persian file is empty.")
 
@@ -115,6 +125,7 @@ class ImportService(
             ?: throw IllegalArgumentException("Unsupported English subtitle format: $englishName")
         val persianParser = detectParser(persianName, persianText.take(HEAD_CHARS))
             ?: throw IllegalArgumentException("Unsupported Persian subtitle format: $persianName")
+        Log.d(TAG, "bilingual import parsers en=${englishParser::class.simpleName} fa=${persianParser::class.simpleName}")
 
         val englishCues = preprocessor.process(englishParser.parse(englishText))
         val persianCues = preprocessor.process(persianParser.parse(persianText))
@@ -159,6 +170,7 @@ class ImportService(
         if (cards.isEmpty()) {
             throw IllegalArgumentException("No usable sentence pairs were found.")
         }
+        Log.d(TAG, "bilingual import parsed cards=${cards.size} paired=$paired pending=$pending")
         BilingualResult(
             deckTitle = titleFromFileName(englishName, fallbackTitle),
             cards = cards,
@@ -221,6 +233,7 @@ class ImportService(
     }
 
     companion object {
+        private const val TAG = "LexiImport"
         private const val HEAD_CHARS = 4096
 
         /** Default detection order; content sniffing stops at the first match. */

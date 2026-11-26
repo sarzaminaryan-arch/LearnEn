@@ -2,6 +2,7 @@ package ir.laxipatem.lexiflash.ui.importer
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ir.laxipatem.lexiflash.AppContainer
@@ -88,6 +89,7 @@ class ImportViewModel(
                 container.importService.importSingleFile(bytes, fileName, fallbackTitle = fileName)
                     .getOrThrow()
             }.onSuccess { result ->
+                Log.d("LexiImport", "enter preview single cards=${result.cards.size} format=${result.detectedFormat}")
                 _uiState.update {
                     it.copy(
                         isWorking = false,
@@ -99,6 +101,7 @@ class ImportViewModel(
                     )
                 }
             }.onFailure { error ->
+                Log.e("LexiImport", "file import failed", error)
                 _uiState.update {
                     it.copy(isWorking = false, errorMessage = error.message ?: "import-failed")
                 }
@@ -121,6 +124,7 @@ class ImportViewModel(
                     fallbackTitle = englishName
                 ).getOrThrow()
             }.onSuccess { result ->
+                Log.d("LexiImport", "enter preview bilingual cards=${result.cards.size} paired=${result.pairedCount} pending=${result.pendingCount}")
                 _uiState.update {
                     it.copy(
                         isWorking = false,
@@ -132,6 +136,7 @@ class ImportViewModel(
                     )
                 }
             }.onFailure { error ->
+                Log.e("LexiImport", "file import failed", error)
                 _uiState.update {
                     it.copy(isWorking = false, errorMessage = error.message ?: "import-failed")
                 }
@@ -230,11 +235,14 @@ class ImportViewModel(
                 parts = parts,
                 source = state.detectedFormat
             )
+            Log.d("LexiImport", "Room save starting cards=${draft.cardCount} parts=${draft.partCount}")
             runCatching {
                 container.decks.saveImportedDeck(draft, state.partCount)
             }.onSuccess {
+                Log.d("LexiImport", "Room save finished successfully")
                 _uiState.update { it.copy(isWorking = false, isSaved = true) }
             }.onFailure { error ->
+                Log.e("LexiImport", "Room save failed", error)
                 _uiState.update {
                     it.copy(isWorking = false, errorMessage = error.message ?: "save-failed")
                 }
@@ -254,7 +262,9 @@ class ImportViewModel(
 
     private suspend fun readBytes(uri: Uri): ByteArray = withContext(Dispatchers.IO) {
         context.contentResolver.openInputStream(uri)?.use { stream ->
-            stream.readBytes()
+            stream.readBytes().also { bytes ->
+                Log.d("LexiImport", "read completed uri=$uri bytes=${bytes.size}")
+            }
         } ?: throw IOException("The selected file could not be opened.")
     }
 

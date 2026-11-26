@@ -13,7 +13,7 @@
 
 set -x
 
-VARIANT="${VARIANT:-debug}"
+VARIANT="${VARIANT:-release}"
 FLAVOR="${FLAVOR:-offline}"
 
 REPORT="${GITHUB_WORKSPACE:-$PWD}/instrumented-report.txt"

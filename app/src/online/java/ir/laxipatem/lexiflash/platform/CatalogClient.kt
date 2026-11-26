@@ -1,5 +1,6 @@
 package ir.laxipatem.lexiflash.platform
 
+import android.util.Log
 import ir.laxipatem.lexiflash.data.model.JsonParser
 import ir.laxipatem.lexiflash.data.model.JsonValue
 import ir.laxipatem.lexiflash.online.CatalogDefaults
@@ -34,6 +35,7 @@ class CatalogClient {
 
     /** Parses and validates catalogue JSON; throws [IOException] on bad input. */
     fun parseCatalogue(text: String): List<CatalogEntry> {
+        Log.d("LexiImport", "catalog parse starting chars=${text.length}")
         val root = JsonParser.parseOrNull(text)
             ?: throw IOException("The catalogue is not valid JSON.")
         if (root !is JsonValue.Obj) throw IOException("The catalogue root must be a JSON object.")
@@ -47,7 +49,7 @@ class CatalogClient {
         }
 
         val decks = root.array("decks") ?: throw IOException("The catalogue is missing its \"decks\" array.")
-        return decks.mapNotNull { raw ->
+        val entries = decks.mapNotNull { raw ->
             if (raw !is JsonValue.Obj) return@mapNotNull null
             val id = raw.string("id")?.trim()?.takeIf { it.isNotEmpty() } ?: return@mapNotNull null
             val title = raw.string("title")?.trim()?.takeIf { it.isNotEmpty() } ?: return@mapNotNull null
@@ -61,6 +63,8 @@ class CatalogClient {
                 cardCount = raw.int("card_count")?.takeIf { it >= 0 } ?: 0
             )
         }
+        Log.d("LexiImport", "catalog parse finished entries=${entries.size}")
+        return entries
     }
 
     companion object {

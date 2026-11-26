@@ -118,6 +118,8 @@ android {
         jvmTarget = "17"
     }
 
+    testBuildType = "release"
+
     testOptions {
         unitTests.isReturnDefaultValues = true
     }

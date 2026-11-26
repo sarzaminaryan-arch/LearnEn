@@ -1,0 +1,522 @@
+{
+  "version": 1,
+  "title": "Everyday conversation",
+  "source_lang": "en",
+  "target_lang": "fa",
+  "license": "CC BY 4.0",
+  "parts": [
+    {
+      "index": 1,
+      "cards": [
+        {
+          "id": "evd-001",
+          "english": "Good morning, how did you sleep?",
+          "persian": "صبح بخیر، چطور خوابیدی؟",
+          "vocab": [
+            {
+              "word": "morning"
+            },
+            {
+              "word": "sleep"
+            }
+          ],
+          "difficulty": 0.1,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-002",
+          "english": "I am a little tired today.",
+          "persian": "امروز کمی خسته‌ام.",
+          "vocab": [
+            {
+              "word": "tired"
+            },
+            {
+              "word": "today"
+            }
+          ],
+          "difficulty": 0.11,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-003",
+          "english": "Would you like some tea?",
+          "persian": "چای میل داری؟",
+          "vocab": [
+            {
+              "word": "tea"
+            }
+          ],
+          "difficulty": 0.13,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-004",
+          "english": "Yes please, with sugar.",
+          "persian": "بله لطفاً، با شکر.",
+          "vocab": [
+            {
+              "word": "sugar"
+            }
+          ],
+          "difficulty": 0.15,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-005",
+          "english": "What time does the shop open?",
+          "persian": "مغازه چه ساعتی باز می‌شود؟",
+          "vocab": [
+            {
+              "word": "shop"
+            },
+            {
+              "word": "open"
+            }
+          ],
+          "difficulty": 0.16,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-006",
+          "english": "It opens at nine in the morning.",
+          "persian": "ساعت نه صبح باز می‌شود.",
+          "vocab": [
+            {
+              "word": "open"
+            }
+          ],
+          "difficulty": 0.18,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-007",
+          "english": "I have not seen you for a while.",
+          "persian": "مدتی است تو را ندیده‌ام.",
+          "vocab": [
+            {
+              "word": "while"
+            }
+          ],
+          "difficulty": 0.2,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-008",
+          "english": "I was away for two weeks.",
+          "persian": "دو هفته نبودم.",
+          "vocab": [
+            {
+              "word": "away"
+            },
+            {
+              "word": "week"
+            }
+          ],
+          "difficulty": 0.21,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-009",
+          "english": "How was your trip?",
+          "persian": "سفرت چطور بود؟",
+          "vocab": [
+            {
+              "word": "trip"
+            }
+          ],
+          "difficulty": 0.23,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-010",
+          "english": "It was tiring but I enjoyed it.",
+          "persian": "خسته‌کننده بود ولی لذت بردم.",
+          "vocab": [
+            {
+              "word": "tiring"
+            },
+            {
+              "word": "enjoy"
+            }
+          ],
+          "difficulty": 0.25,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "cards": [
+        {
+          "id": "evd-011",
+          "english": "Sorry, I did not catch that.",
+          "persian": "ببخشید، متوجه نشدم.",
+          "vocab": [
+            {
+              "word": "catch"
+            }
+          ],
+          "difficulty": 0.26,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-012",
+          "english": "Could you say it again more slowly?",
+          "persian": "می‌شود آهسته‌تر دوباره بگویید؟",
+          "vocab": [
+            {
+              "word": "slowly"
+            },
+            {
+              "word": "again"
+            }
+          ],
+          "difficulty": 0.28,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-013",
+          "english": "I am still learning Persian.",
+          "persian": "من هنوز فارسی یاد می‌گیرم.",
+          "vocab": [
+            {
+              "word": "learn"
+            }
+          ],
+          "difficulty": 0.3,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-014",
+          "english": "Your accent is very clear.",
+          "persian": "لهجه‌ات خیلی واضح است.",
+          "vocab": [
+            {
+              "word": "accent"
+            },
+            {
+              "word": "clear"
+            }
+          ],
+          "difficulty": 0.31,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "evd-015",
+          "english": "Thank you, that is kind of you.",
+          "persian": "ممنون، لطف داری.",
+          "vocab": [
+            {
+              "word": "kind"
+            }
+          ],
+          "difficulty": 0.33,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-016",
+          "english": "Do you mind if I sit here?",
+          "persian": "اشکالی ندارد اینجا بنشینم؟",
+          "vocab": [
+            {
+              "word": "sit"
+            },
+            {
+              "word": "mind"
+            }
+          ],
+          "difficulty": 0.35,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-017",
+          "english": "Not at all, please do.",
+          "persian": "اصلاً، بفرمایید.",
+          "vocab": [
+            {
+              "word": "please"
+            }
+          ],
+          "difficulty": 0.36,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-018",
+          "english": "Is this seat taken?",
+          "persian": "این صندلی گرفته است؟",
+          "vocab": [
+            {
+              "word": "seat"
+            },
+            {
+              "word": "taken"
+            }
+          ],
+          "difficulty": 0.38,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-019",
+          "english": "Someone was sitting there a moment ago.",
+          "persian": "لحظه‌ای پیش یک نفر اینجا نشسته بود.",
+          "vocab": [
+            {
+              "word": "moment"
+            }
+          ],
+          "difficulty": 0.4,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "evd-020",
+          "english": "I will find another one.",
+          "persian": "یکی دیگر پیدا می‌کنم.",
+          "vocab": [
+            {
+              "word": "another"
+            },
+            {
+              "word": "find"
+            }
+          ],
+          "difficulty": 0.41,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "cards": [
+        {
+          "id": "evd-021",
+          "english": "Could I borrow your pen for a moment?",
+          "persian": "می‌توانم یک لحظه خودکارت را قرض بگیرم؟",
+          "vocab": [
+            {
+              "word": "borrow"
+            },
+            {
+              "word": "pen"
+            }
+          ],
+          "difficulty": 0.43,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-022",
+          "english": "Of course, here you are.",
+          "persian": "البته، بفرمایید.",
+          "vocab": [
+            {
+              "word": "course"
+            }
+          ],
+          "difficulty": 0.45,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-023",
+          "english": "I will give it back before I leave.",
+          "persian": "قبل از رفتن پسش می‌دهم.",
+          "vocab": [
+            {
+              "word": "leave"
+            },
+            {
+              "word": "give back"
+            }
+          ],
+          "difficulty": 0.46,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-024",
+          "english": "No hurry, I have another one.",
+          "persian": "عجله‌ای نیست، یکی دیگر دارم.",
+          "vocab": [
+            {
+              "word": "hurry"
+            }
+          ],
+          "difficulty": 0.48,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-025",
+          "english": "Do you know where the station is?",
+          "persian": "می‌دانی ایستگاه کجاست؟",
+          "vocab": [
+            {
+              "word": "station"
+            },
+            {
+              "word": "know"
+            }
+          ],
+          "difficulty": 0.5,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-026",
+          "english": "Go straight and turn left at the lights.",
+          "persian": "مستقیم برو و سر چراغ‌ها به چپ بپیچ.",
+          "vocab": [
+            {
+              "word": "straight"
+            },
+            {
+              "word": "turn"
+            }
+          ],
+          "difficulty": 0.51,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-027",
+          "english": "How far is it on foot?",
+          "persian": "پیاده چقدر دور است؟",
+          "vocab": [
+            {
+              "word": "far"
+            },
+            {
+              "word": "foot"
+            }
+          ],
+          "difficulty": 0.53,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "evd-028",
+          "english": "About ten minutes, not more.",
+          "persian": "حدود ده دقیقه، نه بیشتر.",
+          "vocab": [
+            {
+              "word": "minute"
+            }
+          ],
+          "difficulty": 0.55,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "evd-029",
+          "english": "Thank you, you have been very helpful.",
+          "persian": "ممنون، خیلی کمک کردید.",
+          "vocab": [
+            {
+              "word": "helpful"
+            }
+          ],
+          "difficulty": 0.56,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "evd-030",
+          "english": "Good luck with your lesson.",
+          "persian": "برای درست موفق باشی.",
+          "vocab": [
+            {
+              "word": "luck"
+            },
+            {
+              "word": "lesson"
+            }
+          ],
+          "difficulty": 0.58,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        }
+      ]
+    }
+  ]
+}

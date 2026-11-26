@@ -1,5 +1,9 @@
 package ir.laxipatem.lexiflash.ui.about
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,9 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,11 +29,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ir.laxipatem.lexiflash.BuildConfig
+import ir.laxipatem.lexiflash.CrashReport
 import ir.laxipatem.lexiflash.R
 
 /**
@@ -38,6 +53,9 @@ import ir.laxipatem.lexiflash.R
 @Composable
 fun AboutScreen(onBack: () -> Unit) {
     val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
+    var showCrashReport by remember { mutableStateOf(false) }
+    var crashReport by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         topBar = {
@@ -78,6 +96,15 @@ fun AboutScreen(onBack: () -> Unit) {
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                TextButton(
+                    onClick = {
+                        crashReport = CrashReport.read(context).orEmpty()
+                        showCrashReport = true
+                    },
+                    modifier = Modifier.heightIn(min = 48.dp)
+                ) {
+                    Text(stringResource(R.string.crash_report_open))
+                }
             } }
 
             item { AboutCard(title = stringResource(R.string.about_data_section)) {
@@ -121,6 +148,59 @@ fun AboutScreen(onBack: () -> Unit) {
                 )
             } }
         }
+    }
+
+    if (showCrashReport) {
+        val report = crashReport.orEmpty()
+        AlertDialog(
+            onDismissRequest = { showCrashReport = false },
+            title = { Text(stringResource(R.string.crash_report_title)) },
+            text = {
+                if (report.isBlank()) {
+                    Text(stringResource(R.string.crash_report_empty))
+                } else {
+                    Text(
+                        text = report,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(320.dp)
+                            .verticalScroll(rememberScrollState()),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            },
+            confirmButton = {
+                Column(horizontalAlignment = Alignment.End) {
+                    if (report.isNotBlank()) {
+                        TextButton(onClick = {
+                            runCatching {
+                                context.getSystemService(ClipboardManager::class.java)
+                                    ?.setPrimaryClip(ClipData.newPlainText("LexiFlash crash", report))
+                            }
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.crash_report_copied),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }) { Text(stringResource(R.string.crash_report_copy)) }
+                        TextButton(onClick = {
+                            val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(Intent.EXTRA_TEXT, report)
+                            }
+                            runCatching {
+                                context.startActivity(
+                                    Intent.createChooser(sendIntent, context.getString(R.string.crash_report_share))
+                                )
+                            }
+                        }) { Text(stringResource(R.string.crash_report_share)) }
+                    }
+                    TextButton(onClick = { showCrashReport = false }) {
+                        Text(stringResource(R.string.action_close))
+                    }
+                }
+            }
+        )
     }
 }
 
