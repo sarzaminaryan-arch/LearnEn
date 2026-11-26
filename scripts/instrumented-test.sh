@@ -44,6 +44,19 @@ collect_evidence() {
         cat "$xml" >> "$REPORT"
       done
 
+  if [ "$result" -ne 0 ] && [ -f "$WORKSPACE/instrumented-failure.txt" ]; then
+    echo '::error::Last Gradle output and failing test details follow; full files are attached as artifacts.'
+    while IFS= read -r line; do
+      escaped=$(printf '%s' "$line" | sed -e 's/%/%25/g' -e 's/\r/%0D/g')
+      echo "::error::[failure detail] $escaped"
+    done < "$WORKSPACE/instrumented-failure.txt"
+    if [ -s "$CRASH_LOG" ]; then
+      grep -E -A 50 -B 8 'FATAL EXCEPTION|No ActivityResultRegistryOwner|AndroidRuntime|Exception' "$CRASH_LOG" \
+        | head -n 80 \
+        | while IFS= read -r line; do echo "::error::[crash log] $line"; done
+    fi
+  fi
+
   {
     echo
     echo '=========== Gradle failure excerpt ==========='
@@ -73,9 +86,33 @@ else
   status=$?
   echo "::error::instrumented tests failed (Gradle exit $status); full report and logcat are uploaded as artifacts"
   {
-    grep -a -n -B 5 -A 35 -E 'No ActivityResultRegistryOwner|FAILED|tests completed|There were failing tests|Execution failed|What went wrong|Exception|Error:' "$GRADLE_LOG" || true
-    find "$WORKSPACE/app/build/outputs/androidTest-results" -type f -name '*.xml' -exec grep -a -n -E 'No ActivityResultRegistryOwner|<failure|<error' {} + 2>/dev/null || true
-  } | tail -n 160 > "$WORKSPACE/instrumented-failure.txt"
+    echo '--- Gradle final output ---'
+    tail -n 100 "$GRADLE_LOG"
+    echo '--- Parsed JUnit failure details ---'
+    python3 - "$WORKSPACE/app/build/outputs/androidTest-results" <<'PY'
+import os
+import sys
+import xml.etree.ElementTree as ET
+root = sys.argv[1]
+if os.path.isdir(root):
+    for base, _, files in os.walk(root):
+        for filename in files:
+            if not filename.endswith('.xml'):
+                continue
+            path = os.path.join(base, filename)
+            try:
+                tree = ET.parse(path)
+            except (ET.ParseError, OSError):
+                continue
+            for case in tree.iter('testcase'):
+                for failure in list(case):
+                    if failure.tag not in ('failure', 'error'):
+                        continue
+                    print(f"{path}: {case.get('classname')}.{case.get('name')}")
+                    print(f"{failure.tag}: {failure.get('type', '')}: {failure.get('message', '')}")
+                    print((failure.text or '')[:12000])
+PY
+  } > "$WORKSPACE/instrumented-failure.txt"
   while IFS= read -r line; do
     escaped=$(printf '%s' "$line" | sed -e 's/%/%25/g' -e 's/\r/%0D/g')
     echo "::error::[instrumented failure detail] $escaped"

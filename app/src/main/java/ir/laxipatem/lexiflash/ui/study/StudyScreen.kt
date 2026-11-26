@@ -93,6 +93,7 @@ fun StudyScreen(
     LaunchedEffect(settings.ttsSpeed) { tts.setSpeed(settings.ttsSpeed) }
 
     val ttsState by tts.state.collectAsStateWithLifecycle()
+    val isSpeaking by tts.isSpeaking.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -157,7 +158,7 @@ fun StudyScreen(
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.spacedBy(16.dp)
                                     ) {
-                                        CardFront(english = card.english)
+                                        CardFront(english = card.english, speaking = isSpeaking)
                                         IconButton(
                                             onClick = { tts.speak(card.english) },
                                             enabled = ttsState == TtsState.Ready
@@ -177,7 +178,6 @@ fun StudyScreen(
                                 back = {
                                     CardBack(
                                         persian = card.persian,
-                                        ipa = card.ipa,
                                         vocab = card.vocab.map { it.word to it.meaning },
                                         note = card.note,
                                         pendingTranslationLabel = stringResource(

@@ -69,6 +69,7 @@ fun ReviewScreen(container: AppContainer) {
     }
     LaunchedEffect(settings.ttsSpeed) { tts.setSpeed(settings.ttsSpeed) }
     val ttsState by tts.state.collectAsStateWithLifecycle()
+    val isSpeaking by tts.isSpeaking.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(R.string.review_title)) }) }
@@ -130,7 +131,7 @@ fun ReviewScreen(container: AppContainer) {
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.spacedBy(16.dp)
                                 ) {
-                                    CardFront(english = card.english)
+                                    CardFront(english = card.english, speaking = isSpeaking)
                                     IconButton(
                                         onClick = { tts.speak(card.english) },
                                         enabled = ttsState == TtsState.Ready
@@ -145,7 +146,6 @@ fun ReviewScreen(container: AppContainer) {
                             back = {
                                 CardBack(
                                     persian = card.persian,
-                                    ipa = card.ipa,
                                     vocab = card.vocab.map { it.word to it.meaning },
                                     note = card.note,
                                     pendingTranslationLabel = stringResource(
