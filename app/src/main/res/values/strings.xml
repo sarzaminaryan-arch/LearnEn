@@ -50,6 +50,7 @@
     <string name="home_import_cta">Import your own subtitles</string>
     <string name="home_deck_card_count">%1$d cards</string>
     <string name="home_online_catalog">Browse online catalogue</string>
+    <string name="home_online_catalog_desc">Tap to browse and download decks</string>
 
     <!-- Deck detail -->
     <string name="deck_detail_title">Deck details</string>
@@ -208,6 +209,8 @@
     <string name="catalog_download">Download</string>
     <string name="catalog_downloaded">“%1$s” added to your decks</string>
     <string name="catalog_cards">%1$d cards</string>
+    <string name="catalog_downloading">Downloading…</string>
+    <string name="catalog_loading">Loading the catalogue…</string>
     <string name="catalog_offline_note">This build has no network access. Online features are available in the online build only.</string>
 
     <!-- TTS -->

@@ -1,0 +1,737 @@
+{
+  "version": 1,
+  "title": "At the market",
+  "source_lang": "en",
+  "target_lang": "fa",
+  "license": "CC BY 4.0",
+  "parts": [
+    {
+      "index": 1,
+      "cards": [
+        {
+          "id": "mkt-001",
+          "english": "How much is a kilo of these apples?",
+          "persian": "یک کیلو از این سیب‌ها چند است؟",
+          "vocab": [
+            {
+              "word": "kilo"
+            },
+            {
+              "word": "apple"
+            }
+          ],
+          "difficulty": 0.09,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "mkt-002",
+          "english": "They are two hundred thousand a kilo.",
+          "persian": "کیلویی دویست هزار است.",
+          "vocab": [
+            {
+              "word": "kilo"
+            }
+          ],
+          "difficulty": 0.11,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "mkt-003",
+          "english": "That is more than I expected.",
+          "persian": "این بیشتر از آن بود که فکر می‌کردم.",
+          "vocab": [
+            {
+              "word": "expect"
+            }
+          ],
+          "difficulty": 0.12,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-004",
+          "english": "The ones over there are cheaper.",
+          "persian": "آن‌هایی که آن طرف‌اند ارزان‌ترند.",
+          "vocab": [
+            {
+              "word": "cheaper"
+            },
+            {
+              "word": "there"
+            }
+          ],
+          "difficulty": 0.13,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-005",
+          "english": "Are they sweet or sour?",
+          "persian": "شیرین‌اند یا ترش؟",
+          "vocab": [
+            {
+              "word": "sweet"
+            },
+            {
+              "word": "sour"
+            }
+          ],
+          "difficulty": 0.14,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "mkt-006",
+          "english": "They are a little sour, good for cooking.",
+          "persian": "کمی ترش‌اند، برای پختن خوب‌اند.",
+          "vocab": [
+            {
+              "word": "cooking"
+            },
+            {
+              "word": "good"
+            }
+          ],
+          "difficulty": 0.15,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-007",
+          "english": "I will take two kilos, please.",
+          "persian": "دو کیلو می‌خرم، لطفاً.",
+          "vocab": [
+            {
+              "word": "kilo"
+            }
+          ],
+          "difficulty": 0.17,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "mkt-008",
+          "english": "Anything else for you today?",
+          "persian": "چیز دیگری هم می‌خواهید؟",
+          "vocab": [
+            {
+              "word": "anything"
+            },
+            {
+              "word": "else"
+            }
+          ],
+          "difficulty": 0.18,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-009",
+          "english": "Do you have fresh bread?",
+          "persian": "نان تازه دارید؟",
+          "vocab": [
+            {
+              "word": "fresh"
+            },
+            {
+              "word": "bread"
+            }
+          ],
+          "difficulty": 0.19,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "mkt-010",
+          "english": "It came out of the oven an hour ago.",
+          "persian": "یک ساعت پیش از تنور درآمد.",
+          "vocab": [
+            {
+              "word": "oven"
+            },
+            {
+              "word": "hour"
+            }
+          ],
+          "difficulty": 0.21,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "cards": [
+        {
+          "id": "mkt-011",
+          "english": "Can I pay by card?",
+          "persian": "می‌توانم با کارت پرداخت کنم؟",
+          "vocab": [
+            {
+              "word": "pay"
+            },
+            {
+              "word": "card"
+            }
+          ],
+          "difficulty": 0.22,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "mkt-012",
+          "english": "The machine is not working, cash only.",
+          "persian": "دستگاه کار نمی‌کند، فقط نقدی.",
+          "vocab": [
+            {
+              "word": "machine"
+            },
+            {
+              "word": "cash"
+            }
+          ],
+          "difficulty": 0.23,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-013",
+          "english": "Then I will need to find a cash machine.",
+          "persian": "پس باید خودپرداز پیدا کنم.",
+          "vocab": [
+            {
+              "word": "need"
+            },
+            {
+              "word": "find"
+            }
+          ],
+          "difficulty": 0.24,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-014",
+          "english": "There is one just around the corner.",
+          "persian": "یکی همین نزدیکی سر خیابان است.",
+          "vocab": [
+            {
+              "word": "corner"
+            }
+          ],
+          "difficulty": 0.26,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-015",
+          "english": "Could you keep this in the fridge for me?",
+          "persian": "می‌شود این را برایم در یخچال بگذارید؟",
+          "vocab": [
+            {
+              "word": "fridge"
+            },
+            {
+              "word": "keep"
+            }
+          ],
+          "difficulty": 0.27,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-016",
+          "english": "Of course, come back before six.",
+          "persian": "البته، قبل از شش برگرد.",
+          "vocab": [
+            {
+              "word": "before"
+            },
+            {
+              "word": "back"
+            }
+          ],
+          "difficulty": 0.28,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-017",
+          "english": "Do you sell eggs by the tray?",
+          "persian": "تخم‌مرغ را شانه‌ای می‌فروشید؟",
+          "vocab": [
+            {
+              "word": "egg"
+            },
+            {
+              "word": "tray"
+            },
+            {
+              "word": "sell"
+            }
+          ],
+          "difficulty": 0.29,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-018",
+          "english": "Yes, thirty to a tray.",
+          "persian": "بله، سی‌تا در هر شانه.",
+          "vocab": [
+            {
+              "word": "tray"
+            }
+          ],
+          "difficulty": 0.3,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-019",
+          "english": "I only need half a tray.",
+          "persian": "من فقط نصف شانه لازم دارم.",
+          "vocab": [
+            {
+              "word": "half"
+            },
+            {
+              "word": "need"
+            }
+          ],
+          "difficulty": 0.32,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-020",
+          "english": "I can divide it for you.",
+          "persian": "می‌توانم برایت تقسیم کنم.",
+          "vocab": [
+            {
+              "word": "divide"
+            }
+          ],
+          "difficulty": 0.33,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "cards": [
+        {
+          "id": "mkt-021",
+          "english": "This melon looks very ripe.",
+          "persian": "این خربزه خیلی رسیده به نظر می‌رسد.",
+          "vocab": [
+            {
+              "word": "melon"
+            },
+            {
+              "word": "ripe"
+            }
+          ],
+          "difficulty": 0.34,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-022",
+          "english": "Smell it, you will know immediately.",
+          "persian": "ببویش، فوراً می‌فهمی.",
+          "vocab": [
+            {
+              "word": "smell"
+            },
+            {
+              "word": "immediately"
+            }
+          ],
+          "difficulty": 0.36,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-023",
+          "english": "How long will it last at home?",
+          "persian": "خانه چند روز می‌ماند؟",
+          "vocab": [
+            {
+              "word": "last"
+            },
+            {
+              "word": "home"
+            }
+          ],
+          "difficulty": 0.37,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-024",
+          "english": "Two or three days in a cool place.",
+          "persian": "دو سه روز در جای خنک.",
+          "vocab": [
+            {
+              "word": "cool"
+            },
+            {
+              "word": "place"
+            }
+          ],
+          "difficulty": 0.38,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-025",
+          "english": "I will take it, and the grapes too.",
+          "persian": "برش می‌دارم، انگورها را هم.",
+          "vocab": [
+            {
+              "word": "grape"
+            }
+          ],
+          "difficulty": 0.39,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "mkt-026",
+          "english": "The grapes are from this morning.",
+          "persian": "انگورها از همین صبح است.",
+          "vocab": [
+            {
+              "word": "grape"
+            },
+            {
+              "word": "morning"
+            }
+          ],
+          "difficulty": 0.41,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-027",
+          "english": "Do you have change for a large note?",
+          "persian": "برای اسکناس بزرگ خرد دارید؟",
+          "vocab": [
+            {
+              "word": "change"
+            },
+            {
+              "word": "note"
+            },
+            {
+              "word": "large"
+            }
+          ],
+          "difficulty": 0.42,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-028",
+          "english": "Let me see what I have.",
+          "persian": "بگذار ببینم چه دارم.",
+          "vocab": [
+            {
+              "word": "let"
+            }
+          ],
+          "difficulty": 0.43,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-029",
+          "english": "Here is your change and the receipt.",
+          "persian": "خردتان و رسید.",
+          "vocab": [
+            {
+              "word": "change"
+            },
+            {
+              "word": "receipt"
+            }
+          ],
+          "difficulty": 0.44,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-030",
+          "english": "Thank you, see you next week.",
+          "persian": "ممنون، هفتهٔ بعد می‌بینمت.",
+          "vocab": [
+            {
+              "word": "next"
+            },
+            {
+              "word": "week"
+            }
+          ],
+          "difficulty": 0.46,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "cards": [
+        {
+          "id": "mkt-031",
+          "english": "Is this the queue for the vegetables?",
+          "persian": "این صف سبزی‌هاست؟",
+          "vocab": [
+            {
+              "word": "queue"
+            },
+            {
+              "word": "vegetable"
+            }
+          ],
+          "difficulty": 0.47,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-032",
+          "english": "Yes, it moves quite fast.",
+          "persian": "بله، خیلی سریع جلو می‌رود.",
+          "vocab": [
+            {
+              "word": "move"
+            },
+            {
+              "word": "fast"
+            },
+            {
+              "word": "quite"
+            }
+          ],
+          "difficulty": 0.48,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-033",
+          "english": "I have been waiting for ten minutes.",
+          "persian": "ده دقیقه است منتظرم.",
+          "vocab": [
+            {
+              "word": "wait"
+            }
+          ],
+          "difficulty": 0.49,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-034",
+          "english": "The other stall is usually quicker.",
+          "persian": "آن دکه معمولاً سریع‌تر است.",
+          "vocab": [
+            {
+              "word": "stall"
+            },
+            {
+              "word": "usually"
+            },
+            {
+              "word": "quicker"
+            }
+          ],
+          "difficulty": 0.51,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-035",
+          "english": "Do you want the herbs chopped or whole?",
+          "persian": "سبزی‌ها را خرد می‌خواهید یا درسته؟",
+          "vocab": [
+            {
+              "word": "herb"
+            },
+            {
+              "word": "chop"
+            },
+            {
+              "word": "whole"
+            }
+          ],
+          "difficulty": 0.52,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-036",
+          "english": "Chopped, please, and washed.",
+          "persian": "خردشده لطفاً، و شسته‌شده.",
+          "vocab": [
+            {
+              "word": "chop"
+            },
+            {
+              "word": "wash"
+            }
+          ],
+          "difficulty": 0.53,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-037",
+          "english": "I will wrap them in paper.",
+          "persian": "در کاغذ می‌پیچمشان.",
+          "vocab": [
+            {
+              "word": "wrap"
+            },
+            {
+              "word": "paper"
+            }
+          ],
+          "difficulty": 0.54,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-038",
+          "english": "That is easier to carry.",
+          "persian": "آن راحت‌تر حمل می‌شود.",
+          "vocab": [
+            {
+              "word": "easy"
+            },
+            {
+              "word": "carry"
+            }
+          ],
+          "difficulty": 0.55,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "mkt-039",
+          "english": "You have given me too much change.",
+          "persian": "خرد زیادی به من دادید.",
+          "vocab": [
+            {
+              "word": "change"
+            },
+            {
+              "word": "too much"
+            }
+          ],
+          "difficulty": 0.57,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "mkt-040",
+          "english": "You are right, here is the rest.",
+          "persian": "حق داری، بقیه‌اش.",
+          "vocab": [
+            {
+              "word": "rest"
+            },
+            {
+              "word": "right"
+            }
+          ],
+          "difficulty": 0.58,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        }
+      ]
+    }
+  ]
+}

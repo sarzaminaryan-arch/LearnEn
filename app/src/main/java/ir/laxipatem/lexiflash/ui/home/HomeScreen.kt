@@ -19,8 +19,6 @@ import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.EditNote
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +47,7 @@ import ir.laxipatem.lexiflash.domain.unlock.UnlockPolicy
 import ir.laxipatem.lexiflash.ui.common.ErrorState
 import ir.laxipatem.lexiflash.ui.common.Formatters
 import ir.laxipatem.lexiflash.ui.common.LoadingState
+import ir.laxipatem.lexiflash.ui.common.RaisedCard
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
 
 /**
@@ -140,28 +139,36 @@ fun HomeScreen(
 
                 if (onlineAvailable) {
                     item {
-                        Card(
+                        // The whole card opens the catalogue, which now starts
+                        // fetching as soon as it opens. A chip inside it would
+                        // add a tap that leads to another tap.
+                        RaisedCard(
                             modifier = Modifier.fillMaxWidth(),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceVariant
-                            )
+                            onClick = onOpenCatalog,
+                            faceColor = MaterialTheme.colorScheme.primaryContainer,
+                            edgeColor = MaterialTheme.colorScheme.primary
                         ) {
-                            Column(
-                                modifier = Modifier.padding(16.dp),
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(
-                                    text = stringResource(R.string.home_online_catalog),
-                                    style = MaterialTheme.typography.titleSmall
+                                Icon(
+                                    imageVector = Icons.Filled.CloudDownload,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
-                                AssistChip(
-                                    onClick = onOpenCatalog,
-                                    label = { Text(stringResource(R.string.catalog_title)) },
-                                    leadingIcon = {
-                                        Icon(Icons.Filled.CloudDownload, contentDescription = null)
-                                    },
-                                    colors = AssistChipDefaults.assistChipColors()
-                                )
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.home_online_catalog),
+                                        style = MaterialTheme.typography.titleSmall
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.home_online_catalog_desc),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
                             }
                         }
                     }
@@ -179,21 +186,17 @@ private fun DeckCard(
     onClick: () -> Unit
 ) {
     // DeckCard has no numeric text, so it takes no digit-formatting flag.
-    val border = CardDefaults.outlinedCardBorder()
-    Card(
-        onClick = onClick,
+    RaisedCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = if (selected) {
-                MaterialTheme.colorScheme.primaryContainer
-            } else {
-                MaterialTheme.colorScheme.surface
-            }
-        ),
-        border = if (selected) null else border
+        onClick = onClick,
+        faceColor = if (selected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.surfaceContainerLowest
+        }
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
@@ -314,26 +317,31 @@ private fun PartTile(
     val partLabel = stringResource(R.string.home_part_number, part.index)
     val tileDescription = "$partLabel. $stateDescription"
 
-    Card(
-        onClick = { if (!locked) onClick() },
+    // A locked tile keeps its depth but not its press: it still looks like a
+    // physical tile sitting on the page, which is what makes the unlocked ones
+    // read as pressable.
+    RaisedCard(
+        onClick = if (locked) null else onClick,
         enabled = !locked,
         modifier = Modifier
             .fillMaxWidth()
             .semantics(mergeDescendants = true) {
                 contentDescription = tileDescription
             },
-        colors = CardDefaults.cardColors(
-            containerColor = when {
-                locked -> MaterialTheme.colorScheme.surfaceVariant
-                completed -> MaterialTheme.colorScheme.tertiaryContainer
-                else -> MaterialTheme.colorScheme.primaryContainer
-            }
-        )
+        faceColor = when {
+            locked -> MaterialTheme.colorScheme.surfaceContainerLow
+            completed -> MaterialTheme.colorScheme.tertiaryContainer
+            else -> MaterialTheme.colorScheme.primaryContainer
+        },
+        edgeColor = when {
+            locked -> MaterialTheme.colorScheme.surfaceContainerHighest
+            completed -> MaterialTheme.colorScheme.tertiary
+            else -> MaterialTheme.colorScheme.primary
+        },
+        contentPadding = PaddingValues(12.dp)
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {

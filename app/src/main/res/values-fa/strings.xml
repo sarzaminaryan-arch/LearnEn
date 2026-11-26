@@ -50,6 +50,7 @@
     <string name="home_import_cta">ایمپورت زیرنویس شخصی</string>
     <string name="home_deck_card_count">%1$d کارت</string>
     <string name="home_online_catalog">مرور کاتالوگ آنلاین</string>
+    <string name="home_online_catalog_desc">برای دیدن و دانلود دسته‌ها بزنید</string>
 
     <!-- جزئیات دسته -->
     <string name="deck_detail_title">جزئیات دسته</string>
@@ -208,6 +209,8 @@
     <string name="catalog_download">دانلود</string>
     <string name="catalog_downloaded">«%1$s» به دسته‌های شما افزوده شد</string>
     <string name="catalog_cards">%1$d کارت</string>
+    <string name="catalog_downloading">در حال دانلود…</string>
+    <string name="catalog_loading">در حال بارگیری کاتالوگ…</string>
     <string name="catalog_offline_note">این نسخه دسترسی شبکه ندارد. قابلیت‌های آنلاین فقط در نسخه‌ی آنلاین هست.</string>
 
     <!-- TTS -->
