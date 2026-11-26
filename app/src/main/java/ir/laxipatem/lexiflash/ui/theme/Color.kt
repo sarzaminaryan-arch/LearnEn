@@ -3,93 +3,70 @@ package ir.laxipatem.lexiflash.ui.theme
 import androidx.compose.ui.graphics.Color
 
 /**
- * Brand palette.
+ * Clean, cool brand palette for the study experience.
  *
- * The app leans warm: a honey-amber primary, a soft sand background, and deep
- * espresso ink. Cards carry a light top face and a darker bottom edge so they
- * read as raised rather than flat, which is why the surface colours come in
- * three steps rather than two.
- *
- * Every on-colour below was chosen to reach at least WCAG AA (4.5:1) contrast
- * against its container. The numbers are re-checked by ThemeContrastTest on
- * every build, so a palette change that breaks a pair fails the build rather
- * than shipping unreadable text.
+ * Indigo carries primary actions, teal marks positive progress, and a restrained
+ * violet is reserved for secondary information. The dark palette keeps surfaces
+ * deep and quiet; [GlowDark] is used only for a fine card edge and its soft halo.
+ * Text and semantic states keep their own contrast-safe colours.
  */
 object BrandColors {
+    /** Indigo action colour; white labels have a 6:1 contrast ratio. */
+    val Primary = Color(0xFF365ACB)
+    val PrimaryTop = Color(0xFF4B6CD8)
+    val PrimaryBottom = Color(0xFF2544A4)
+    val PrimaryContainerLight = Color(0xFFE4EAFF)
+    val PrimaryContainerDark = Color(0xFF29396D)
+    val PrimaryDark = Color(0xFFB8C7FF)
+    val OnPrimaryDark = Color(0xFF1B2C64)
+    val OnPrimaryContainerDark = Color(0xFFE4EAFF)
 
-    /**
-     * Honey amber. The main call-to-action colour.
-     *
-     * Dark enough that white text on it clears WCAG AA at 5.0:1. A brighter
-     * amber reads better but lands at 4.09:1, which fails for button labels.
-     */
-    val Primary = Color(0xFFA85C10)
+    /** Teal communicates steady progress and positive secondary actions. */
+    val Secondary = Color(0xFF1F6C64)
+    val SecondaryContainerLight = Color(0xFFDDF4EF)
+    val SecondaryContainerDark = Color(0xFF193E39)
+    val SecondaryDark = Color(0xFF9BD6CF)
+    val OnSecondaryDark = Color(0xFF153C37)
+    val OnSecondaryContainerDark = Color(0xFFDDF4EF)
 
-    /** Lighter face of an amber surface, used for the top of a raised button. */
-    val PrimaryTop = Color(0xFFC0721F)
+    /** Violet is used sparingly for the tertiary/hard-rating state. */
+    val Accent = Color(0xFF8651A8)
+    val AccentInk = Color(0xFF704386)
+    val AccentContainerLight = Color(0xFFF2E8F8)
+    val AccentContainerDark = Color(0xFF3E294B)
+    val AccentDark = Color(0xFFD9B5EF)
+    val OnAccentDark = Color(0xFF3B2350)
+    val OnAccentContainerDark = Color(0xFFF0DDFB)
 
-    /** Deeper amber for the bottom edge of a raised surface. */
-    val PrimaryBottom = Color(0xFF8A4A08)
+    /** Cool, nearly-white page with a brighter card face for clear depth. */
+    val BackgroundLight = Color(0xFFEEF3FA)
+    val SurfaceLight = Color(0xFFF8FAFE)
+    val SurfaceRaisedLight = Color(0xFFFFFFFF)
+    val SurfaceEdgeLight = Color(0xFFD5E0F2)
+    val CardOutlineLight = Color(0xFF788AA7)
+    val InkLight = Color(0xFF18243A)
+    val MutedLight = Color(0xFF53617A)
 
-    val PrimaryContainerLight = Color(0xFFFBEAD2)
-    val PrimaryContainerDark = Color(0xFF4A2A05)
+    /** Midnight blue surfaces stay comfortable during longer study sessions. */
+    val BackgroundDark = Color(0xFF0F1624)
+    val SurfaceDark = Color(0xFF151E2C)
+    val SurfaceRaisedDark = Color(0xFF1B293B)
+    val SurfaceEdgeDark = Color(0xFF26374C)
+    val InkDark = Color(0xFFEAF0FC)
+    val MutedDark = Color(0xFFB0BED2)
 
-    /**
-     * Warm clay used for highlights and the "machine translation" label.
-     *
-     * Chosen so the colour itself clears the WCAG 3:1 non-text contrast rule on
-     * the sand background. For body-sized text use [AccentInk], which clears
-     * 4.5:1.
-     */
-    val Accent = Color(0xFFA8503C)
-
-    /** Darker clay that is safe for body-sized text on light surfaces. */
-    val AccentInk = Color(0xFF8A3B29)
-    val AccentContainerLight = Color(0xFFFAE3DC)
-    val AccentContainerDark = Color(0xFF4A1F16)
-
-    /**
-     * A warm sand background rather than the usual near-white.
-     *
-     * It is deliberately a shade deeper than the card face: a raised card only
-     * reads as raised if the page behind it is darker. At 1.21:1 the difference
-     * is visible without the page looking dirty, and the same value is pinned by
-     * ContrastTest so a later colour tweak cannot flatten the cards back out.
-     */
-    val BackgroundLight = Color(0xFFF4E4CB)
-    val SurfaceLight = Color(0xFFFFFBF5)
-
-    /** The raised face of a card: warmer and slightly deeper than the outline. */
-    val SurfaceRaisedLight = Color(0xFFFFF3E0)
-
-    /** The bottom edge of a raised card, one step deeper than its face. */
-    val SurfaceEdgeLight = Color(0xFFEDD7B5)
-
-    val InkLight = Color(0xFF3B2A1A)
-    val MutedLight = Color(0xFF6E5A47)
-
-    /**
-     * Dark mode keeps the warmth instead of going blue-grey: espresso brown
-     * surfaces with amber highlights, so the app does not change character
-     * between light and dark.
-     */
-    val BackgroundDark = Color(0xFF1A1310)
-    val SurfaceDark = Color(0xFF251B15)
-    val SurfaceRaisedDark = Color(0xFF3A2A1D)
-    val SurfaceEdgeDark = Color(0xFF120D0A)
-
-    val InkDark = Color(0xFFF2E6D8)
-    val MutedDark = Color(0xFFBDA893)
+    /** Fine aqua outline and low-opacity shadow tint for dark-mode cards. */
+    val GlowDark = Color(0xFF68F6D5)
 
     val ErrorLight = Color(0xFFB3261E)
-    val ErrorDark = Color(0xFFF2B8B5)
+    val ErrorDark = Color(0xFFFFB4AB)
     val OnErrorLight = Color(0xFFFFFFFF)
-    val OnErrorDark = Color(0xFF601410)
+    val OnErrorDark = Color(0xFF690005)
 
     val SuccessLight = Color(0xFF1B6E3C)
     val SuccessDark = Color(0xFF7ED6A1)
 
-    /** Colour of the soft drop shadow under a raised surface. */
-    val ShadowLight = Color(0xFF8A6A3F)
+    /** Soft, neutral lift for light surfaces; dark cards use [GlowDark]. */
+    val ShadowLight = Color(0xFF647A9D)
     val ShadowDark = Color(0xFF000000)
 }

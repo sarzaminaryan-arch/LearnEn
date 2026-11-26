@@ -13,8 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -48,6 +46,7 @@ import ir.laxipatem.lexiflash.data.repo.AppLanguage
 import ir.laxipatem.lexiflash.data.repo.ThemeMode
 import ir.laxipatem.lexiflash.data.repo.UserSettings
 import ir.laxipatem.lexiflash.ui.common.Formatters
+import ir.laxipatem.lexiflash.ui.common.RaisedCard
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
 
 /** Preferences, online settings, destructive actions and the About entry point. */
@@ -359,14 +358,9 @@ private fun SectionHeader(text: String) {
 
 @Composable
 private fun SettingsCard(content: @Composable androidx.compose.foundation.layout.ColumnScope.() -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
+    RaisedCard(modifier = Modifier.fillMaxWidth()) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             content()

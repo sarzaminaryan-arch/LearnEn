@@ -133,15 +133,23 @@ by vector XML in `mipmap-anydpi-v26` plus a vector fallback for API 24–25. The
 `IconMissingDensityFolder` and `MonochromeLauncherIcon` lint checks are disabled
 because there are no density folders by design.
 
-### 5.3 Dynamic colour on Android 12 and later only
-Material You palettes are used when available and switched off by a setting.
-Below API 31 the hand-picked brand palettes apply.
+### 5.3 Dynamic colour on Android 12 and later is an opt-in
+Material You palettes are available from Settings on Android 12 and newer. The
+curated indigo/teal palette is the default so the app has a consistent identity;
+below API 31 that same fixed palette is always used.
 
-### 5.4 WCAG AA on the fixed palettes
-Brand colours were chosen for at least 4.5:1 contrast on body text against their
-paired surfaces, verified by `ContrastTest`.
+### 5.4 Contrast is checked on the fixed palettes
+Body text meets WCAG AA against its paired light and dark surfaces. The test also
+checks primary actions, semantic colours, the raised-card separation, and the
+light/dark card outlines. Optional Material You colours are not covered.
 
-### 5.5 Persian digits are opt-in
+### 5.5 Vazirmatn is bundled for both writing systems
+The app ships Vazirmatn v33.003 in regular, medium, semibold and bold TTF weights.
+Its Latin glyphs accompany Persian glyphs, so all Compose text uses the same
+family instead of varying with a device's system fonts. The SIL Open Font License
+is included in `app/src/main/assets/licenses/Vazirmatn-OFL.txt`.
+
+### 5.6 Persian digits are opt-in
 `persianDigits` defaults to off. Persian-Indic digits are a preference, not a
 correctness requirement.
 

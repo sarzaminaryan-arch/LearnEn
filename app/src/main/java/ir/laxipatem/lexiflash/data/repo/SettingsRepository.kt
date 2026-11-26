@@ -28,7 +28,7 @@ enum class AppLanguage(val tag: String) { PERSIAN("fa"), ENGLISH("en") }
  */
 data class UserSettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val dynamicColor: Boolean = true,
+    val dynamicColor: Boolean = false,
     val language: AppLanguage = AppLanguage.PERSIAN,
     val persianDigits: Boolean = false,
     val dailyGoal: Int = DEFAULT_DAILY_GOAL,
@@ -85,7 +85,7 @@ class SettingsRepository(private val context: Context) {
                 themeMode = preferences[Keys.THEME]?.let { raw ->
                     ThemeMode.entries.firstOrNull { it.name == raw }
                 } ?: ThemeMode.SYSTEM,
-                dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: true,
+                dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: false,
                 language = preferences[Keys.LANGUAGE]?.let { raw ->
                     AppLanguage.entries.firstOrNull { it.tag == raw }
                 } ?: AppLanguage.PERSIAN,

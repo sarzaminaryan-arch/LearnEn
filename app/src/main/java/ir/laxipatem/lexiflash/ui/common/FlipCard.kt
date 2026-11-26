@@ -77,8 +77,10 @@ fun FlipCard(
             }
             .clickable(onClick = onFlip)
             .semantics { contentDescription = label },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        elevation = CardDefaults.cardElevation(defaultElevation = Depth.lift),
+        border = appCardBorder()
     ) {
         Box(
             modifier = Modifier

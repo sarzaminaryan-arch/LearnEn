@@ -20,8 +20,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -55,6 +54,8 @@ import ir.laxipatem.lexiflash.domain.quiz.QuizKind
 import ir.laxipatem.lexiflash.domain.quiz.QuizQuestion
 import ir.laxipatem.lexiflash.ui.common.ErrorState
 import ir.laxipatem.lexiflash.ui.common.LoadingState
+import ir.laxipatem.lexiflash.ui.common.RaisedCard
+import ir.laxipatem.lexiflash.ui.common.appCardOutlineColor
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
 import ir.laxipatem.lexiflash.ui.theme.successColor
 
@@ -154,7 +155,9 @@ fun QuizScreen(
                                 },
                                 style = MaterialTheme.typography.labelLarge,
                                 color = if (state.isCurrentCorrect) {
-                                    successColor(false)
+                                    successColor(
+                                        darkTheme = MaterialTheme.colorScheme.background.luminance() < 0.5f
+                                    )
                                 } else {
                                     MaterialTheme.colorScheme.error
                                 }
@@ -240,12 +243,12 @@ fun QuizScreen(
 /** The prompt, with a heading that explains what is being asked. */
 @Composable
 private fun QuestionCard(question: QuizQuestion) {
-    Card(
+    RaisedCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        faceColor = MaterialTheme.colorScheme.primaryContainer
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
@@ -291,7 +294,7 @@ private fun OptionRow(
     val borderColor = when {
         revealCorrect -> MaterialTheme.colorScheme.primary
         revealWrong -> MaterialTheme.colorScheme.error
-        else -> MaterialTheme.colorScheme.outlineVariant
+        else -> appCardOutlineColor()
     }
 
     val stateContent = when {

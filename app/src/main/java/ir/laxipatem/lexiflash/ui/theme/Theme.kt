@@ -18,18 +18,16 @@ import androidx.compose.ui.unit.LayoutDirection
 import ir.laxipatem.lexiflash.data.repo.AppLanguage
 import ir.laxipatem.lexiflash.data.repo.ThemeMode
 
-/** Light palette built from the brand colours. */
+/** Light palette built from the indigo, teal and violet brand colours. */
 private val LightColors = lightColorScheme(
     primary = BrandColors.Primary,
     onPrimary = Color.White,
     primaryContainer = BrandColors.PrimaryContainerLight,
     onPrimaryContainer = BrandColors.InkLight,
-    secondary = BrandColors.MutedLight,
+    secondary = BrandColors.Secondary,
     onSecondary = Color.White,
-    secondaryContainer = BrandColors.SurfaceRaisedLight,
+    secondaryContainer = BrandColors.SecondaryContainerLight,
     onSecondaryContainer = BrandColors.InkLight,
-    // tertiary is used for label-sized text (for example the machine-translation
-    // tag), so it takes the darker clay that clears 4.5:1 on the sand background.
     tertiary = BrandColors.AccentInk,
     onTertiary = Color.White,
     tertiaryContainer = BrandColors.AccentContainerLight,
@@ -44,30 +42,30 @@ private val LightColors = lightColorScheme(
     surfaceContainerHigh = BrandColors.SurfaceRaisedLight,
     surfaceContainerHighest = BrandColors.SurfaceEdgeLight,
     surfaceContainerLow = BrandColors.SurfaceLight,
-    surfaceContainerLowest = Color.White,
-    outline = BrandColors.SurfaceEdgeLight,
+    surfaceContainerLowest = BrandColors.SurfaceRaisedLight,
+    outline = BrandColors.CardOutlineLight,
     outlineVariant = BrandColors.SurfaceEdgeLight,
     error = BrandColors.ErrorLight,
     onError = BrandColors.OnErrorLight,
     errorContainer = Color(0xFFF9DEDC),
     onErrorContainer = Color(0xFF410E0B),
-    scrim = Color(0x99301F0F)
+    scrim = Color(0x9933425C)
 )
 
-/** Dark palette. Surfaces are low-chroma so long study sessions stay comfortable. */
+/** Low-glare midnight surfaces with restrained aqua card edging. */
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFFE8A659),
-    onPrimary = Color(0xFF3D2102),
+    primary = BrandColors.PrimaryDark,
+    onPrimary = BrandColors.OnPrimaryDark,
     primaryContainer = BrandColors.PrimaryContainerDark,
-    onPrimaryContainer = Color(0xFFFBEAD2),
-    secondary = BrandColors.MutedDark,
-    onSecondary = Color(0xFF1A1310),
-    secondaryContainer = BrandColors.SurfaceRaisedDark,
-    onSecondaryContainer = Color(0xFFF2E6D8),
-    tertiary = Color(0xFFE9A392),
-    onTertiary = Color(0xFF4A1F16),
+    onPrimaryContainer = BrandColors.OnPrimaryContainerDark,
+    secondary = BrandColors.SecondaryDark,
+    onSecondary = BrandColors.OnSecondaryDark,
+    secondaryContainer = BrandColors.SecondaryContainerDark,
+    onSecondaryContainer = BrandColors.OnSecondaryContainerDark,
+    tertiary = BrandColors.AccentDark,
+    onTertiary = BrandColors.OnAccentDark,
     tertiaryContainer = BrandColors.AccentContainerDark,
-    onTertiaryContainer = Color(0xFFFAE3DC),
+    onTertiaryContainer = BrandColors.OnAccentContainerDark,
     background = BrandColors.BackgroundDark,
     onBackground = BrandColors.InkDark,
     surface = BrandColors.SurfaceDark,
@@ -75,26 +73,20 @@ private val DarkColors = darkColorScheme(
     surfaceVariant = BrandColors.SurfaceRaisedDark,
     onSurfaceVariant = BrandColors.MutedDark,
     surfaceContainer = BrandColors.SurfaceRaisedDark,
-    surfaceContainerHigh = BrandColors.SurfaceRaisedDark,
-    surfaceContainerHighest = Color(0xFF3A2A20),
+    surfaceContainerHigh = Color(0xFF202F43),
+    surfaceContainerHighest = BrandColors.SurfaceEdgeDark,
     surfaceContainerLow = BrandColors.SurfaceDark,
     surfaceContainerLowest = BrandColors.BackgroundDark,
-    outline = Color(0xFF5C4736),
-    outlineVariant = Color(0xFF3A2A20),
+    outline = Color(0xFF657993),
+    outlineVariant = Color(0xFF35475D),
     error = BrandColors.ErrorDark,
     onError = BrandColors.OnErrorDark,
-    errorContainer = Color(0xFF8C1D18),
-    onErrorContainer = Color(0xFFF9DEDC),
+    errorContainer = Color(0xFF93000A),
+    onErrorContainer = Color(0xFFFFDAD6),
     scrim = Color(0xCC000000)
 )
 
-/**
- * Resolves the learner's theme preference against the system setting.
- *
- * SYSTEM means follow the device, which is what most people expect; LIGHT and
- * DARK override it without recreating the Activity, so navigation state and the
- * current card survive a theme change.
- */
+/** Resolves the learner's theme preference against the system setting. */
 @Composable
 private fun shouldUseDarkTheme(themeMode: ThemeMode): Boolean {
     val systemDark = isSystemInDarkTheme()
@@ -105,10 +97,11 @@ private fun shouldUseDarkTheme(themeMode: ThemeMode): Boolean {
     }
 }
 
+/** Dynamic colour remains available as an explicit opt-in in Settings. */
 @Composable
 fun LexiFlashTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     language: AppLanguage = AppLanguage.PERSIAN,
     content: @Composable () -> Unit
 ) {
@@ -135,7 +128,6 @@ fun LexiFlashTheme(
     // the chosen locale. Without this the UI would keep following the system
     // language and the in-app switch would change nothing.
     val localizedContext = remember(context, language) {
-        // The tag on AppLanguage is the single source of truth for the locale.
         val locale = if (language == AppLanguage.PERSIAN) {
             java.util.Locale("fa", "IR")
         } else {
@@ -143,7 +135,6 @@ fun LexiFlashTheme(
         }
         java.util.Locale.setDefault(locale)
         val configuration = Configuration(context.resources.configuration).apply {
-            // setLocale also derives the layout direction from the locale.
             setLocale(locale)
         }
         context.createConfigurationContext(configuration)

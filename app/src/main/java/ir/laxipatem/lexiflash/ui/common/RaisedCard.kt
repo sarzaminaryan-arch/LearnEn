@@ -23,15 +23,16 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import ir.laxipatem.lexiflash.ui.theme.BrandColors
 
 /**
  * Depth tokens for the raised surfaces used across the app.
  *
  * The look is a soft extrusion rather than a flat card: a lit top face, a
- * darker bottom edge peeking out, and a warm shadow underneath. Two numbers
- * control it everywhere, so every raised element in the app agrees.
+ * darker bottom edge peeking out, and a shadow underneath.
  */
 object Depth {
     /** How far the bottom edge sits below the face. */
@@ -46,23 +47,38 @@ object Depth {
     val innerCorner: Dp = 12.dp
 }
 
+/** A card outline tuned for each mode: clear in light mode, softly luminous in dark mode. */
+@Composable
+fun appCardOutlineColor(enabled: Boolean = true): Color {
+    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
+    return if (isDark) {
+        BrandColors.GlowDark.copy(alpha = if (enabled) 0.72f else 0.28f)
+    } else {
+        BrandColors.CardOutlineLight
+    }
+}
+
+/** Reusable border for cards that use Material 3's [androidx.compose.material3.Card]. */
+@Composable
+fun appCardBorder(enabled: Boolean = true, width: Dp = 1.dp): BorderStroke =
+    BorderStroke(width, appCardOutlineColor(enabled))
+
 /**
- * A raised card with a lit face, a coloured bottom edge and a warm shadow.
+ * A raised card with a lit face, a coloured bottom edge and a soft shadow.
  *
  * The edge is drawn by placing the card face inside a coloured container that
  * is taller by [Depth.edge]; the container shows only at the bottom, which
- * reads as thickness. That is cheaper and sharper than a real 3D transform,
- * and it survives RTL layout and font scaling unchanged.
+ * reads as thickness. In dark mode a slim aqua outline and tinted shadow create
+ * the requested glow without changing any content or touch behaviour.
  *
- * When [onClick] is null the card is static. When it is set the card presses
- * in: the face drops onto its edge, so the whole control feels physical
- * without any animation library.
+ * When [onClick] is null the card is static. When it is set the face sinks onto
+ * its edge while pressed, keeping the same physical feedback in both themes.
  */
 @Composable
 fun RaisedCard(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(Depth.corner),
-    faceColor: Color = MaterialTheme.colorScheme.surfaceContainerLowest,
+    faceColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     edgeColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest,
     shadowColor: Color = MaterialTheme.colorScheme.outline,
     border: BorderStroke? = null,
@@ -75,14 +91,21 @@ fun RaisedCard(
     val pressed by interaction.collectIsPressedAsState()
     val isPressed = onClick != null && pressed
     val sink = if (isPressed) Depth.edge else 0.dp
+    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
+    val effectiveShadowColor = if (isDark) BrandColors.GlowDark else shadowColor
+    val effectiveBorder = border ?: appCardBorder(enabled)
 
     Box(
         modifier = modifier
             .shadow(
-                elevation = if (isPressed) 2.dp else Depth.lift,
+                elevation = when {
+                    isPressed -> 2.dp
+                    isDark -> Depth.lift + 2.dp
+                    else -> Depth.lift
+                },
                 shape = shape,
-                ambientColor = shadowColor.copy(alpha = 0.30f),
-                spotColor = shadowColor.copy(alpha = 0.45f)
+                ambientColor = effectiveShadowColor.copy(alpha = if (isDark) 0.14f else 0.18f),
+                spotColor = effectiveShadowColor.copy(alpha = if (isDark) 0.25f else 0.28f)
             )
             .clip(shape)
             .background(if (enabled) edgeColor else edgeColor.copy(alpha = 0.5f))
@@ -114,7 +137,7 @@ fun RaisedCard(
                         )
                     )
                 )
-                .then(if (border != null) Modifier.border(border, shape) else Modifier)
+                .border(effectiveBorder, shape)
                 .padding(contentPadding),
             content = content
         )
