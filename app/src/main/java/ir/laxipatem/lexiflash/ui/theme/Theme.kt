@@ -88,6 +88,23 @@ private val DarkColors = darkColorScheme(
     scrim = Color(0xCC000000)
 )
 
+/**
+ * Resolves the learner's theme preference against the system setting.
+ *
+ * SYSTEM means follow the device, which is what most people expect; LIGHT and
+ * DARK override it without recreating the Activity, so navigation state and the
+ * current card survive a theme change.
+ */
+@Composable
+private fun shouldUseDarkTheme(themeMode: ThemeMode): Boolean {
+    val systemDark = isSystemInDarkTheme()
+    return when (themeMode) {
+        ThemeMode.SYSTEM -> systemDark
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
+}
+
 @Composable
 fun LexiFlashTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
