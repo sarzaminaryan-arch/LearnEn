@@ -59,9 +59,16 @@ jobs:
           gradle_status=${PIPESTATUS[0]}
           set -e
           if [ "$gradle_status" -ne 0 ]; then
-            tail -n 40 "$RUNNER_TEMP/gradle-assemble.log" | while IFS= read -r line; do
-              printf '::error::%s\n' "${line//%/%25}"
-            done
+            diagnostics=$(grep -iE '(^e:|error:|unresolved reference|type mismatch|overload resolution|expecting |compilation error|^FAILURE:|What went wrong|Could not resolve|cannot access|not enough information to infer|too many arguments)' "$RUNNER_TEMP/gradle-assemble.log" | tail -n 30 || true)
+            if [ -n "$diagnostics" ]; then
+              printf '%s\n' "$diagnostics" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            else
+              tail -n 30 "$RUNNER_TEMP/gradle-assemble.log" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            fi
           fi
           exit "$gradle_status"
 
@@ -165,9 +172,16 @@ jobs:
           gradle_status=${PIPESTATUS[0]}
           set -e
           if [ "$gradle_status" -ne 0 ]; then
-            tail -n 40 "$RUNNER_TEMP/gradle-assemble.log" | while IFS= read -r line; do
-              printf '::error::%s\n' "${line//%/%25}"
-            done
+            diagnostics=$(grep -iE '(^e:|error:|unresolved reference|type mismatch|overload resolution|expecting |compilation error|^FAILURE:|What went wrong|Could not resolve|cannot access|not enough information to infer|too many arguments)' "$RUNNER_TEMP/gradle-assemble.log" | tail -n 30 || true)
+            if [ -n "$diagnostics" ]; then
+              printf '%s\n' "$diagnostics" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            else
+              tail -n 30 "$RUNNER_TEMP/gradle-assemble.log" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            fi
           fi
           exit "$gradle_status"
 
