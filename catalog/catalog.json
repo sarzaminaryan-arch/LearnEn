@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "decks": [
+    {
+      "id": "everyday-conversation",
+      "title": "Everyday conversation",
+      "description": "Thirty sentences for daily life: greetings, asking for things, and small talk. Original sentences written for this app.",
+      "url": "https://raw.githubusercontent.com/sarzaminaryan-arch/LearnEn/main/catalog/decks/everyday-conversation.json",
+      "card_count": 30
+    },
+    {
+      "id": "at-the-market",
+      "title": "At the market",
+      "description": "Shopping, prices and quantities. Forty sentences covering the phrases a learner actually needs outside.",
+      "url": "https://raw.githubusercontent.com/sarzaminaryan-arch/LearnEn/main/catalog/decks/at-the-market.json",
+      "card_count": 40
+    },
+    {
+      "id": "getting-around",
+      "title": "Getting around",
+      "description": "Directions, transport and asking the way. Forty sentences with the vocabulary that repeats most often.",
+      "url": "https://raw.githubusercontent.com/sarzaminaryan-arch/LearnEn/main/catalog/decks/getting-around.json",
+      "card_count": 40
+    }
+  ]
+}

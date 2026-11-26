@@ -22,30 +22,30 @@ import org.junit.Test
 class ContrastTest {
 
     private object Palette {
-        const val PRIMARY = 0x3569B7
-        const val PRIMARY_CONTAINER_LIGHT = 0xDCE7F7
-        const val PRIMARY_CONTAINER_DARK = 0x23395C
-        const val ACCENT = 0xB87F00
-        const val ACCENT_INK = 0x8A5A00
-        const val ACCENT_CONTAINER_LIGHT = 0xFBEBC4
-        const val ACCENT_CONTAINER_DARK = 0x3E2F03
-        const val BACKGROUND_LIGHT = 0xF6F7F8
-        const val SURFACE_LIGHT = 0xFFFFFF
-        const val INK_LIGHT = 0x171A1F
-        const val MUTED_LIGHT = 0x616A75
-        const val BACKGROUND_DARK = 0x101419
-        const val SURFACE_DARK = 0x171C22
-        const val INK_DARK = 0xE7EAEF
-        const val MUTED_DARK = 0x9AA4B2
+        const val PRIMARY = 0xA85C10
+        const val PRIMARY_CONTAINER_LIGHT = 0xFBEAD2
+        const val PRIMARY_CONTAINER_DARK = 0x4A2A05
+        const val ACCENT = 0xA8503C
+        const val ACCENT_INK = 0x8A3B29
+        const val ACCENT_CONTAINER_LIGHT = 0xFAE3DC
+        const val ACCENT_CONTAINER_DARK = 0x4A1F16
+        const val BACKGROUND_LIGHT = 0xF4E4CB
+        const val SURFACE_LIGHT = 0xFFFBF5
+        const val SURFACE_RAISED_LIGHT = 0xFFF3E0
+        const val SURFACE_EDGE_LIGHT = 0xEDD7B5
+        const val INK_LIGHT = 0x3B2A1A
+        const val MUTED_LIGHT = 0x6E5A47
+        const val BACKGROUND_DARK = 0x1A1310
+        const val SURFACE_DARK = 0x251B15
+        const val INK_DARK = 0xF2E6D8
+        const val MUTED_DARK = 0xBDA893
         const val ERROR_LIGHT = 0xB3261E
         const val ERROR_DARK = 0xF2B8B5
         const val ON_ERROR_LIGHT = 0xFFFFFF
         const val ON_ERROR_DARK = 0x601410
         const val SUCCESS_LIGHT = 0x1B6E3C
         const val SUCCESS_DARK = 0x7ED6A1
-        const val OUTLINE_VARIANT_LIGHT = 0xD3D8DF
-        const val OUTLINE_VARIANT_DARK = 0x343D49
-        const val OUTLINE_LIGHT = 0x7D8794
+        const val RAISED_DARK = 0x3A2A1D
     }
 
     private fun channel(value: Int): Double {
@@ -105,7 +105,15 @@ class ContrastTest {
 
     @Test
     fun `white on the primary brand colour passes AA`() {
+        // 5.0:1 for the warmed amber; a brighter one failed at 4.09:1.
         assertAA("white on primary", 0xFFFFFF, Palette.PRIMARY)
+    }
+
+    /** The lit top face of a raised primary button still carries its label. */
+    @Test
+    fun `the raised primary variants carry white text`() {
+        assertAA("white on the top face", 0xFFFFFF, Palette.PRIMARY)
+        assertAA("white on the bottom edge", 0xFFFFFF, 0x8A4A08)
     }
 
     @Test
@@ -139,6 +147,27 @@ class ContrastTest {
     fun `success colours pass AA`() {
         assertAA("success on light surface", Palette.SUCCESS_LIGHT, Palette.SURFACE_LIGHT)
         assertAA("success on dark surface", Palette.SUCCESS_DARK, Palette.SURFACE_DARK)
+    }
+
+    /**
+     * A raised card is a face on a page with an edge peeking out below it. If the
+     * face and the page were the same luminance the card would vanish, so this
+     * pins the difference at the WCAG non-text threshold.
+     */
+    @Test
+    fun `a raised card separates from the page it sits on`() {
+        assertAA(
+            "raised face on the page",
+            Palette.SURFACE_RAISED_LIGHT,
+            Palette.BACKGROUND_LIGHT,
+            1.10
+        )
+        assertAA(
+            "raised face on the dark page",
+            Palette.RAISED_DARK,
+            Palette.BACKGROUND_DARK,
+            1.20
+        )
     }
 
     @Test

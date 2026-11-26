@@ -26,10 +26,10 @@ private val LightColors = lightColorScheme(
     onPrimaryContainer = BrandColors.InkLight,
     secondary = BrandColors.MutedLight,
     onSecondary = Color.White,
-    secondaryContainer = BrandColors.PrimaryContainerLight,
+    secondaryContainer = BrandColors.SurfaceRaisedLight,
     onSecondaryContainer = BrandColors.InkLight,
     // tertiary is used for label-sized text (for example the machine-translation
-    // tag), so it takes the darker amber that clears 4.5:1 on white.
+    // tag), so it takes the darker clay that clears 4.5:1 on the sand background.
     tertiary = BrandColors.AccentInk,
     onTertiary = Color.White,
     tertiaryContainer = BrandColors.AccentContainerLight,
@@ -38,60 +38,56 @@ private val LightColors = lightColorScheme(
     onBackground = BrandColors.InkLight,
     surface = BrandColors.SurfaceLight,
     onSurface = BrandColors.InkLight,
-    surfaceVariant = BrandColors.PrimaryContainerLight,
+    surfaceVariant = BrandColors.SurfaceRaisedLight,
     onSurfaceVariant = BrandColors.MutedLight,
-    outline = BrandColors.MutedLight,
-    outlineVariant = Color(0xFFD3D8DF),
+    surfaceContainer = BrandColors.SurfaceRaisedLight,
+    surfaceContainerHigh = BrandColors.SurfaceRaisedLight,
+    surfaceContainerHighest = BrandColors.SurfaceEdgeLight,
+    surfaceContainerLow = BrandColors.SurfaceLight,
+    surfaceContainerLowest = Color.White,
+    outline = BrandColors.SurfaceEdgeLight,
+    outlineVariant = BrandColors.SurfaceEdgeLight,
     error = BrandColors.ErrorLight,
     onError = BrandColors.OnErrorLight,
     errorContainer = Color(0xFFF9DEDC),
-    onErrorContainer = Color(0xFF410E0B)
+    onErrorContainer = Color(0xFF410E0B),
+    scrim = Color(0x99301F0F)
 )
 
 /** Dark palette. Surfaces are low-chroma so long study sessions stay comfortable. */
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFF9CBBEC),
-    onPrimary = Color(0xFF0B2545),
+    primary = Color(0xFFE8A659),
+    onPrimary = Color(0xFF3D2102),
     primaryContainer = BrandColors.PrimaryContainerDark,
-    onPrimaryContainer = Color(0xFFDCE7F7),
+    onPrimaryContainer = Color(0xFFFBEAD2),
     secondary = BrandColors.MutedDark,
-    onSecondary = Color(0xFF101419),
-    secondaryContainer = Color(0xFF243040),
-    onSecondaryContainer = Color(0xFFE7EAEF),
-    tertiary = Color(0xFFF0C25C),
-    onTertiary = Color(0xFF3E2F03),
+    onSecondary = Color(0xFF1A1310),
+    secondaryContainer = BrandColors.SurfaceRaisedDark,
+    onSecondaryContainer = Color(0xFFF2E6D8),
+    tertiary = Color(0xFFE9A392),
+    onTertiary = Color(0xFF4A1F16),
     tertiaryContainer = BrandColors.AccentContainerDark,
-    onTertiaryContainer = Color(0xFFFBEBC4),
+    onTertiaryContainer = Color(0xFFFAE3DC),
     background = BrandColors.BackgroundDark,
     onBackground = BrandColors.InkDark,
     surface = BrandColors.SurfaceDark,
     onSurface = BrandColors.InkDark,
-    surfaceVariant = Color(0xFF243040),
+    surfaceVariant = BrandColors.SurfaceRaisedDark,
     onSurfaceVariant = BrandColors.MutedDark,
-    outline = Color(0xFF7D8794),
-    outlineVariant = Color(0xFF343D49),
+    surfaceContainer = BrandColors.SurfaceRaisedDark,
+    surfaceContainerHigh = BrandColors.SurfaceRaisedDark,
+    surfaceContainerHighest = Color(0xFF3A2A20),
+    surfaceContainerLow = BrandColors.SurfaceDark,
+    surfaceContainerLowest = BrandColors.BackgroundDark,
+    outline = Color(0xFF5C4736),
+    outlineVariant = Color(0xFF3A2A20),
     error = BrandColors.ErrorDark,
     onError = BrandColors.OnErrorDark,
     errorContainer = Color(0xFF8C1D18),
-    onErrorContainer = Color(0xFFF9DEDC)
+    onErrorContainer = Color(0xFFF9DEDC),
+    scrim = Color(0xCC000000)
 )
 
-/** Resolves the effective dark/light choice from the stored preference. */
-@Composable
-fun shouldUseDarkTheme(mode: ThemeMode): Boolean = when (mode) {
-    ThemeMode.SYSTEM -> isSystemInDarkTheme()
-    ThemeMode.LIGHT -> false
-    ThemeMode.DARK -> true
-}
-
-/**
- * Root theme.
- *
- * @param themeMode the learner's light/dark preference.
- * @param dynamicColor when true and the device runs Android 12+, the wallpaper
- *   palette replaces the brand palette. The learner can switch this off.
- * @param language drives the layout direction of the whole app.
- */
 @Composable
 fun LexiFlashTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,

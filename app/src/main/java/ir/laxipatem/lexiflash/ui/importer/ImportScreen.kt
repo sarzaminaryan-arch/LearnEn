@@ -47,6 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ir.laxipatem.lexiflash.AppContainer
 import ir.laxipatem.lexiflash.R
 import ir.laxipatem.lexiflash.ui.common.Formatters
+import ir.laxipatem.lexiflash.ui.common.RaisedCard
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
 
 /** MIME filter used for the deck picker: text formats plus JSON. */
@@ -191,16 +192,12 @@ private fun PickStep(
     onPickEnglish: () -> Unit,
     onPickPersian: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+
+    item {
         if (showDisclaimer) {
-            Card {
+            RaisedCard(faceColor = MaterialTheme.colorScheme.primaryContainer) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
@@ -222,45 +219,60 @@ private fun PickStep(
                 }
             }
         }
+    }
 
-        Button(
-            onClick = onPickSingle,
-            enabled = !showDisclaimer,
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 48.dp)
+    item {
+        RaisedCard(
+            onClick = if (showDisclaimer) null else onPickSingle,
+            enabled = !showDisclaimer
         ) {
-            Text(stringResource(R.string.import_pick_cta))
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.import_pick_cta),
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Text(
+                    text = stringResource(R.string.import_supported_formats),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
-        Text(
-            text = stringResource(R.string.import_supported_formats),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+    }
 
-        OutlinedButton(
-            onClick = onPickEnglish,
-            enabled = !showDisclaimer,
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 48.dp)
-        ) {
-            Text(stringResource(R.string.import_bilingual_english))
-        }
-        OutlinedButton(
-            onClick = onPickPersian,
-            enabled = !showDisclaimer,
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 48.dp)
-        ) {
-            Text(stringResource(R.string.import_bilingual_persian))
-        }
+    item {
         Text(
             text = stringResource(R.string.import_bilingual_cta),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
+    }
+
+    item {
+        RaisedCard(
+            onClick = if (showDisclaimer) null else onPickEnglish,
+            enabled = !showDisclaimer
+        ) {
+            Text(
+                text = stringResource(R.string.import_bilingual_english),
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
+    }
+
+    item {
+        RaisedCard(
+            onClick = if (showDisclaimer) null else onPickPersian,
+            enabled = !showDisclaimer
+        ) {
+            Text(
+                text = stringResource(R.string.import_bilingual_persian),
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
     }
 }
 

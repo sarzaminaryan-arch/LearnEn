@@ -1,0 +1,776 @@
+{
+  "version": 1,
+  "title": "Getting around",
+  "source_lang": "en",
+  "target_lang": "fa",
+  "license": "CC BY 4.0",
+  "parts": [
+    {
+      "index": 1,
+      "cards": [
+        {
+          "id": "get-001",
+          "english": "Which bus goes to the old town?",
+          "persian": "کدام اتوبوس به شهر قدیم می‌رود؟",
+          "vocab": [
+            {
+              "word": "bus"
+            },
+            {
+              "word": "old"
+            },
+            {
+              "word": "town"
+            }
+          ],
+          "difficulty": 0.09,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "get-002",
+          "english": "Take the number seven from that stop.",
+          "persian": "شمارهٔ هفت را از آن ایستگاه بگیر.",
+          "vocab": [
+            {
+              "word": "stop"
+            },
+            {
+              "word": "number"
+            }
+          ],
+          "difficulty": 0.11,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-003",
+          "english": "How often does it come?",
+          "persian": "هر چند وقت یک بار می‌آید؟",
+          "vocab": [
+            {
+              "word": "often"
+            },
+            {
+              "word": "come"
+            }
+          ],
+          "difficulty": 0.12,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-004",
+          "english": "Every fifteen minutes during the day.",
+          "persian": "روزها هر پانزده دقیقه.",
+          "vocab": [
+            {
+              "word": "minute"
+            },
+            {
+              "word": "during"
+            }
+          ],
+          "difficulty": 0.13,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-005",
+          "english": "Does it stop near the museum?",
+          "persian": "نزدیک موزه می‌ایستد؟",
+          "vocab": [
+            {
+              "word": "stop"
+            },
+            {
+              "word": "near"
+            },
+            {
+              "word": "museum"
+            }
+          ],
+          "difficulty": 0.14,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "get-006",
+          "english": "It stops right in front of it.",
+          "persian": "درست جلوی آن می‌ایستد.",
+          "vocab": [
+            {
+              "word": "front"
+            },
+            {
+              "word": "right"
+            }
+          ],
+          "difficulty": 0.15,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-007",
+          "english": "How much is a single ticket?",
+          "persian": "یک بلیت یک‌طرفه چند است؟",
+          "vocab": [
+            {
+              "word": "single"
+            },
+            {
+              "word": "ticket"
+            }
+          ],
+          "difficulty": 0.17,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-008",
+          "english": "A single is cheaper than a day pass.",
+          "persian": "یک‌طرفه از بلیت روزانه ارزان‌تر است.",
+          "vocab": [
+            {
+              "word": "pass"
+            },
+            {
+              "word": "cheaper"
+            }
+          ],
+          "difficulty": 0.18,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-009",
+          "english": "Then I will buy a day pass.",
+          "persian": "پس بلیت روزانه می‌خرم.",
+          "vocab": [
+            {
+              "word": "pass"
+            },
+            {
+              "word": "buy"
+            }
+          ],
+          "difficulty": 0.19,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-010",
+          "english": "You can pay the driver directly.",
+          "persian": "می‌توانید مستقیم به راننده بپردازید.",
+          "vocab": [
+            {
+              "word": "driver"
+            },
+            {
+              "word": "directly"
+            }
+          ],
+          "difficulty": 0.21,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "cards": [
+        {
+          "id": "get-011",
+          "english": "Excuse me, am I going the right way?",
+          "persian": "ببخشید، درست می‌روم؟",
+          "vocab": [
+            {
+              "word": "excuse"
+            },
+            {
+              "word": "right way"
+            }
+          ],
+          "difficulty": 0.22,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "get-012",
+          "english": "For the square, yes, keep going.",
+          "persian": "برای میدان، بله، همین‌طور برو.",
+          "vocab": [
+            {
+              "word": "square"
+            },
+            {
+              "word": "keep going"
+            }
+          ],
+          "difficulty": 0.23,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-013",
+          "english": "You will pass a small park on your left.",
+          "persian": "یک پارک کوچک سمت چپت می‌گذرد.",
+          "vocab": [
+            {
+              "word": "pass"
+            },
+            {
+              "word": "park"
+            },
+            {
+              "word": "left"
+            }
+          ],
+          "difficulty": 0.24,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-014",
+          "english": "How do I know when to turn?",
+          "persian": "از کجا بفهمم کِی بپیچم؟",
+          "vocab": [
+            {
+              "word": "turn"
+            },
+            {
+              "word": "know"
+            }
+          ],
+          "difficulty": 0.26,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-015",
+          "english": "There is a fountain at the corner.",
+          "persian": "سر خیابان یک فواره هست.",
+          "vocab": [
+            {
+              "word": "fountain"
+            },
+            {
+              "word": "corner"
+            }
+          ],
+          "difficulty": 0.27,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-016",
+          "english": "Turn right as soon as you see it.",
+          "persian": "تا دیدیش به راست بپیچ.",
+          "vocab": [
+            {
+              "word": "soon"
+            },
+            {
+              "word": "see"
+            }
+          ],
+          "difficulty": 0.28,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-017",
+          "english": "Is it far enough to take a taxi?",
+          "persian": "آن‌قدر دور است که تاکسی بگیرم؟",
+          "vocab": [
+            {
+              "word": "taxi"
+            },
+            {
+              "word": "take"
+            }
+          ],
+          "difficulty": 0.29,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-018",
+          "english": "No, it is a short walk.",
+          "persian": "نه، پیاده‌روی کوتاهی است.",
+          "vocab": [
+            {
+              "word": "short"
+            },
+            {
+              "word": "walk"
+            }
+          ],
+          "difficulty": 0.3,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "get-019",
+          "english": "Thank you for explaining it so clearly.",
+          "persian": "ممنون که این‌قدر واضح توضیح دادید.",
+          "vocab": [
+            {
+              "word": "explain"
+            },
+            {
+              "word": "clearly"
+            }
+          ],
+          "difficulty": 0.32,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-020",
+          "english": "I hope you enjoy the square.",
+          "persian": "امیدوارم از میدان لذت ببری.",
+          "vocab": [
+            {
+              "word": "hope"
+            },
+            {
+              "word": "enjoy"
+            }
+          ],
+          "difficulty": 0.33,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "cards": [
+        {
+          "id": "get-021",
+          "english": "What time is the last train?",
+          "persian": "قطار آخر چه ساعتی است؟",
+          "vocab": [
+            {
+              "word": "train"
+            },
+            {
+              "word": "last"
+            }
+          ],
+          "difficulty": 0.34,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "get-022",
+          "english": "The last one leaves at half past eleven.",
+          "persian": "آخرین قطار یازده و نیم می‌رود.",
+          "vocab": [
+            {
+              "word": "leave"
+            },
+            {
+              "word": "half"
+            },
+            {
+              "word": "past"
+            }
+          ],
+          "difficulty": 0.36,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-023",
+          "english": "Do I need to change anywhere?",
+          "persian": "باید جایی عوض کنم؟",
+          "vocab": [
+            {
+              "word": "change"
+            },
+            {
+              "word": "anywhere"
+            }
+          ],
+          "difficulty": 0.37,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-024",
+          "english": "Change once, at the second stop.",
+          "persian": "یک بار عوض کن، در ایستگاه دوم.",
+          "vocab": [
+            {
+              "word": "once"
+            },
+            {
+              "word": "second"
+            }
+          ],
+          "difficulty": 0.38,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-025",
+          "english": "How long is the whole journey?",
+          "persian": "کل سفر چقدر طول می‌کشد؟",
+          "vocab": [
+            {
+              "word": "whole"
+            },
+            {
+              "word": "journey"
+            },
+            {
+              "word": "long"
+            }
+          ],
+          "difficulty": 0.39,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-026",
+          "english": "About forty minutes if it runs on time.",
+          "persian": "حدود چهل دقیقه اگر سر وقت باشد.",
+          "vocab": [
+            {
+              "word": "run"
+            },
+            {
+              "word": "time"
+            }
+          ],
+          "difficulty": 0.41,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-027",
+          "english": "Is there a place to sit?",
+          "persian": "جای نشستن هست؟",
+          "vocab": [
+            {
+              "word": "place"
+            },
+            {
+              "word": "sit"
+            }
+          ],
+          "difficulty": 0.42,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "get-028",
+          "english": "Usually, unless it is very busy.",
+          "persian": "معمولاً، مگر اینکه خیلی شلوغ باشد.",
+          "vocab": [
+            {
+              "word": "usually"
+            },
+            {
+              "word": "unless"
+            },
+            {
+              "word": "busy"
+            }
+          ],
+          "difficulty": 0.43,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-029",
+          "english": "I will leave a little earlier then.",
+          "persian": "پس کمی زودتر راه می‌افتم.",
+          "vocab": [
+            {
+              "word": "earlier"
+            },
+            {
+              "word": "leave"
+            }
+          ],
+          "difficulty": 0.44,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-030",
+          "english": "That is the safer plan.",
+          "persian": "این نقشهٔ مطمئن‌تری است.",
+          "vocab": [
+            {
+              "word": "safer"
+            },
+            {
+              "word": "plan"
+            }
+          ],
+          "difficulty": 0.46,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "cards": [
+        {
+          "id": "get-031",
+          "english": "My phone battery is almost empty.",
+          "persian": "باتری گوشی‌ام تقریباً تمام شده.",
+          "vocab": [
+            {
+              "word": "battery"
+            },
+            {
+              "word": "empty"
+            },
+            {
+              "word": "almost"
+            }
+          ],
+          "difficulty": 0.47,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-032",
+          "english": "There is a socket behind the counter.",
+          "persian": "پشت پیشخوان یک پریز هست.",
+          "vocab": [
+            {
+              "word": "socket"
+            },
+            {
+              "word": "behind"
+            },
+            {
+              "word": "counter"
+            }
+          ],
+          "difficulty": 0.48,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-033",
+          "english": "Could I charge it for a few minutes?",
+          "persian": "می‌توانم چند دقیقه شارژش کنم؟",
+          "vocab": [
+            {
+              "word": "charge"
+            },
+            {
+              "word": "few"
+            }
+          ],
+          "difficulty": 0.49,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-034",
+          "english": "Take your time, the next one is late.",
+          "persian": "راحت باش، بعدی دیر می‌رسد.",
+          "vocab": [
+            {
+              "word": "late"
+            },
+            {
+              "word": "next"
+            }
+          ],
+          "difficulty": 0.51,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-035",
+          "english": "I need the map to find the address.",
+          "persian": "نقشه را لازم دارم تا آدرس را پیدا کنم.",
+          "vocab": [
+            {
+              "word": "map"
+            },
+            {
+              "word": "address"
+            },
+            {
+              "word": "find"
+            }
+          ],
+          "difficulty": 0.52,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-036",
+          "english": "Where exactly are you trying to go?",
+          "persian": "دقیقاً کجا می‌خواهی بروی؟",
+          "vocab": [
+            {
+              "word": "exactly"
+            },
+            {
+              "word": "try"
+            }
+          ],
+          "difficulty": 0.53,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "B1"
+        },
+        {
+          "id": "get-037",
+          "english": "A small hotel near the river.",
+          "persian": "یک هتل کوچک نزدیک رودخانه.",
+          "vocab": [
+            {
+              "word": "hotel"
+            },
+            {
+              "word": "river"
+            },
+            {
+              "word": "near"
+            }
+          ],
+          "difficulty": 0.54,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A1"
+        },
+        {
+          "id": "get-038",
+          "english": "That is a ten minute walk from here.",
+          "persian": "از اینجا ده دقیقه پیاده است.",
+          "vocab": [
+            {
+              "word": "walk"
+            },
+            {
+              "word": "here"
+            }
+          ],
+          "difficulty": 0.55,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-039",
+          "english": "Do you want me to write it down?",
+          "persian": "می‌خواهی برایت بنویسم؟",
+          "vocab": [
+            {
+              "word": "write"
+            },
+            {
+              "word": "down"
+            }
+          ],
+          "difficulty": 0.57,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        },
+        {
+          "id": "get-040",
+          "english": "That would be very kind.",
+          "persian": "خیلی لطف می‌کنی.",
+          "vocab": [
+            {
+              "word": "kind"
+            }
+          ],
+          "difficulty": 0.58,
+          "reviewed": true,
+          "source": "original",
+          "license": "Apache-2.0",
+          "note": "A2"
+        }
+      ]
+    }
+  ]
+}
