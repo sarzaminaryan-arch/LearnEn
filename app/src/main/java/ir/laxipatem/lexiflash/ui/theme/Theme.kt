@@ -52,7 +52,7 @@ private val LightColors = lightColorScheme(
     scrim = Color(0x9933425C)
 )
 
-/** Low-glare midnight surfaces with restrained aqua card edging. */
+/** Deep green-black surfaces with restrained luminous-green card edging. */
 private val DarkColors = darkColorScheme(
     primary = BrandColors.PrimaryDark,
     onPrimary = BrandColors.OnPrimaryDark,
@@ -73,16 +73,16 @@ private val DarkColors = darkColorScheme(
     surfaceVariant = BrandColors.SurfaceRaisedDark,
     onSurfaceVariant = BrandColors.MutedDark,
     surfaceContainer = BrandColors.SurfaceRaisedDark,
-    surfaceContainerHigh = Color(0xFF202F43),
+    surfaceContainerHigh = Color(0xFF1B2A20),
     surfaceContainerHighest = BrandColors.SurfaceEdgeDark,
     surfaceContainerLow = BrandColors.SurfaceDark,
     surfaceContainerLowest = BrandColors.BackgroundDark,
-    outline = Color(0xFF657993),
-    outlineVariant = Color(0xFF35475D),
+    outline = Color(0xFF7A8F80),
+    outlineVariant = Color(0xFF405247),
     error = BrandColors.ErrorDark,
     onError = BrandColors.OnErrorDark,
-    errorContainer = Color(0xFF93000A),
-    onErrorContainer = Color(0xFFFFDAD6),
+    errorContainer = BrandColors.ErrorContainerDark,
+    onErrorContainer = BrandColors.OnErrorContainerDark,
     scrim = Color(0xCC000000)
 )
 
@@ -100,7 +100,7 @@ private fun shouldUseDarkTheme(themeMode: ThemeMode): Boolean {
 /** Dynamic colour remains available as an explicit opt-in in Settings. */
 @Composable
 fun LexiFlashTheme(
-    themeMode: ThemeMode = ThemeMode.SYSTEM,
+    themeMode: ThemeMode = ThemeMode.DARK,
     dynamicColor: Boolean = false,
     language: AppLanguage = AppLanguage.PERSIAN,
     content: @Composable () -> Unit

@@ -184,25 +184,6 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.settings_tts_speed),
-                            style = MaterialTheme.typography.labelLarge
-                        )
-                        Text(
-                            text = String.format(java.util.Locale.US, "%.1fx", settings.ttsSpeed),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    Slider(
-                        value = settings.ttsSpeed,
-                        onValueChange = { viewModel.setTtsSpeed(it) },
-                        valueRange = UserSettings.MIN_TTS_SPEED..UserSettings.MAX_TTS_SPEED
-                    )
                     SwitchRow(
                         title = stringResource(R.string.settings_unlock_all),
                         subtitle = stringResource(R.string.settings_unlock_all_desc),

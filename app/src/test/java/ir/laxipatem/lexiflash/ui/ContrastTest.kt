@@ -14,38 +14,43 @@ class ContrastTest {
         const val PRIMARY_TOP = 0x4B6CD8
         const val PRIMARY_BOTTOM = 0x2544A4
         const val PRIMARY_CONTAINER_LIGHT = 0xE4EAFF
-        const val PRIMARY_CONTAINER_DARK = 0x29396D
-        const val PRIMARY_DARK = 0xB8C7FF
-        const val ON_PRIMARY_DARK = 0x1B2C64
+        const val PRIMARY_CONTAINER_DARK = 0x17432B
+        const val PRIMARY_DARK = 0x79E9A6
+        const val ON_PRIMARY_DARK = 0x0A321B
+        const val ON_PRIMARY_CONTAINER_DARK = 0xD2F8DE
         const val SECONDARY = 0x1F6C64
-        const val SECONDARY_DARK = 0x9BD6CF
-        const val ON_SECONDARY_DARK = 0x153C37
+        const val SECONDARY_DARK = 0x89DDB8
+        const val ON_SECONDARY_DARK = 0x0C3825
         const val SECONDARY_CONTAINER_LIGHT = 0xDDF4EF
-        const val SECONDARY_CONTAINER_DARK = 0x193E39
+        const val SECONDARY_CONTAINER_DARK = 0x193B2A
+        const val ON_SECONDARY_CONTAINER_DARK = 0xD3F5E0
         const val ACCENT = 0x8651A8
-        const val ACCENT_DARK = 0xD9B5EF
-        const val ON_ACCENT_DARK = 0x3B2350
+        const val ACCENT_DARK = 0xFFD166
+        const val ON_ACCENT_DARK = 0x3D2C00
+        const val ON_ACCENT_CONTAINER_DARK = 0xFFE9B5
         const val ACCENT_INK = 0x704386
         const val ACCENT_CONTAINER_LIGHT = 0xF2E8F8
-        const val ACCENT_CONTAINER_DARK = 0x3E294B
+        const val ACCENT_CONTAINER_DARK = 0x49370A
         const val BACKGROUND_LIGHT = 0xEEF3FA
         const val SURFACE_LIGHT = 0xF8FAFE
         const val SURFACE_RAISED_LIGHT = 0xFFFFFF
         const val CARD_OUTLINE_LIGHT = 0x788AA7
         const val INK_LIGHT = 0x18243A
         const val MUTED_LIGHT = 0x53617A
-        const val BACKGROUND_DARK = 0x0F1624
-        const val SURFACE_DARK = 0x151E2C
-        const val SURFACE_RAISED_DARK = 0x1B293B
-        const val INK_DARK = 0xEAF0FC
-        const val MUTED_DARK = 0xB0BED2
-        const val GLOW_DARK = 0x68F6D5
+        const val BACKGROUND_DARK = 0x050907
+        const val SURFACE_DARK = 0x0B120E
+        const val SURFACE_RAISED_DARK = 0x152119
+        const val INK_DARK = 0xEAF5ED
+        const val MUTED_DARK = 0xB5C7BB
+        const val GLOW_DARK = 0x7AEEA6
         const val ERROR_LIGHT = 0xB3261E
-        const val ERROR_DARK = 0xFFB4AB
+        const val ERROR_DARK = 0xFF8178
         const val ON_ERROR_LIGHT = 0xFFFFFF
-        const val ON_ERROR_DARK = 0x690005
+        const val ON_ERROR_DARK = 0x550006
+        const val ERROR_CONTAINER_DARK = 0x5D1212
+        const val ON_ERROR_CONTAINER_DARK = 0xFFDAD6
         const val SUCCESS_LIGHT = 0x1B6E3C
-        const val SUCCESS_DARK = 0x7ED6A1
+        const val SUCCESS_DARK = 0x73E9A2
     }
 
     private fun channel(value: Int): Double {
@@ -133,21 +138,34 @@ class ContrastTest {
     @Test
     fun `text on the primary containers passes AA`() {
         assertAA("ink on light primary container", Palette.INK_LIGHT, Palette.PRIMARY_CONTAINER_LIGHT)
-        assertAA("light ink on dark primary container", Palette.INK_DARK, Palette.PRIMARY_CONTAINER_DARK)
+        assertAA(
+            "light green ink on dark primary container",
+            Palette.ON_PRIMARY_CONTAINER_DARK,
+            Palette.PRIMARY_CONTAINER_DARK
+        )
     }
 
     @Test
     fun `text on secondary and tertiary containers passes AA`() {
         assertAA("ink on light secondary container", Palette.INK_LIGHT, Palette.SECONDARY_CONTAINER_LIGHT)
         assertAA("ink on light tertiary container", Palette.INK_LIGHT, Palette.ACCENT_CONTAINER_LIGHT)
-        assertAA("light ink on dark secondary container", Palette.INK_DARK, Palette.SECONDARY_CONTAINER_DARK)
-        assertAA("light ink on dark tertiary container", Palette.INK_DARK, Palette.ACCENT_CONTAINER_DARK)
+        assertAA(
+            "light ink on dark secondary container",
+            Palette.ON_SECONDARY_CONTAINER_DARK,
+            Palette.SECONDARY_CONTAINER_DARK
+        )
+        assertAA(
+            "amber ink on dark tertiary container",
+            Palette.ON_ACCENT_CONTAINER_DARK,
+            Palette.ACCENT_CONTAINER_DARK
+        )
     }
 
     @Test
     fun `error colours pass AA`() {
         assertAA("on-error on error (light)", Palette.ON_ERROR_LIGHT, Palette.ERROR_LIGHT)
         assertAA("on-error on error (dark)", Palette.ON_ERROR_DARK, Palette.ERROR_DARK)
+        assertAA("on-error container (dark)", Palette.ON_ERROR_CONTAINER_DARK, Palette.ERROR_CONTAINER_DARK)
         assertAA("error text on light surface", Palette.ERROR_LIGHT, Palette.SURFACE_RAISED_LIGHT)
     }
 
@@ -182,7 +200,7 @@ class ContrastTest {
             background = Palette.SURFACE_RAISED_DARK,
             alpha = 0.72
         )
-        assertAA("aqua dark card edge", translucentGlow, Palette.SURFACE_RAISED_DARK, 3.0)
+        assertAA("green dark card edge", translucentGlow, Palette.SURFACE_RAISED_DARK, 3.0)
     }
 
     @Test

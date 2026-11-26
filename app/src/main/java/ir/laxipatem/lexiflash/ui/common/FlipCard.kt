@@ -27,6 +27,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import ir.laxipatem.lexiflash.R
 import ir.laxipatem.lexiflash.ui.theme.FlashcardSentenceStyle
@@ -112,6 +114,7 @@ fun CardFront(
 ) {
     Column(
         modifier = modifier
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -119,62 +122,74 @@ fun CardFront(
     ) {
         Text(
             text = english,
-            style = FlashcardSentenceStyle,
-            color = MaterialTheme.colorScheme.onSurface
+            modifier = Modifier.fillMaxWidth(),
+            style = FlashcardSentenceStyle.copy(textDirection = TextDirection.Ltr),
+            color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.Center
         )
     }
 }
 
-/** Translation, pronunciation and vocabulary shown on the back of a card. */
+/** Translation and optional vocabulary shown on the back of a card. */
 @Composable
 fun CardBack(
     persian: String?,
-    ipa: String?,
     vocab: List<Pair<String, String?>>,
     note: String?,
     pendingTranslationLabel: String,
-    onSpeak: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (persian.isNullOrBlank()) {
             Text(
                 text = pendingTranslationLabel,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.titleSmall.copy(
+                    textDirection = TextDirection.ContentOrRtl
+                ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
             )
         } else {
             Text(
                 text = persian,
-                style = FlashcardTranslationStyle,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-
-        if (!ipa.isNullOrBlank()) {
-            Text(
-                text = ipa,
-                style = ir.laxipatem.lexiflash.ui.theme.PhoneticStyle,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                modifier = Modifier.fillMaxWidth(),
+                style = FlashcardTranslationStyle.copy(
+                    textDirection = TextDirection.ContentOrRtl
+                ),
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center
             )
         }
 
         if (vocab.isNotEmpty()) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = stringResource(R.string.study_section_vocab),
+                    modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
                 )
                 vocab.forEach { (word, meaning) ->
                     Text(
                         text = if (meaning.isNullOrBlank()) word else "$word — $meaning",
-                        style = MaterialTheme.typography.bodyMedium
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            textDirection = TextDirection.Ltr
+                        ),
+                        textAlign = TextAlign.Center
                     )
                 }
             }
@@ -183,12 +198,14 @@ fun CardBack(
         if (!note.isNullOrBlank()) {
             Text(
                 text = note,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.bodySmall.copy(
+                    textDirection = TextDirection.ContentOrRtl
+                ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
             )
         }
-
-        onSpeak?.let { speak -> speak() }
     }
 }
 

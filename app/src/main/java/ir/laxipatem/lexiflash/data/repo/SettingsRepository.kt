@@ -27,7 +27,7 @@ enum class AppLanguage(val tag: String) { PERSIAN("fa"), ENGLISH("en") }
  * the UI can render from a single state object.
  */
 data class UserSettings(
-    val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val themeMode: ThemeMode = ThemeMode.DARK,
     val dynamicColor: Boolean = false,
     val language: AppLanguage = AppLanguage.PERSIAN,
     val persianDigits: Boolean = false,
@@ -84,7 +84,7 @@ class SettingsRepository(private val context: Context) {
             UserSettings(
                 themeMode = preferences[Keys.THEME]?.let { raw ->
                     ThemeMode.entries.firstOrNull { it.name == raw }
-                } ?: ThemeMode.SYSTEM,
+                } ?: ThemeMode.DARK,
                 dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: false,
                 language = preferences[Keys.LANGUAGE]?.let { raw ->
                     AppLanguage.entries.firstOrNull { it.tag == raw }

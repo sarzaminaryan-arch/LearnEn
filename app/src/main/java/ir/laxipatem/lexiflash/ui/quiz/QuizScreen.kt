@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,6 +46,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -208,9 +210,12 @@ fun QuizScreen(
                     } else {
                         Text(
                             text = stringResource(R.string.quiz_pick_one),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(bottom = 16.dp)
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
@@ -243,13 +248,19 @@ fun QuizScreen(
 /** The prompt, with a heading that explains what is being asked. */
 @Composable
 private fun QuestionCard(question: QuizQuestion) {
+    val promptDirection = if (question.kind == QuizKind.REVERSE) {
+        TextDirection.ContentOrRtl
+    } else {
+        TextDirection.Ltr
+    }
     RaisedCard(
         modifier = Modifier.fillMaxWidth(),
         faceColor = MaterialTheme.colorScheme.primaryContainer
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(
@@ -259,13 +270,20 @@ private fun QuestionCard(question: QuizQuestion) {
                         QuizKind.CLOZE -> R.string.quiz_question_cloze
                     }
                 ),
+                modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                textAlign = TextAlign.Center
             )
             Text(
                 text = question.prompt,
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Medium),
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Medium,
+                    textDirection = promptDirection
+                ),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                textAlign = TextAlign.Center
             )
         }
     }
@@ -302,6 +320,11 @@ private fun OptionRow(
         revealWrong -> stringResource(R.string.cd_wrong)
         else -> null
     }
+    val optionDirection = if (question.kind == QuizKind.MEANING) {
+        TextDirection.ContentOrRtl
+    } else {
+        TextDirection.Ltr
+    }
 
     Row(
         modifier = Modifier
@@ -329,8 +352,9 @@ private fun OptionRow(
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.bodyLarge.copy(textDirection = optionDirection),
+            textAlign = TextAlign.Center
         )
         when {
             revealCorrect -> Icon(
@@ -349,10 +373,7 @@ private fun OptionRow(
     }
 }
 
-/**
- * Immediate feedback with the correct answer, the full sentence and any
- * pronunciation or key word available for the card.
- */
+/** Immediate feedback with a centered, direction-safe answer and optional Persian help. */
 @Composable
 private fun FeedbackBlock(question: QuizQuestion, isCorrect: Boolean) {
     val accent = if (isCorrect) {
@@ -360,61 +381,86 @@ private fun FeedbackBlock(question: QuizQuestion, isCorrect: Boolean) {
     } else {
         MaterialTheme.colorScheme.error
     }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .padding(12.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+    val answerDirection = if (question.kind == QuizKind.MEANING) {
+        TextDirection.ContentOrRtl
+    } else {
+        TextDirection.Ltr
+    }
+    RaisedCard(
+        modifier = Modifier.fillMaxWidth(),
+        faceColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        contentPadding = PaddingValues(12.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                imageVector = if (isCorrect) Icons.Filled.CheckCircle else Icons.Filled.Cancel,
-                contentDescription = null,
-                tint = accent,
-                modifier = Modifier.size(18.dp)
-            )
-            Text(
-                text = if (isCorrect) {
-                    stringResource(R.string.quiz_correct)
-                } else {
-                    stringResource(R.string.quiz_incorrect)
-                },
-                style = MaterialTheme.typography.labelLarge,
-                color = accent
-            )
-        }
-        Text(
-            text = stringResource(R.string.quiz_correct_answer, question.correctOption),
-            style = MaterialTheme.typography.bodyMedium
-        )
-        if (!isCorrect) {
-            question.explanationPersian?.let { persian ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = if (isCorrect) Icons.Filled.CheckCircle else Icons.Filled.Cancel,
+                    contentDescription = null,
+                    tint = accent,
+                    modifier = Modifier.size(18.dp)
+                )
                 Text(
-                    text = persian,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = if (isCorrect) {
+                        stringResource(R.string.quiz_correct)
+                    } else {
+                        stringResource(R.string.quiz_incorrect)
+                    },
+                    modifier = Modifier.padding(start = 6.dp),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = accent
                 )
             }
-        }
-        question.explanationIpa?.let { ipa ->
             Text(
-                text = stringResource(R.string.quiz_explanation_ipa, ipa),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-        question.focusWord?.let { word ->
-            Text(
-                text = stringResource(R.string.quiz_explanation_vocab, word),
-                style = MaterialTheme.typography.bodySmall,
+                text = stringResource(R.string.quiz_correct_answer),
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Center
             )
+            Text(
+                text = question.correctOption,
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.bodyLarge.copy(textDirection = answerDirection),
+                textAlign = TextAlign.Center
+            )
+            if (!isCorrect) {
+                question.explanationPersian?.let { persian ->
+                    Text(
+                        text = persian,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            textDirection = TextDirection.ContentOrRtl
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+            question.focusWord?.let { word ->
+                Text(
+                    text = stringResource(R.string.quiz_explanation_vocab),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = word,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        textDirection = TextDirection.Ltr
+                    ),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }

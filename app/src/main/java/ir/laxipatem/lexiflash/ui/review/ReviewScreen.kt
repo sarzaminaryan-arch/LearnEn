@@ -10,25 +10,18 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TaskAlt
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -38,8 +31,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ir.laxipatem.lexiflash.AppContainer
 import ir.laxipatem.lexiflash.R
 import ir.laxipatem.lexiflash.domain.fsrs.Rating
-import ir.laxipatem.lexiflash.platform.TtsController
-import ir.laxipatem.lexiflash.platform.TtsState
 import ir.laxipatem.lexiflash.ui.common.CardBack
 import ir.laxipatem.lexiflash.ui.common.CardFront
 import ir.laxipatem.lexiflash.ui.common.EmptyState
@@ -57,18 +48,6 @@ fun ReviewScreen(container: AppContainer) {
         factory = ViewModelFactories.containerFactory(container) { ReviewViewModel(it) }
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val settings by container.settings.settings.collectAsStateWithLifecycle(
-        initialValue = ir.laxipatem.lexiflash.data.repo.UserSettings()
-    )
-
-    val context = LocalContext.current
-    val tts = remember { TtsController(context) }
-    DisposableEffect(tts) {
-        tts.initialise()
-        onDispose { tts.shutdown() }
-    }
-    LaunchedEffect(settings.ttsSpeed) { tts.setSpeed(settings.ttsSpeed) }
-    val ttsState by tts.state.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(R.string.review_title)) }) }
@@ -125,27 +104,10 @@ fun ReviewScreen(container: AppContainer) {
 
                     if (card != null) {
                         FlipCard(
-                            front = {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                                ) {
-                                    CardFront(english = card.english)
-                                    IconButton(
-                                        onClick = { tts.speak(card.english) },
-                                        enabled = ttsState == TtsState.Ready
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Filled.VolumeUp,
-                                            contentDescription = stringResource(R.string.cd_speech)
-                                        )
-                                    }
-                                }
-                            },
+                            front = { CardFront(english = card.english) },
                             back = {
                                 CardBack(
                                     persian = card.persian,
-                                    ipa = card.ipa,
                                     vocab = card.vocab.map { it.word to it.meaning },
                                     note = card.note,
                                     pendingTranslationLabel = stringResource(

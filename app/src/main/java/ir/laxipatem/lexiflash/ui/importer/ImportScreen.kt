@@ -41,6 +41,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -384,28 +386,47 @@ private fun PreviewStep(
         itemsIndexed(state.cards) { index, card ->
             RaisedCard(contentPadding = PaddingValues(12.dp)) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = card.english, style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = card.english,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            textDirection = TextDirection.Ltr
+                        ),
+                        textAlign = TextAlign.Center
+                    )
                     if (card.persian.isNullOrBlank()) {
                         Text(
                             text = stringResource(R.string.import_card_pending),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error
+                            modifier = Modifier.fillMaxWidth(),
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                textDirection = TextDirection.ContentOrRtl
+                            ),
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center
                         )
                     } else {
                         Text(
                             text = card.persian,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            modifier = Modifier.fillMaxWidth(),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                textDirection = TextDirection.ContentOrRtl
+                            ),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center
                         )
                         if (card.machineTranslated) {
                             // Machine output is always labelled, so a learner never
                             // mistakes it for a human translation.
                             Text(
                                 text = stringResource(R.string.import_machine_translated),
+                                modifier = Modifier.fillMaxWidth(),
                                 style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.tertiary
+                                color = MaterialTheme.colorScheme.tertiary,
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
