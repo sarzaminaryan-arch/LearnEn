@@ -25,7 +25,7 @@
     <string name="action_continue">ادامه</string>
     <string name="action_import">ایمپورت</string>
     <string name="action_export">خروجی</string>
-    <string name="action_play_audio">پخش تلفظ</string>
+    <string name="action_play_audio">پخش صدای جمله</string>
     <string name="action_skip">رد کردن</string>
 
     <!-- حالت‌های عمومی -->
@@ -91,9 +91,9 @@
     <string name="quiz_question_cloze">کدام کلمه در جای خالی می‌نشیند؟</string>
     <string name="quiz_correct">درست</string>
     <string name="quiz_incorrect">درست نبود</string>
-    <string name="quiz_correct_answer">پاسخ درست: %1$s</string>
+    <string name="quiz_correct_answer">پاسخ درست</string>
     <string name="quiz_explanation_ipa">تلفظ: %1$s</string>
-    <string name="quiz_explanation_vocab">کلمه‌ی کلیدی: %1$s</string>
+    <string name="quiz_explanation_vocab">کلمه‌ی کلیدی</string>
     <string name="quiz_show_answer">نمایش پاسخ</string>
     <string name="quiz_empty">کارت‌های این بخش برای ساختن کوییز کافی نیست.</string>
     <string name="quiz_exit_confirm">از کوییز خارج می‌شوید؟ پیشرفت این کوییز از دست می‌رود.</string>

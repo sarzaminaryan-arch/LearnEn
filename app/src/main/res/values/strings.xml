@@ -25,7 +25,7 @@
     <string name="action_continue">Continue</string>
     <string name="action_import">Import</string>
     <string name="action_export">Export</string>
-    <string name="action_play_audio">Play pronunciation</string>
+    <string name="action_play_audio">Play sentence audio</string>
     <string name="action_skip">Skip</string>
 
     <!-- Generic states -->
@@ -91,9 +91,9 @@
     <string name="quiz_question_cloze">Which word fits in the blank?</string>
     <string name="quiz_correct">Correct</string>
     <string name="quiz_incorrect">Not quite</string>
-    <string name="quiz_correct_answer">Correct answer: %1$s</string>
+    <string name="quiz_correct_answer">Correct answer</string>
     <string name="quiz_explanation_ipa">Pronunciation: %1$s</string>
-    <string name="quiz_explanation_vocab">Key word: %1$s</string>
+    <string name="quiz_explanation_vocab">Key word</string>
     <string name="quiz_show_answer">Show answer</string>
     <string name="quiz_empty">There are not enough cards in this part to build a quiz.</string>
     <string name="quiz_exit_confirm">Leave the quiz? Your progress in this quiz will be lost.</string>

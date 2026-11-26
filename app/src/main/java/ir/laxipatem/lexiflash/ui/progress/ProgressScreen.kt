@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -34,6 +33,7 @@ import ir.laxipatem.lexiflash.R
 import ir.laxipatem.lexiflash.platform.DeckExporter
 import ir.laxipatem.lexiflash.ui.common.Formatters
 import ir.laxipatem.lexiflash.ui.common.LoadingState
+import ir.laxipatem.lexiflash.ui.common.RaisedCard
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
 import ir.laxipatem.lexiflash.ui.home.PartUiModel
 
@@ -53,6 +53,8 @@ fun ProgressScreen(container: AppContainer) {
     LaunchedEffect(Unit) { viewModel.refresh() }
 
     Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = { TopAppBar(title = { Text(stringResource(R.string.progress_title)) }) }
     ) { padding ->
         if (state.isLoading) {
@@ -103,14 +105,12 @@ fun ProgressScreen(container: AppContainer) {
                 }
             }
             item {
-                Card(
+                RaisedCard(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
+                    faceColor = MaterialTheme.colorScheme.surfaceVariant
                 ) {
                     Column(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(
@@ -221,12 +221,12 @@ private fun ExportCard(
 
 @Composable
 private fun StatCard(label: String, value: String, modifier: Modifier = Modifier) {
-    Card(
+    RaisedCard(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        faceColor = MaterialTheme.colorScheme.surfaceContainer
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(text = label, style = MaterialTheme.typography.labelMedium)

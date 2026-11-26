@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,16 +24,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -43,16 +38,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ir.laxipatem.lexiflash.AppContainer
 import ir.laxipatem.lexiflash.R
 import ir.laxipatem.lexiflash.domain.fsrs.Rating
-import ir.laxipatem.lexiflash.platform.TtsController
-import ir.laxipatem.lexiflash.platform.TtsState
 import ir.laxipatem.lexiflash.ui.common.CardBack
-import ir.laxipatem.lexiflash.ui.common.CardFront
+import ir.laxipatem.lexiflash.ui.common.CardFrontWithAudio
 import ir.laxipatem.lexiflash.ui.common.ErrorState
 import ir.laxipatem.lexiflash.ui.common.FlipCard
 import ir.laxipatem.lexiflash.ui.common.Formatters
 import ir.laxipatem.lexiflash.ui.common.IntervalText
 import ir.laxipatem.lexiflash.ui.common.LoadingState
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
+import ir.laxipatem.lexiflash.ui.common.rememberTtsController
+import ir.laxipatem.lexiflash.ui.common.rememberTtsState
 
 /**
  * Flashcard study screen for one deck part.
@@ -80,21 +75,12 @@ fun StudyScreen(
     val settings by container.settings.settings.collectAsStateWithLifecycle(
         initialValue = ir.laxipatem.lexiflash.data.repo.UserSettings()
     )
-
-    val context = LocalContext.current
-    val tts = remember { TtsController(context) }
-
-    DisposableEffect(tts) {
-        tts.initialise()
-        tts.setSpeed(settings.ttsSpeed)
-        onDispose { tts.shutdown() }
-    }
-
-    LaunchedEffect(settings.ttsSpeed) { tts.setSpeed(settings.ttsSpeed) }
-
-    val ttsState by tts.state.collectAsStateWithLifecycle()
+    val tts = rememberTtsController(settings.ttsSpeed)
+    val ttsState = rememberTtsState(tts)
 
     Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             TopAppBar(
                 title = {
@@ -153,31 +139,15 @@ fun StudyScreen(
                         if (card != null) {
                             FlipCard(
                                 front = {
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                                    ) {
-                                        CardFront(english = card.english)
-                                        IconButton(
-                                            onClick = { tts.speak(card.english) },
-                                            enabled = ttsState == TtsState.Ready
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Filled.VolumeUp,
-                                                contentDescription = stringResource(R.string.cd_speech)
-                                            )
-                                        }
-                                        if (ttsState == TtsState.VoiceMissing) {
-                                            TtsInstallHint(
-                                                onInstall = { tts.openInstallVoiceData() }
-                                            )
-                                        }
-                                    }
+                                    CardFrontWithAudio(
+                                        english = card.english,
+                                        controller = tts,
+                                        state = ttsState
+                                    )
                                 },
                                 back = {
                                     CardBack(
                                         persian = card.persian,
-                                        ipa = card.ipa,
                                         vocab = card.vocab.map { it.word to it.meaning },
                                         note = card.note,
                                         pendingTranslationLabel = stringResource(
@@ -359,25 +329,6 @@ private fun intervalLabel(prediction: RatingPrediction, usePersianDigits: Boolea
             text.value
         )
     }
-
-@Composable
-private fun TtsInstallHint(onInstall: () -> Unit) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.tts_unavailable),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
-        )
-        TextButton(onClick = onInstall) {
-            Text(stringResource(R.string.tts_install))
-        }
-    }
-}
 
 @Composable
 private fun FinishedState(

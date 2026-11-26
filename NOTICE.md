@@ -67,6 +67,16 @@ licence; the list below records what is used and where to read the terms.
 ML Kit is present **only in the `online` flavour**. The `offline` flavour links no
 Google service, no network library and requests no `INTERNET` permission.
 
+### Vazirmatn typeface
+
+The app bundles the regular, medium, semibold and bold TTF files from **Vazirmatn
+v33.003** by The Vazirmatn Project Authors.
+
+* Source: <https://github.com/rastikerdar/vazirmatn>
+* Licence: **SIL Open Font License 1.1**
+* The complete licence text is included at
+  `app/src/main/assets/licenses/Vazirmatn-OFL.txt`.
+
 ### The FSRS algorithm
 
 The spaced-repetition scheduler implements **FSRS-5**, published by the

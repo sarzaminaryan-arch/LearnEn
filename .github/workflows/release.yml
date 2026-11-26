@@ -114,12 +114,28 @@ jobs:
         run: |
           set -euo pipefail
           TARGET="${{ github.event.inputs.variant || 'both' }}"
+          LOG="$RUNNER_TEMP/gradle-release.log"
           if [ "$TARGET" = "both" ]; then
-            gradle :app:bundleOfflineRelease :app:assembleOfflineRelease \
-                   :app:bundleOnlineRelease :app:assembleOnlineRelease --stacktrace
+            set -- gradle :app:bundleOfflineRelease :app:assembleOfflineRelease \
+              :app:bundleOnlineRelease :app:assembleOnlineRelease
           else
             CAPITALISED="$(echo "${TARGET:0:1}" | tr '[:lower:]' '[:upper:]')${TARGET:1}"
-            gradle ":app:bundle${CAPITALISED}Release" ":app:assemble${CAPITALISED}Release" --stacktrace
+            set -- gradle ":app:bundle${CAPITALISED}Release" ":app:assemble${CAPITALISED}Release"
+          fi
+
+          # Keep the normal console output, and publish the tail as an annotation
+          # on failure so the actionable Gradle error is still visible in API-only
+          # environments where GitHub's log archive cannot be fetched.
+          set +e
+          "$@" --stacktrace --console=plain 2>&1 | tee "$LOG"
+          STATUS=${PIPESTATUS[0]}
+          set -e
+          if [ "$STATUS" -ne 0 ]; then
+            DETAILS=$(grep -E '(^e: |^FAILURE:|^\* What went wrong:|^Execution failed for task|^Caused by:|^> Task .* FAILED| error:)' "$LOG" | tail -n 30 || true)
+            if [ -z "$DETAILS" ]; then DETAILS=$(tail -n 80 "$LOG"); fi
+            TAIL=$(printf '%s\n' "$DETAILS" | python3 -c 'import sys; print(sys.stdin.read().replace(chr(37), chr(37)+"25").replace(chr(13), "%0D").replace(chr(10), "%0A"))')
+            echo "::error title=Gradle release build failed::Build details: $TAIL"
+            exit "$STATUS"
           fi
 
       - name: Verify the offline release carries no INTERNET permission
@@ -230,7 +246,9 @@ jobs:
       - name: Upload APKs and bundles
         uses: actions/upload-artifact@v4
         with:
-          name: release-${{ github.ref_name }}
+          # Branch names contain '/', which is forbidden in artifact names.
+          # Use GitHub's numeric run ID so dispatch builds and tag releases are valid.
+          name: release-${{ github.run_id }}
           path: |
             app/build/outputs/apk/release/*.apk
             app/build/outputs/apk/offline/release/*.apk

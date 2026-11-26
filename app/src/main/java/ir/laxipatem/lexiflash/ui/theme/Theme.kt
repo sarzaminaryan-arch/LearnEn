@@ -2,7 +2,10 @@ package ir.laxipatem.lexiflash.ui.theme
 
 import android.content.res.Configuration
 import android.os.Build
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -11,25 +14,27 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import ir.laxipatem.lexiflash.data.repo.AppLanguage
 import ir.laxipatem.lexiflash.data.repo.ThemeMode
 
-/** Light palette built from the brand colours. */
+/** Light palette built from the indigo, amber and violet brand colours. */
 private val LightColors = lightColorScheme(
     primary = BrandColors.Primary,
     onPrimary = Color.White,
     primaryContainer = BrandColors.PrimaryContainerLight,
     onPrimaryContainer = BrandColors.InkLight,
-    secondary = BrandColors.MutedLight,
+    secondary = BrandColors.Secondary,
     onSecondary = Color.White,
-    secondaryContainer = BrandColors.SurfaceRaisedLight,
+    secondaryContainer = BrandColors.SecondaryContainerLight,
     onSecondaryContainer = BrandColors.InkLight,
-    // tertiary is used for label-sized text (for example the machine-translation
-    // tag), so it takes the darker clay that clears 4.5:1 on the sand background.
     tertiary = BrandColors.AccentInk,
     onTertiary = Color.White,
     tertiaryContainer = BrandColors.AccentContainerLight,
@@ -44,30 +49,30 @@ private val LightColors = lightColorScheme(
     surfaceContainerHigh = BrandColors.SurfaceRaisedLight,
     surfaceContainerHighest = BrandColors.SurfaceEdgeLight,
     surfaceContainerLow = BrandColors.SurfaceLight,
-    surfaceContainerLowest = Color.White,
-    outline = BrandColors.SurfaceEdgeLight,
+    surfaceContainerLowest = BrandColors.SurfaceRaisedLight,
+    outline = BrandColors.CardOutlineLight,
     outlineVariant = BrandColors.SurfaceEdgeLight,
     error = BrandColors.ErrorLight,
     onError = BrandColors.OnErrorLight,
     errorContainer = Color(0xFFF9DEDC),
     onErrorContainer = Color(0xFF410E0B),
-    scrim = Color(0x99301F0F)
+    scrim = Color(0x9933425C)
 )
 
-/** Dark palette. Surfaces are low-chroma so long study sessions stay comfortable. */
+/** Deep neutral-black surfaces with restrained luminous-amber card edging. */
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFFE8A659),
-    onPrimary = Color(0xFF3D2102),
+    primary = BrandColors.PrimaryDark,
+    onPrimary = BrandColors.OnPrimaryDark,
     primaryContainer = BrandColors.PrimaryContainerDark,
-    onPrimaryContainer = Color(0xFFFBEAD2),
-    secondary = BrandColors.MutedDark,
-    onSecondary = Color(0xFF1A1310),
-    secondaryContainer = BrandColors.SurfaceRaisedDark,
-    onSecondaryContainer = Color(0xFFF2E6D8),
-    tertiary = Color(0xFFE9A392),
-    onTertiary = Color(0xFF4A1F16),
+    onPrimaryContainer = BrandColors.OnPrimaryContainerDark,
+    secondary = BrandColors.SecondaryDark,
+    onSecondary = BrandColors.OnSecondaryDark,
+    secondaryContainer = BrandColors.SecondaryContainerDark,
+    onSecondaryContainer = BrandColors.OnSecondaryContainerDark,
+    tertiary = BrandColors.AccentDark,
+    onTertiary = BrandColors.OnAccentDark,
     tertiaryContainer = BrandColors.AccentContainerDark,
-    onTertiaryContainer = Color(0xFFFAE3DC),
+    onTertiaryContainer = BrandColors.OnAccentContainerDark,
     background = BrandColors.BackgroundDark,
     onBackground = BrandColors.InkDark,
     surface = BrandColors.SurfaceDark,
@@ -75,26 +80,76 @@ private val DarkColors = darkColorScheme(
     surfaceVariant = BrandColors.SurfaceRaisedDark,
     onSurfaceVariant = BrandColors.MutedDark,
     surfaceContainer = BrandColors.SurfaceRaisedDark,
-    surfaceContainerHigh = BrandColors.SurfaceRaisedDark,
-    surfaceContainerHighest = Color(0xFF3A2A20),
+    surfaceContainerHigh = Color(0xFF242A30),
+    surfaceContainerHighest = BrandColors.SurfaceEdgeDark,
     surfaceContainerLow = BrandColors.SurfaceDark,
     surfaceContainerLowest = BrandColors.BackgroundDark,
-    outline = Color(0xFF5C4736),
-    outlineVariant = Color(0xFF3A2A20),
+    outline = Color(0xFF8A806B),
+    outlineVariant = Color(0xFF41464C),
     error = BrandColors.ErrorDark,
     onError = BrandColors.OnErrorDark,
-    errorContainer = Color(0xFF8C1D18),
-    onErrorContainer = Color(0xFFF9DEDC),
+    errorContainer = BrandColors.ErrorContainerDark,
+    onErrorContainer = BrandColors.OnErrorContainerDark,
     scrim = Color(0xCC000000)
 )
 
 /**
- * Resolves the learner's theme preference against the system setting.
- *
- * SYSTEM means follow the device, which is what most people expect; LIGHT and
- * DARK override it without recreating the Activity, so navigation state and the
- * current card survive a theme change.
+ * Draws a quiet square grid behind the app. The 32dp minor grid and every-fourth
+ * emphasized line add texture without competing with cards.
  */
+@Composable
+private fun GridBackdrop(
+    darkTheme: Boolean,
+    content: @Composable () -> Unit
+) {
+    val background = MaterialTheme.colorScheme.background
+    val minorLine = MaterialTheme.colorScheme.outlineVariant.copy(
+        alpha = if (darkTheme) 0.24f else 0.30f
+    )
+    val majorLine = MaterialTheme.colorScheme.outline.copy(
+        alpha = if (darkTheme) 0.14f else 0.12f
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(background)
+            .drawBehind {
+                val spacing = 32.dp.toPx()
+                val minorWidth = 0.55.dp.toPx()
+                val majorWidth = 0.9.dp.toPx()
+                var index = 1
+                var x = spacing
+                while (x < size.width) {
+                    val major = index % 4 == 0
+                    drawLine(
+                        color = if (major) majorLine else minorLine,
+                        start = Offset(x, 0f),
+                        end = Offset(x, size.height),
+                        strokeWidth = if (major) majorWidth else minorWidth
+                    )
+                    x += spacing
+                    index++
+                }
+                index = 1
+                var y = spacing
+                while (y < size.height) {
+                    val major = index % 4 == 0
+                    drawLine(
+                        color = if (major) majorLine else minorLine,
+                        start = Offset(0f, y),
+                        end = Offset(size.width, y),
+                        strokeWidth = if (major) majorWidth else minorWidth
+                    )
+                    y += spacing
+                    index++
+                }
+            },
+        content = { content() }
+    )
+}
+
+/** Resolves the learner's theme preference against the system setting. */
 @Composable
 private fun shouldUseDarkTheme(themeMode: ThemeMode): Boolean {
     val systemDark = isSystemInDarkTheme()
@@ -105,10 +160,11 @@ private fun shouldUseDarkTheme(themeMode: ThemeMode): Boolean {
     }
 }
 
+/** Dynamic colour remains available as an explicit opt-in in Settings. */
 @Composable
 fun LexiFlashTheme(
-    themeMode: ThemeMode = ThemeMode.SYSTEM,
-    dynamicColor: Boolean = true,
+    themeMode: ThemeMode = ThemeMode.DARK,
+    dynamicColor: Boolean = false,
     language: AppLanguage = AppLanguage.PERSIAN,
     content: @Composable () -> Unit
 ) {
@@ -135,7 +191,6 @@ fun LexiFlashTheme(
     // the chosen locale. Without this the UI would keep following the system
     // language and the in-app switch would change nothing.
     val localizedContext = remember(context, language) {
-        // The tag on AppLanguage is the single source of truth for the locale.
         val locale = if (language == AppLanguage.PERSIAN) {
             java.util.Locale("fa", "IR")
         } else {
@@ -143,7 +198,6 @@ fun LexiFlashTheme(
         }
         java.util.Locale.setDefault(locale)
         val configuration = Configuration(context.resources.configuration).apply {
-            // setLocale also derives the layout direction from the locale.
             setLocale(locale)
         }
         context.createConfigurationContext(configuration)
@@ -156,9 +210,10 @@ fun LexiFlashTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = LexiFlashTypography,
-            shapes = LexiFlashShapes,
-            content = content
-        )
+            shapes = LexiFlashShapes
+        ) {
+            GridBackdrop(darkTheme = darkTheme, content = content)
+        }
     }
 }
 

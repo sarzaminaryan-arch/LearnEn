@@ -53,7 +53,24 @@ jobs:
           cache-read-only: false
 
       - name: Assemble ${{ matrix.flavor }} Debug
-        run: gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Debug" --stacktrace
+        run: |
+          set +e
+          gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Debug" --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle-assemble.log"
+          gradle_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$gradle_status" -ne 0 ]; then
+            diagnostics=$(grep -iE '(^e:|error:|unresolved reference|type mismatch|overload resolution|expecting |compilation error|^FAILURE:|What went wrong|Could not resolve|cannot access|not enough information to infer|too many arguments)' "$RUNNER_TEMP/gradle-assemble.log" | tail -n 30 || true)
+            if [ -n "$diagnostics" ]; then
+              printf '%s\n' "$diagnostics" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            else
+              tail -n 30 "$RUNNER_TEMP/gradle-assemble.log" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            fi
+          fi
+          exit "$gradle_status"
 
       # Keep this immediately after assemble and unconditional: later checks must
       # not withhold an APK that was successfully produced.
@@ -149,7 +166,24 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Assemble ${{ matrix.flavor }} Release
-        run: gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Release" --stacktrace
+        run: |
+          set +e
+          gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Release" --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle-assemble.log"
+          gradle_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$gradle_status" -ne 0 ]; then
+            diagnostics=$(grep -iE '(^e:|error:|unresolved reference|type mismatch|overload resolution|expecting |compilation error|^FAILURE:|What went wrong|Could not resolve|cannot access|not enough information to infer|too many arguments)' "$RUNNER_TEMP/gradle-assemble.log" | tail -n 30 || true)
+            if [ -n "$diagnostics" ]; then
+              printf '%s\n' "$diagnostics" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            else
+              tail -n 30 "$RUNNER_TEMP/gradle-assemble.log" | while IFS= read -r line; do
+                printf '::error::%s\n' "${line//%/%25}"
+              done
+            fi
+          fi
+          exit "$gradle_status"
 
       # Upload even when assemble failed (to report a missing APK) and before any
       # unit-test or manifest check can fail.

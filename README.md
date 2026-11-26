@@ -24,14 +24,14 @@ no advertising, no analytics and nothing to subscribe to.
 
 | | |
 |---|---|
-| **Sentence flashcards** | A 3D flip card with the English sentence, IPA, and a Persian translation. Tap to flip. |
+| **Sentence flashcards** | A 3D flip card with the English sentence and Persian translation. Tap to flip; use the speaker control to hear the sentence. |
 | **FSRS-5 scheduling** | Nineteen parameter weights, 90% target retention, per-card stability and difficulty. |
 | **Quizzes** | Three question types — meaning, reverse, and cloze — generated on device. Score 80% on a part to unlock the next. |
 | **Progress** | Streak, daily goal, accuracy, per-part completion and unlock state. |
-| **Text to speech** | Reads the English sentence aloud, with an install prompt when no English voice is present. |
+| **Text to speech** | Study and Review read English sentences aloud on device, with an install prompt if no English voice is present. |
 | **Import** | Bring your own material: `.srt`, `.vtt`, `.ass`, `.txt`, `.csv` or `deck.json`, through the system file picker. Bilingual subtitle files are paired by timestamp. |
 | **Export** | Any deck can be written back out as `deck.json` and shared, so nothing is trapped in the app. |
-| **Two languages** | Persian by default, English optional. Full RTL layout in Persian. |
+| **Two languages** | Persian by default, English optional. Full RTL layout in Persian, with bundled Vazirmatn typography for Persian and Latin text. |
 | **Two flavours** | `offline` has no network permission at all. `online` adds a catalogue and ML Kit translation. |
 
 ### Screens
@@ -43,7 +43,7 @@ Home ──► Study ──► Quiz ──► Result
   ├──► Progress    (streak, goal, accuracy, per-part status, export)
   ├──► Import      (file picker → preview → save)
   ├──► Catalog     (online flavour only, button-initiated)
-  ├──► Settings    (theme, language, digits, goal, speed, delete all)
+  ├──► Settings    (theme, language, digits, goal, delete all)
   └──► About       (licences, attribution, privacy)
 ```
 
@@ -215,7 +215,7 @@ Apache 2.0.
 | **خواندن با صدا** | جمله‌ی انگلیسی را می‌خواند و اگر صدای انگلیسی نصب نباشد، پیام نصب نشان می‌دهد. |
 | **ورود محتوا** | فایل خودتان را بیاورید: `.srt`، `.vtt`، `.ass`، `.txt`، `.csv` یا `deck.json` از طریق انتخابگر فایل سیستم. |
 | **خروجی** | هر دسته می‌تواند به‌صورت `deck.json` ذخیره و به اشتراک گذاشته شود. |
-| **دو زبان** | فارسی به‌صورت پیش‌فرض و انگلیسی به‌صورت انتخابی. راست‌به‌چپ کامل. |
+| **دو زبان** | فارسی به‌صورت پیش‌فرض و انگلیسی به‌صورت انتخابی، با چیدمان کامل راست‌به‌چپ و فونت وزیرمتن برای متن فارسی و لاتین. |
 | **دو نسخه** | نسخه‌ی `offline` هیچ دسترسی اینترنتی ندارد. نسخه‌ی `online` فهرست دسته‌ها و ترجمه‌ی ماشینی افزوده را دارد. |
 
 ### ساخت از روی کد

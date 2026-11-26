@@ -6,13 +6,18 @@ import androidx.activity.compose.LocalActivityResultRegistryOwner
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ir.laxipatem.lexiflash.data.repo.ThemeMode
 import ir.laxipatem.lexiflash.ui.nav.AppNavHost
 import ir.laxipatem.lexiflash.ui.theme.LexiFlashTheme
 
@@ -43,6 +48,21 @@ class MainActivity : ComponentActivity() {
                 val settings by container.settings.settings.collectAsStateWithLifecycle(
                     initialValue = ir.laxipatem.lexiflash.data.repo.UserSettings()
                 )
+                val followsSystem = isSystemInDarkTheme()
+                val appIsDark = when (settings.themeMode) {
+                    ThemeMode.SYSTEM -> followsSystem
+                    ThemeMode.LIGHT -> false
+                    ThemeMode.DARK -> true
+                }
+                SideEffect {
+                    // Edge-to-edge system icons should follow the app's override,
+                    // not only the device theme, so they remain visible on a
+                    // manually selected dark or light palette.
+                    WindowCompat.getInsetsController(window, window.decorView).apply {
+                        isAppearanceLightStatusBars = !appIsDark
+                        isAppearanceLightNavigationBars = !appIsDark
+                    }
+                }
 
                 LexiFlashTheme(
                     themeMode = settings.themeMode,
@@ -51,7 +71,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
+                        color = Color.Transparent,
+                        contentColor = MaterialTheme.colorScheme.onBackground
                     ) {
                         AppNavHost(container = container, settings = settings)
                     }
