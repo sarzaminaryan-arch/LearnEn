@@ -488,7 +488,7 @@ private fun uriName(context: android.content.Context, uri: Uri): String {
         if (index >= 0 && it.moveToFirst()) {
             val name = it.getString(index)
             Log.d("LexiImport", "filename query index=$index result=$name")
-            if (!name.isNullOrBlank()) return name
+            if (!name.isNullOrBlank()) return name else Unit
         } else {
             Log.d("LexiImport", "filename query has no DISPLAY_NAME column or row; index=$index")
         }
