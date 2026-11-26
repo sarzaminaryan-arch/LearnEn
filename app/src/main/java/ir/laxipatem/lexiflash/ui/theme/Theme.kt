@@ -2,7 +2,10 @@ package ir.laxipatem.lexiflash.ui.theme
 
 import android.content.res.Configuration
 import android.os.Build
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -11,14 +14,18 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import ir.laxipatem.lexiflash.data.repo.AppLanguage
 import ir.laxipatem.lexiflash.data.repo.ThemeMode
 
-/** Light palette built from the indigo, teal and violet brand colours. */
+/** Light palette built from the indigo, amber and violet brand colours. */
 private val LightColors = lightColorScheme(
     primary = BrandColors.Primary,
     onPrimary = Color.White,
@@ -52,7 +59,7 @@ private val LightColors = lightColorScheme(
     scrim = Color(0x9933425C)
 )
 
-/** Deep green-black surfaces with restrained luminous-green card edging. */
+/** Deep neutral-black surfaces with restrained luminous-amber card edging. */
 private val DarkColors = darkColorScheme(
     primary = BrandColors.PrimaryDark,
     onPrimary = BrandColors.OnPrimaryDark,
@@ -73,18 +80,74 @@ private val DarkColors = darkColorScheme(
     surfaceVariant = BrandColors.SurfaceRaisedDark,
     onSurfaceVariant = BrandColors.MutedDark,
     surfaceContainer = BrandColors.SurfaceRaisedDark,
-    surfaceContainerHigh = Color(0xFF1B2A20),
+    surfaceContainerHigh = Color(0xFF242A30),
     surfaceContainerHighest = BrandColors.SurfaceEdgeDark,
     surfaceContainerLow = BrandColors.SurfaceDark,
     surfaceContainerLowest = BrandColors.BackgroundDark,
-    outline = Color(0xFF7A8F80),
-    outlineVariant = Color(0xFF405247),
+    outline = Color(0xFF8A806B),
+    outlineVariant = Color(0xFF41464C),
     error = BrandColors.ErrorDark,
     onError = BrandColors.OnErrorDark,
     errorContainer = BrandColors.ErrorContainerDark,
     onErrorContainer = BrandColors.OnErrorContainerDark,
     scrim = Color(0xCC000000)
 )
+
+/**
+ * Draws a quiet square grid behind the app. The 32dp minor grid and every-fourth
+ * emphasized line add texture without competing with cards.
+ */
+@Composable
+private fun GridBackdrop(
+    darkTheme: Boolean,
+    content: @Composable () -> Unit
+) {
+    val background = MaterialTheme.colorScheme.background
+    val minorLine = MaterialTheme.colorScheme.outlineVariant.copy(
+        alpha = if (darkTheme) 0.24f else 0.30f
+    )
+    val majorLine = MaterialTheme.colorScheme.outline.copy(
+        alpha = if (darkTheme) 0.14f else 0.12f
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(background)
+            .drawBehind {
+                val spacing = 32.dp.toPx()
+                val minorWidth = 0.55.dp.toPx()
+                val majorWidth = 0.9.dp.toPx()
+                var index = 1
+                var x = spacing
+                while (x < size.width) {
+                    val major = index % 4 == 0
+                    drawLine(
+                        color = if (major) majorLine else minorLine,
+                        start = Offset(x, 0f),
+                        end = Offset(x, size.height),
+                        strokeWidth = if (major) majorWidth else minorWidth
+                    )
+                    x += spacing
+                    index++
+                }
+                index = 1
+                var y = spacing
+                while (y < size.height) {
+                    val major = index % 4 == 0
+                    drawLine(
+                        color = if (major) majorLine else minorLine,
+                        start = Offset(0f, y),
+                        end = Offset(size.width, y),
+                        strokeWidth = if (major) majorWidth else minorWidth
+                    )
+                    y += spacing
+                    index++
+                }
+            },
+        content = { content() }
+    )
+}
 
 /** Resolves the learner's theme preference against the system setting. */
 @Composable
@@ -147,9 +210,10 @@ fun LexiFlashTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = LexiFlashTypography,
-            shapes = LexiFlashShapes,
-            content = content
-        )
+            shapes = LexiFlashShapes
+        ) {
+            GridBackdrop(darkTheme = darkTheme, content = content)
+        }
     }
 }
 

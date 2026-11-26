@@ -24,11 +24,11 @@ no advertising, no analytics and nothing to subscribe to.
 
 | | |
 |---|---|
-| **Sentence flashcards** | A 3D flip card with the English sentence, IPA, and a Persian translation. Tap to flip. |
+| **Sentence flashcards** | A 3D flip card with the English sentence and Persian translation. Tap to flip; use the speaker control to hear the sentence. |
 | **FSRS-5 scheduling** | Nineteen parameter weights, 90% target retention, per-card stability and difficulty. |
 | **Quizzes** | Three question types — meaning, reverse, and cloze — generated on device. Score 80% on a part to unlock the next. |
 | **Progress** | Streak, daily goal, accuracy, per-part completion and unlock state. |
-| **Text to speech** | Reads the English sentence aloud, with an install prompt when no English voice is present. |
+| **Text to speech** | Study and Review read English sentences aloud on device, with an install prompt if no English voice is present. |
 | **Import** | Bring your own material: `.srt`, `.vtt`, `.ass`, `.txt`, `.csv` or `deck.json`, through the system file picker. Bilingual subtitle files are paired by timestamp. |
 | **Export** | Any deck can be written back out as `deck.json` and shared, so nothing is trapped in the app. |
 | **Two languages** | Persian by default, English optional. Full RTL layout in Persian, with bundled Vazirmatn typography for Persian and Latin text. |
@@ -43,7 +43,7 @@ Home ──► Study ──► Quiz ──► Result
   ├──► Progress    (streak, goal, accuracy, per-part status, export)
   ├──► Import      (file picker → preview → save)
   ├──► Catalog     (online flavour only, button-initiated)
-  ├──► Settings    (theme, language, digits, goal, speed, delete all)
+  ├──► Settings    (theme, language, digits, goal, delete all)
   └──► About       (licences, attribution, privacy)
 ```
 

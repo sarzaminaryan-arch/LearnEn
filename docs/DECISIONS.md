@@ -135,8 +135,8 @@ because there are no density folders by design.
 
 ### 5.3 Dynamic colour on Android 12 and later is an opt-in
 Material You palettes are available from Settings on Android 12 and newer. The
-curated indigo/teal palette is the default so the app has a consistent identity;
-below API 31 that same fixed palette is always used.
+deep neutral-black palette with amber emphasis is the default; the optional light
+palette uses indigo, amber and violet. Below API 31 the fixed palettes are used.
 
 ### 5.4 Contrast is checked on the fixed palettes
 Body text meets WCAG AA against its paired light and dark surfaces. The test also

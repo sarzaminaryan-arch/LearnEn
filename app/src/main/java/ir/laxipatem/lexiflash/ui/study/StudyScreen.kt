@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,13 +39,15 @@ import ir.laxipatem.lexiflash.AppContainer
 import ir.laxipatem.lexiflash.R
 import ir.laxipatem.lexiflash.domain.fsrs.Rating
 import ir.laxipatem.lexiflash.ui.common.CardBack
-import ir.laxipatem.lexiflash.ui.common.CardFront
+import ir.laxipatem.lexiflash.ui.common.CardFrontWithAudio
 import ir.laxipatem.lexiflash.ui.common.ErrorState
 import ir.laxipatem.lexiflash.ui.common.FlipCard
 import ir.laxipatem.lexiflash.ui.common.Formatters
 import ir.laxipatem.lexiflash.ui.common.IntervalText
 import ir.laxipatem.lexiflash.ui.common.LoadingState
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
+import ir.laxipatem.lexiflash.ui.common.rememberTtsController
+import ir.laxipatem.lexiflash.ui.common.rememberTtsState
 
 /**
  * Flashcard study screen for one deck part.
@@ -72,8 +75,12 @@ fun StudyScreen(
     val settings by container.settings.settings.collectAsStateWithLifecycle(
         initialValue = ir.laxipatem.lexiflash.data.repo.UserSettings()
     )
+    val tts = rememberTtsController(settings.ttsSpeed)
+    val ttsState = rememberTtsState(tts)
 
     Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             TopAppBar(
                 title = {
@@ -131,7 +138,13 @@ fun StudyScreen(
                         val card = state.currentCard
                         if (card != null) {
                             FlipCard(
-                                front = { CardFront(english = card.english) },
+                                front = {
+                                    CardFrontWithAudio(
+                                        english = card.english,
+                                        controller = tts,
+                                        state = ttsState
+                                    )
+                                },
                                 back = {
                                     CardBack(
                                         persian = card.persian,

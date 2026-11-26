@@ -68,7 +68,7 @@ fun appCardBorder(enabled: Boolean = true, width: Dp = 1.dp): BorderStroke =
  *
  * The edge is drawn by placing the card face inside a coloured container that
  * is taller by [Depth.edge]; the container shows only at the bottom, which
- * reads as thickness. In dark mode a slim aqua outline and tinted shadow create
+ * reads as thickness. In dark mode a slim amber outline and tinted shadow create
  * the requested glow without changing any content or touch behaviour.
  *
  * When [onClick] is null the card is static. When it is set the face sinks onto

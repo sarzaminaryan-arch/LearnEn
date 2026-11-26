@@ -8,6 +8,13 @@
       The INTERNET permission is declared only by the :online flavour manifest.
     -->
 
+    <!-- Discover the system TTS engine on Android 11+ for sentence playback. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".LexiFlashApp"
         android:allowBackup="false"

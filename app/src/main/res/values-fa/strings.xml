@@ -25,7 +25,7 @@
     <string name="action_continue">ادامه</string>
     <string name="action_import">ایمپورت</string>
     <string name="action_export">خروجی</string>
-    <string name="action_play_audio">پخش تلفظ</string>
+    <string name="action_play_audio">پخش صدای جمله</string>
     <string name="action_skip">رد کردن</string>
 
     <!-- حالت‌های عمومی -->

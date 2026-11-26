@@ -22,6 +22,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,14 +31,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ir.laxipatem.lexiflash.AppContainer
 import ir.laxipatem.lexiflash.R
+import ir.laxipatem.lexiflash.data.repo.UserSettings
 import ir.laxipatem.lexiflash.domain.fsrs.Rating
 import ir.laxipatem.lexiflash.ui.common.CardBack
-import ir.laxipatem.lexiflash.ui.common.CardFront
+import ir.laxipatem.lexiflash.ui.common.CardFrontWithAudio
 import ir.laxipatem.lexiflash.ui.common.EmptyState
 import ir.laxipatem.lexiflash.ui.common.ErrorState
 import ir.laxipatem.lexiflash.ui.common.FlipCard
 import ir.laxipatem.lexiflash.ui.common.LoadingState
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
+import ir.laxipatem.lexiflash.ui.common.rememberTtsController
+import ir.laxipatem.lexiflash.ui.common.rememberTtsState
 import ir.laxipatem.lexiflash.ui.study.RatingPrediction
 
 /** The daily review queue, reusing the study card and the rating buttons. */
@@ -48,8 +52,15 @@ fun ReviewScreen(container: AppContainer) {
         factory = ViewModelFactories.containerFactory(container) { ReviewViewModel(it) }
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val settings by container.settings.settings.collectAsStateWithLifecycle(
+        initialValue = UserSettings()
+    )
+    val tts = rememberTtsController(settings.ttsSpeed)
+    val ttsState = rememberTtsState(tts)
 
     Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = { TopAppBar(title = { Text(stringResource(R.string.review_title)) }) }
     ) { padding ->
         Column(
@@ -104,7 +115,13 @@ fun ReviewScreen(container: AppContainer) {
 
                     if (card != null) {
                         FlipCard(
-                            front = { CardFront(english = card.english) },
+                            front = {
+                                CardFrontWithAudio(
+                                    english = card.english,
+                                    controller = tts,
+                                    state = ttsState
+                                )
+                            },
                             back = {
                                 CardBack(
                                     persian = card.persian,

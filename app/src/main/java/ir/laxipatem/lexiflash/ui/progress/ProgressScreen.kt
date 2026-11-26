@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -52,6 +53,8 @@ fun ProgressScreen(container: AppContainer) {
     LaunchedEffect(Unit) { viewModel.refresh() }
 
     Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = { TopAppBar(title = { Text(stringResource(R.string.progress_title)) }) }
     ) { padding ->
         if (state.isLoading) {

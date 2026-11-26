@@ -14,6 +14,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ir.laxipatem.lexiflash.data.repo.ThemeMode
@@ -70,7 +71,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
+                        color = Color.Transparent,
+                        contentColor = MaterialTheme.colorScheme.onBackground
                     ) {
                         AppNavHost(container = container, settings = settings)
                     }

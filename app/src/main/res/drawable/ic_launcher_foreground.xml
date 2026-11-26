@@ -29,7 +29,7 @@
         android:fillColor="#365ACB"
         android:pathData="M33,48h22v3.4h-22z" />
     <path
-        android:fillColor="#1F6C64"
+        android:fillColor="#7A4B00"
         android:pathData="M33,56h30v3.4h-30z" />
     <path
         android:fillColor="#9AAAC4"
@@ -37,6 +37,6 @@
 
     <!-- Accent spark -->
     <path
-        android:fillColor="#1F6C64"
+        android:fillColor="#FFB703"
         android:pathData="M76,26l2.1,5.4l5.4,2.1l-5.4,2.1l-2.1,5.4l-2.1,-5.4l-5.4,-2.1l5.4,-2.1z" />
 </vector>

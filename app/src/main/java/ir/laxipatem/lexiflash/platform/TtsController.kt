@@ -22,8 +22,8 @@ sealed interface TtsState {
  * Thin wrapper over the platform [TextToSpeech] engine.
  *
  * Uses only `android.speech.tts`, with no third-party dependency. The engine is
- * initialised lazily on creation and always shut down in [shutdown], which the
- * owning ViewModel calls from `onCleared`.
+ * initialized for the active study/review screen and always shut down in
+ * [shutdown] when that screen leaves composition.
  */
 class TtsController(private val context: Context) {
 
@@ -48,6 +48,11 @@ class TtsController(private val context: Context) {
             }
             configureLanguage()
         }
+    }
+
+    /** Rechecks voice availability when the app resumes after installing speech data. */
+    fun refreshLanguage() {
+        if (!pendingInit) configureLanguage()
     }
 
     private fun configureLanguage() {
