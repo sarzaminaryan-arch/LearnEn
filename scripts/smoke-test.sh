@@ -177,25 +177,41 @@ echo "::notice::report written to $LOG"
 # emulator is still finishing boot during this window and fills logcat with
 # system_server noise, so only lines about this package or the runtime's own
 # crash output are kept.
+# head, not tail: the first lines of a Java stack trace carry the exception type
+# and message. A tail kept only the reflective frames at the bottom.
 adb logcat -d 2>&1 \
   | grep -E "AndroidRuntime|FATAL|am_crash|am_proc_died|$PKG" \
-  | tail -n 40 > /tmp/excerpt.txt
+  | grep -v "PACKAGE_ADDED\|FontsPackageChangeOp\|ChromeSync\|Unexpected forwarded" \
+  | head -n 60 > /tmp/excerpt.txt
 
 publish() {
-  # $1 = file, $2 = title
+  # $1 = file, $2 = label. The label becomes the first word of the message: on an
+  # annotation only `::notice::` is valid, the `title=` parameter is a group
+  # option and was being swallowed, which is why every annotation arrived untitled.
   local body
-  body=$(tr -d '\r' < "$1" | head -c 2500 | sed -e 's/%/%25/g' -e 's/$/ | /' | tr -d '\n')
+  body=$(tr -d '\r' < "$1" | head -c 2400 | sed -e 's/%/%25/g' -e 's/$/ | /' | tr -d '\n')
   [ -z "$body" ] && body="(empty)"
-  printf '::notice title=%s::%s\n' "$2" "$body"
+  printf '::notice::[%s] %s\n' "$2" "$body"
 }
 
 printf 'component=%s am_start_exit=%s alive=%s fatal=%s\n%s\n' \
   "$COMPONENT" "$AMRC" "$ALIVE" "$FATAL" "$AMOUT" > /tmp/launch.txt
 publish /tmp/launch.txt "launch"
-publish /tmp/excerpt.txt "logcat excerpt"
+# Two halves: a 60-line trace does not fit in one annotation once the lines are
+# folded, and the top of the trace is the half that names the exception.
+head -n 25 /tmp/excerpt.txt > /tmp/excerpt-a.txt
+tail -n +26 /tmp/excerpt.txt > /tmp/excerpt-b.txt
+publish /tmp/excerpt-a.txt "trace top"
+publish /tmp/excerpt-b.txt "trace bottom"
 
 echo "=========== EXCERPT ==========="
 cat /tmp/excerpt.txt
+# The exception line itself, with its cause, verbatim and unwrapped.
+adb logcat -d 2>&1 \
+  | grep -A 6 "FATAL EXCEPTION" \
+  | head -n 14 | tr -d '\r' > /tmp/fatal.txt
+publish /tmp/fatal.txt "fatal"
+
 echo "=========== CRASH BUFFER ==========="
 echo "$CRASH"
 echo "=========== FATAL COUNT: $FATAL ==========="
