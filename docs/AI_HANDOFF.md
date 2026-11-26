@@ -129,6 +129,30 @@ with an infinity maximum height constraints, which is disallowed.
 
 ---
 
+### ❗ 3.0 `exit code 127` در workflow تست instrumented — **حل شد (ثبت شده برای درس)**
+
+**علامت:**
+```
+The process '/usr/bin/sh' failed with exit code 127
+the instrumented tests failed with exit code 127
+```
+
+و در annotation ها `[failures]` و `[fatal]` هر دو **خالی** بودند — یعنی
+هیچ تستی اجرا نشد، اصلاً به Gradle نرسید.
+
+**دلیل:** اسکریپت `./gradlew` را صدا می‌زد. این مخزن **عمداً wrapper ندارد**
+(`gradle/wrapper/gradle-wrapper.properties` هست ولی `gradlew` و `gradle-wrapper.jar`
+نه، تا یک باینَری در مخزن نباشد). در CI، `gradle/actions/setup-gradle` خودش
+باینَری `gradle` را فراهم می‌کند و همهٔ workflowهای دیگر از همان استفاده می‌کنند
+(`build.yml` خط ۷۹ و ۹۹).
+
+**درس:** `exit code 127` یعنی «دستور پیدا نشد»، نه «تست شکست خورد». اگر
+`[failures]` خالی بود، همیشه اول دنبال خطای اجرای اسکریپت بگرد، نه خطای تست.
+
+**راه‌حل:** `./gradlew` ⟶ `gradle`.
+
+---
+
 ## ۳. خطاهایی که **باز** هستند (به این‌ها نیاز به راهنمایی دارم)
 
 ### ❗ 3.1 کرش روی «ایمپورت» و «دانلود» روی دستگاه واقعی — **تشخیص نهایی نشده**

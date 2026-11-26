@@ -36,10 +36,15 @@ adb shell settings put global animator_duration_scale 0 || true
 TASK=":app:connected${FLAVOR^}${VARIANT^}AndroidTest"
 echo "task=$TASK" >> "$REPORT"
 
+# `gradle`, not `./gradlew`: this repository intentionally has no wrapper script
+# (the wrapper jar is a binary in the tree and the CI image already provides a
+# matching Gradle through gradle/actions/setup-gradle). Calling ./gradlew here
+# failed with exit code 127, "command not found", before a single test ran.
+#
 # --console=plain keeps the output readable when it is folded into annotations;
 # --info adds the test events, which is where a crash shows its trace.
 set +e
-./gradlew "$TASK" --console=plain --info --stacktrace > /tmp/gradle-test.log 2>&1
+gradle "$TASK" --console=plain --info --stacktrace > /tmp/gradle-test.log 2>&1
 GRADLE_EXIT=$?
 set -e
 echo "gradle_exit=$GRADLE_EXIT" >> "$REPORT"
