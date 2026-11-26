@@ -1,10 +1,11 @@
-name: Instrumented import and catalogue tests
+name: Instrumented navigation and import tests
 
-# Runs the real androidTest suite against the R8-minified, debuggable diagnostic
-# build on both the minimum supported API and a current API, for both flavours.
-# Reports and logcat are published as artifacts and workflow annotations.
+# Run the real Activity/navigation UI suite on unminified Debug APKs for both
+# distribution flavors and the minimum/current Android API levels.
 
 on:
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,7 +13,7 @@ permissions:
 
 jobs:
   instrumented:
-    name: ${{ matrix.flavor }} diagnostic · API ${{ matrix.api_level }}
+    name: ${{ matrix.flavor }} Debug · API ${{ matrix.api_level }}
     runs-on: ubuntu-22.04
     timeout-minutes: 75
     strategy:
@@ -46,7 +47,7 @@ jobs:
       - name: Run instrumented tests on API ${{ matrix.api_level }}
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          VARIANT: diagnostic
+          VARIANT: debug
           FLAVOR: ${{ matrix.flavor }}
         with:
           api-level: ${{ matrix.api_level }}
@@ -58,11 +59,17 @@ jobs:
             -noaudio -no-boot-anim -camera-back none
           script: bash scripts/instrumented-test.sh
 
-      - name: Upload full test report and logcat
+      - name: Upload report, complete logcat, crash buffer and Gradle output
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: instrumented-report-${{ matrix.flavor }}-api${{ matrix.api_level }}
-          path: instrumented-report.txt
+          path: |
+            instrumented-report.txt
+            instrumented-logcat.txt
+            instrumented-crash.txt
+            gradle-test.log
+            app/build/outputs/androidTest-results/**
+            app/build/reports/androidTests/**
           if-no-files-found: warn
           retention-days: 14
