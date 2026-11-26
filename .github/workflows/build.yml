@@ -53,7 +53,15 @@ jobs:
           cache-read-only: false
 
       - name: Assemble ${{ matrix.flavor }} Debug
-        run: gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Debug" --stacktrace
+        run: |
+          set +e
+          gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Debug" --stacktrace > assemble-output.txt 2>&1
+          status=$?
+          tail -n 120 assemble-output.txt
+          grep -E 'e: file://|^e: |^\* What went wrong|^> |^Execution failed for task' assemble-output.txt | head -n 60 | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          exit "$status"
 
       # Keep this immediately after assemble and unconditional: later checks must
       # not withhold an APK that was successfully produced.
@@ -149,7 +157,15 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Assemble ${{ matrix.flavor }} Release
-        run: gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Release" --stacktrace
+        run: |
+          set +e
+          gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Release" --stacktrace > assemble-output.txt 2>&1
+          status=$?
+          tail -n 120 assemble-output.txt
+          grep -E 'e: file://|^e: |^\* What went wrong|^> |^Execution failed for task' assemble-output.txt | head -n 60 | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          exit "$status"
 
       # Upload even when assemble failed (to report a missing APK) and before any
       # unit-test or manifest check can fail.
