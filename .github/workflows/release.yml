@@ -188,6 +188,12 @@ jobs:
             echo "=== $apk ($(($(stat -c%s "$apk") / 1048576)) MB) ==="
             LISTING="$RUNNER_TEMP/apk-listing.txt"
             unzip -l "$apk" > "$LISTING"
+            # The listing has to be sorted before it is summarised: the summary
+            # below prints apk-top.txt, and building that file after the summary
+            # would read it before it exists.
+            awk '$1 ~ /^[0-9]+$/ { printf "%12d  %s\n", $1, $4 }' "$LISTING" > "$RUNNER_TEMP/apk-sizes.txt"
+            sort -rn "$RUNNER_TEMP/apk-sizes.txt" > "$RUNNER_TEMP/apk-sorted.txt"
+            head -n 8 "$RUNNER_TEMP/apk-sorted.txt" > "$RUNNER_TEMP/apk-top.txt"
             {
               echo ""
               echo "### $(basename "$apk")"
@@ -218,11 +224,6 @@ jobs:
               echo '```'
             } | tee -a "$GITHUB_STEP_SUMMARY"
             echo "  --- largest entries ---"
-            # Each stage writes a file: no pipe means no SIGPIPE, which under
-            # pipefail would fail the step on a large APK.
-            awk '$1 ~ /^[0-9]+$/ { printf "%12d  %s\n", $1, $4 }' "$LISTING" > "$RUNNER_TEMP/apk-sizes.txt"
-            sort -rn "$RUNNER_TEMP/apk-sizes.txt" > "$RUNNER_TEMP/apk-sorted.txt"
-            head -n 8 "$RUNNER_TEMP/apk-sorted.txt" > "$RUNNER_TEMP/apk-top.txt"
             sed 's/^/    /' "$RUNNER_TEMP/apk-top.txt"
           done
 
