@@ -34,6 +34,7 @@ import ir.laxipatem.lexiflash.R
 import ir.laxipatem.lexiflash.platform.DeckExporter
 import ir.laxipatem.lexiflash.ui.common.Formatters
 import ir.laxipatem.lexiflash.ui.common.LoadingState
+import ir.laxipatem.lexiflash.ui.common.glassOutline
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
 import ir.laxipatem.lexiflash.ui.home.PartUiModel
 
@@ -104,9 +105,10 @@ fun ProgressScreen(container: AppContainer) {
             }
             item {
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().glassOutline(MaterialTheme.shapes.medium),
+                    shape = MaterialTheme.shapes.medium,
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.86f)
                     )
                 ) {
                     Column(
@@ -222,8 +224,11 @@ private fun ExportCard(
 @Composable
 private fun StatCard(label: String, value: String, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        modifier = modifier.glassOutline(MaterialTheme.shapes.medium),
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f)
+        )
     ) {
         Column(
             modifier = Modifier.padding(16.dp),

@@ -14,10 +14,12 @@
           "persian": "صبح بخیر، چطور خوابیدی؟",
           "vocab": [
             {
-              "word": "morning"
+              "word": "morning",
+              "meaning": "صبح"
             },
             {
-              "word": "sleep"
+              "word": "sleep",
+              "meaning": "خوابیدن"
             }
           ],
           "difficulty": 0.1,
@@ -32,10 +34,12 @@
           "persian": "امروز کمی خسته‌ام.",
           "vocab": [
             {
-              "word": "tired"
+              "word": "tired",
+              "meaning": "خسته"
             },
             {
-              "word": "today"
+              "word": "today",
+              "meaning": "امروز"
             }
           ],
           "difficulty": 0.11,
@@ -50,7 +54,8 @@
           "persian": "چای میل داری؟",
           "vocab": [
             {
-              "word": "tea"
+              "word": "tea",
+              "meaning": "چای"
             }
           ],
           "difficulty": 0.13,
@@ -65,7 +70,8 @@
           "persian": "بله لطفاً، با شکر.",
           "vocab": [
             {
-              "word": "sugar"
+              "word": "sugar",
+              "meaning": "شکر"
             }
           ],
           "difficulty": 0.15,
@@ -80,10 +86,12 @@
           "persian": "مغازه چه ساعتی باز می‌شود؟",
           "vocab": [
             {
-              "word": "shop"
+              "word": "shop",
+              "meaning": "فروشگاه"
             },
             {
-              "word": "open"
+              "word": "open",
+              "meaning": "باز کردن"
             }
           ],
           "difficulty": 0.16,
@@ -98,7 +106,8 @@
           "persian": "ساعت نه صبح باز می‌شود.",
           "vocab": [
             {
-              "word": "open"
+              "word": "open",
+              "meaning": "باز کردن"
             }
           ],
           "difficulty": 0.18,
@@ -113,7 +122,8 @@
           "persian": "مدتی است تو را ندیده‌ام.",
           "vocab": [
             {
-              "word": "while"
+              "word": "while",
+              "meaning": "درحالی‌که؛ مدتی"
             }
           ],
           "difficulty": 0.2,
@@ -128,10 +138,12 @@
           "persian": "دو هفته نبودم.",
           "vocab": [
             {
-              "word": "away"
+              "word": "away",
+              "meaning": "دور"
             },
             {
-              "word": "week"
+              "word": "week",
+              "meaning": "هفته"
             }
           ],
           "difficulty": 0.21,
@@ -146,7 +158,8 @@
           "persian": "سفرت چطور بود؟",
           "vocab": [
             {
-              "word": "trip"
+              "word": "trip",
+              "meaning": "سفر"
             }
           ],
           "difficulty": 0.23,
@@ -161,10 +174,12 @@
           "persian": "خسته‌کننده بود ولی لذت بردم.",
           "vocab": [
             {
-              "word": "tiring"
+              "word": "tiring",
+              "meaning": "خسته‌کننده"
             },
             {
-              "word": "enjoy"
+              "word": "enjoy",
+              "meaning": "لذت بردن"
             }
           ],
           "difficulty": 0.25,
@@ -184,7 +199,8 @@
           "persian": "ببخشید، متوجه نشدم.",
           "vocab": [
             {
-              "word": "catch"
+              "word": "catch",
+              "meaning": "گرفتن"
             }
           ],
           "difficulty": 0.26,
@@ -199,10 +215,12 @@
           "persian": "می‌شود آهسته‌تر دوباره بگویید؟",
           "vocab": [
             {
-              "word": "slowly"
+              "word": "slowly",
+              "meaning": "آهسته"
             },
             {
-              "word": "again"
+              "word": "again",
+              "meaning": "دوباره"
             }
           ],
           "difficulty": 0.28,
@@ -217,7 +235,8 @@
           "persian": "من هنوز فارسی یاد می‌گیرم.",
           "vocab": [
             {
-              "word": "learn"
+              "word": "learn",
+              "meaning": "یاد گرفتن"
             }
           ],
           "difficulty": 0.3,
@@ -232,10 +251,12 @@
           "persian": "لهجه‌ات خیلی واضح است.",
           "vocab": [
             {
-              "word": "accent"
+              "word": "accent",
+              "meaning": "لهجه"
             },
             {
-              "word": "clear"
+              "word": "clear",
+              "meaning": "واضح؛ تمیز"
             }
           ],
           "difficulty": 0.31,
@@ -250,7 +271,8 @@
           "persian": "ممنون، لطف داری.",
           "vocab": [
             {
-              "word": "kind"
+              "word": "kind",
+              "meaning": "مهربان؛ نوع"
             }
           ],
           "difficulty": 0.33,
@@ -265,10 +287,12 @@
           "persian": "اشکالی ندارد اینجا بنشینم؟",
           "vocab": [
             {
-              "word": "sit"
+              "word": "sit",
+              "meaning": "نشستن"
             },
             {
-              "word": "mind"
+              "word": "mind",
+              "meaning": "ذهن؛ مهم بودن"
             }
           ],
           "difficulty": 0.35,
@@ -283,7 +307,8 @@
           "persian": "اصلاً، بفرمایید.",
           "vocab": [
             {
-              "word": "please"
+              "word": "please",
+              "meaning": "لطفاً"
             }
           ],
           "difficulty": 0.36,
@@ -298,10 +323,12 @@
           "persian": "این صندلی گرفته است؟",
           "vocab": [
             {
-              "word": "seat"
+              "word": "seat",
+              "meaning": "صندلی"
             },
             {
-              "word": "taken"
+              "word": "taken",
+              "meaning": "گرفته‌شده"
             }
           ],
           "difficulty": 0.38,
@@ -316,7 +343,8 @@
           "persian": "لحظه‌ای پیش یک نفر اینجا نشسته بود.",
           "vocab": [
             {
-              "word": "moment"
+              "word": "moment",
+              "meaning": "لحظه"
             }
           ],
           "difficulty": 0.4,
@@ -331,10 +359,12 @@
           "persian": "یکی دیگر پیدا می‌کنم.",
           "vocab": [
             {
-              "word": "another"
+              "word": "another",
+              "meaning": "یکی دیگر"
             },
             {
-              "word": "find"
+              "word": "find",
+              "meaning": "پیدا کردن"
             }
           ],
           "difficulty": 0.41,
@@ -354,10 +384,12 @@
           "persian": "می‌توانم یک لحظه خودکارت را قرض بگیرم؟",
           "vocab": [
             {
-              "word": "borrow"
+              "word": "borrow",
+              "meaning": "قرض گرفتن"
             },
             {
-              "word": "pen"
+              "word": "pen",
+              "meaning": "خودکار"
             }
           ],
           "difficulty": 0.43,
@@ -372,7 +404,8 @@
           "persian": "البته، بفرمایید.",
           "vocab": [
             {
-              "word": "course"
+              "word": "course",
+              "meaning": "دوره"
             }
           ],
           "difficulty": 0.45,
@@ -387,10 +420,12 @@
           "persian": "قبل از رفتن پسش می‌دهم.",
           "vocab": [
             {
-              "word": "leave"
+              "word": "leave",
+              "meaning": "ترک کردن"
             },
             {
-              "word": "give back"
+              "word": "give back",
+              "meaning": "پس دادن"
             }
           ],
           "difficulty": 0.46,
@@ -405,7 +440,8 @@
           "persian": "عجله‌ای نیست، یکی دیگر دارم.",
           "vocab": [
             {
-              "word": "hurry"
+              "word": "hurry",
+              "meaning": "عجله کردن"
             }
           ],
           "difficulty": 0.48,
@@ -420,10 +456,12 @@
           "persian": "می‌دانی ایستگاه کجاست؟",
           "vocab": [
             {
-              "word": "station"
+              "word": "station",
+              "meaning": "ایستگاه"
             },
             {
-              "word": "know"
+              "word": "know",
+              "meaning": "دانستن"
             }
           ],
           "difficulty": 0.5,
@@ -438,10 +476,12 @@
           "persian": "مستقیم برو و سر چراغ‌ها به چپ بپیچ.",
           "vocab": [
             {
-              "word": "straight"
+              "word": "straight",
+              "meaning": "مستقیم"
             },
             {
-              "word": "turn"
+              "word": "turn",
+              "meaning": "پیچیدن؛ نوبت"
             }
           ],
           "difficulty": 0.51,
@@ -456,10 +496,12 @@
           "persian": "پیاده چقدر دور است؟",
           "vocab": [
             {
-              "word": "far"
+              "word": "far",
+              "meaning": "دور"
             },
             {
-              "word": "foot"
+              "word": "foot",
+              "meaning": "پا"
             }
           ],
           "difficulty": 0.53,
@@ -474,7 +516,8 @@
           "persian": "حدود ده دقیقه، نه بیشتر.",
           "vocab": [
             {
-              "word": "minute"
+              "word": "minute",
+              "meaning": "دقیقه"
             }
           ],
           "difficulty": 0.55,
@@ -489,7 +532,8 @@
           "persian": "ممنون، خیلی کمک کردید.",
           "vocab": [
             {
-              "word": "helpful"
+              "word": "helpful",
+              "meaning": "مفید"
             }
           ],
           "difficulty": 0.56,
@@ -504,10 +548,12 @@
           "persian": "برای درست موفق باشی.",
           "vocab": [
             {
-              "word": "luck"
+              "word": "luck",
+              "meaning": "شانس"
             },
             {
-              "word": "lesson"
+              "word": "lesson",
+              "meaning": "درس"
             }
           ],
           "difficulty": 0.58,

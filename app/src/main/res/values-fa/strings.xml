@@ -236,6 +236,12 @@
     <string name="about_privacy">حریم خصوصی</string>
     <string name="about_privacy_body">بدون تحلیل‌گر، بدون تبلیغ و بدون ردیاب. داده‌های مطالعه از دستگاه شما بیرون نمی‌رود. نسخه‌ی آفلاین هیچ مجوز شبکه‌ای ندارد.</string>
     <string name="about_open_tatoeba">باز کردن tatoeba.org</string>
+    <string name="crash_report_open">نمایش گزارش آخرین خطا</string>
+    <string name="crash_report_title">گزارش آخرین خطا</string>
+    <string name="crash_report_empty">خطایی ثبت نشده است.</string>
+    <string name="crash_report_copy">کپی</string>
+    <string name="crash_report_share">اشتراک‌گذاری</string>
+    <string name="crash_report_copied">گزارش خطا کپی شد</string>
 
     <!-- دسترس‌پذیری -->
     <string name="cd_part_locked">قفل</string>

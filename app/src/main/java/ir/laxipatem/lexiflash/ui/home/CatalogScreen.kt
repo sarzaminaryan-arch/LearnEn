@@ -1,5 +1,6 @@
 package ir.laxipatem.lexiflash.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -88,8 +89,10 @@ class CatalogViewModel(private val container: AppContainer) : ViewModel() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
             val url = container.settings.current().catalogUrl
+            Log.d("LexiImport", "catalog fetch starting url=$url")
             runCatching { online.fetchCatalog(url).getOrThrow() }
                 .onSuccess { entries ->
+                    Log.d("LexiImport", "catalog fetch finished entries=${entries.size}")
                     _state.value = CatalogUiState(
                         isLoading = false,
                         hasLoaded = true,
@@ -98,6 +101,7 @@ class CatalogViewModel(private val container: AppContainer) : ViewModel() {
                     )
                 }
                 .onFailure { error ->
+                    Log.e("LexiImport", "catalog fetch failed", error)
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -115,6 +119,7 @@ class CatalogViewModel(private val container: AppContainer) : ViewModel() {
      */
     fun download(entry: CatalogEntry) {
         viewModelScope.launch {
+            Log.d("LexiImport", "deck download starting id=${entry.id} url=${entry.url}")
             _state.update {
                 it.copy(
                     downloadingId = entry.id,
@@ -127,9 +132,12 @@ class CatalogViewModel(private val container: AppContainer) : ViewModel() {
                 val json = container.onlineFeatures
                     .downloadDeck(entry.url)
                     .getOrThrow()
+                Log.d("LexiImport", "deck download response received chars=${json.length}")
                 _state.update { it.copy(downloadProgress = 0.6f) }
+                Log.d("LexiImport", "Room save downloaded deck starting")
                 container.decks.saveDeckFromJson(json).getOrThrow()
             }.onSuccess {
+                Log.d("LexiImport", "Room save downloaded deck finished")
                 _state.update {
                     it.copy(
                         downloadingId = null,
@@ -139,6 +147,7 @@ class CatalogViewModel(private val container: AppContainer) : ViewModel() {
                     )
                 }
             }.onFailure { error ->
+                Log.e("LexiImport", "deck download or save failed", error)
                 _state.update {
                     it.copy(
                         downloadingId = null,

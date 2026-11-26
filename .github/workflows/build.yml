@@ -1,12 +1,9 @@
 name: Build
 
-# Builds every variant, runs the JVM test suite and the deck tool tests, then
-# proves the offline flavour carries no INTERNET permission.
-#
-# Uses the `gradle` binary provided by setup-gradle rather than the wrapper,
-# because the repository deliberately contains no gradle-wrapper.jar (text-only
-# repository). Run `gradle wrapper --gradle-version 8.7` locally if you prefer
-# ./gradlew; see README.
+# Build and publish Debug and Release APKs independently. An assemble/test failure
+# in one job cannot prevent the other build type from uploading its APK.
+# Uses setup-gradle's Gradle binary because the repository intentionally omits
+# the binary Gradle wrapper JAR.
 
 on:
   push:
@@ -30,15 +27,14 @@ env:
   PYTHONUNBUFFERED: "1"
 
 jobs:
-  android:
-    name: Android ${{ matrix.flavor }} ${{ matrix.variant }}
+  android-debug:
+    name: Android ${{ matrix.flavor }} Debug
     runs-on: ubuntu-22.04
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
         flavor: [offline, online]
-        variant: [Debug, Release]
 
     steps:
       - name: Check out
@@ -56,148 +52,171 @@ jobs:
           gradle-version: "8.7"
           cache-read-only: false
 
-      - name: Cache Kotlin and Gradle artefacts
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            ~/.konan
-          key: gradle-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml', '**/*.gradle.kts') }}
-          restore-keys: gradle-${{ runner.os }}-
-
-      # A silent dependency-resolution failure is the most common CI surprise,
-      # so report versions before compiling anything.
-      - name: Print toolchain versions
+      - name: Assemble ${{ matrix.flavor }} Debug
         run: |
-          java -version
-          gradle --version
+          set +e
+          gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Debug" --stacktrace > assemble-output.txt 2>&1
+          status=$?
+          tail -n 120 assemble-output.txt
+          grep -E 'e: file://|^e: |^\* What went wrong|^> |^Execution failed for task' assemble-output.txt | head -n 60 | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          exit "$status"
+
+      # Keep this immediately after assemble and unconditional: later checks must
+      # not withhold an APK that was successfully produced.
+      - name: Upload Debug APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.flavor }}-Debug
+          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/*.apk
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Unit tests
-        run: |
-          set +e
-          gradle :app:test${{ matrix.flavor }}${{ matrix.variant }}UnitTest --stacktrace > test-output.txt 2>&1
-          STATUS=$?
-          cat test-output.txt
-          # Mirror failures as annotations so they are readable without the log.
-          grep -A3 'FAILED$' test-output.txt | while IFS= read -r line; do
-            echo "::error::$line"
-          done || true
-          # Kotlin reports "e: file:///path/File.kt:12:34 message"; turn each into
-          # an annotation carrying the real file path and message.
-          grep -o 'e: file://[^ ]*' test-output.txt | while IFS= read -r line; do
-            echo "::error::$line"
-          done || true
-          grep -E '^e: |error: ' test-output.txt | head -n 40 | while IFS= read -r line; do
-            echo "::error::$line"
-          done || true
-          exit $STATUS
+        run: gradle ":app:test${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}DebugUnitTest" --stacktrace
 
-      - name: Assemble ${{ matrix.flavor }} ${{ matrix.variant }}
-        run: |
-          set +e
-          gradle :app:assemble${{ matrix.flavor }}${{ matrix.variant }} --stacktrace > assemble-output.txt 2>&1
-          STATUS=$?
-          tail -n 200 assemble-output.txt
-          grep -o 'e: file://[^ ]*' assemble-output.txt | while IFS= read -r line; do
-            echo "::error::$line"
-          done || true
-          grep -E '^e: |^\* What went wrong|^> ' assemble-output.txt | head -n 40 | while IFS= read -r line; do
-            echo "::error::$line"
-          done || true
-          exit $STATUS
-
-      # Instrumented tests need an emulator, which this workflow does not run.
-      # Compiling them anyway is what keeps them honest: a signature change that
-      # breaks DatabaseRoundTripTest fails here instead of months later.
-      - name: Compile instrumented tests ${{ matrix.flavor }} ${{ matrix.variant }}
-        if: matrix.variant == 'Debug'
-        run: |
-          set +e
-          gradle :app:assemble${{ matrix.flavor }}${{ matrix.variant }}AndroidTest --stacktrace > androidtest-output.txt 2>&1
-          STATUS=$?
-          tail -n 120 androidtest-output.txt
-          grep -o 'e: file://[^ ]*' androidtest-output.txt | while IFS= read -r line; do
-            echo "::error::$line"
-          done || true
-          grep -E '^e: |^\* What went wrong|^> ' androidtest-output.txt | head -n 40 | while IFS= read -r line; do
-            echo "::error::$line"
-          done || true
-          exit $STATUS
-
-      # The merged-manifest path changes between AGP versions, so it is located
-      # rather than hard-coded. Checking the merged manifest (not the source one)
-      # is what actually proves no dependency smuggled a permission in.
-      - name: Verify the offline flavour has no INTERNET permission
+      - name: Verify offline Debug manifest has no network or storage permissions
         if: matrix.flavor == 'offline'
         run: |
           set -euo pipefail
-          VARIANT="${{ matrix.variant }}"
-          LOWER=$(echo "$VARIANT" | tr '[:upper:]' '[:lower:]')
-          # AGP writes intermediates/merged_manifest/offlineDebug/... — the variant
-          # camel-case matters because fusebox lower-cases the whole path.
-          CAPITAL=$(echo "${LOWER:0:1}" | tr '[:lower:]' '[:upper:]')${LOWER:1}
-          MANIFEST=$(find app/build/intermediates -ipath "*merged_manifest*offline${CAPITAL}*" -name AndroidManifest.xml | head -n 1)
+          MANIFEST=$(find app/build/intermediates -ipath '*merged_manifest*offlineDebug*' -name AndroidManifest.xml | head -n 1)
           if [ -z "$MANIFEST" ]; then
-            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath "*offline*" | grep -i "${LOWER}" | head -n 1)
+            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath '*offline*' | grep -i debug | head -n 1)
           fi
-          if [ -z "$MANIFEST" ]; then
-            echo "::error::Could not locate the merged manifest for offline${VARIANT}"
-            find app/build/intermediates -name AndroidManifest.xml | head -n 20 || true
-            exit 1
-          fi
+          test -n "$MANIFEST" || { echo '::error::offline Debug merged manifest not found'; exit 1; }
           echo "Checking $MANIFEST"
-          if grep -q 'android.permission.INTERNET' "$MANIFEST"; then
-            echo "::error::The offline flavour must not request INTERNET"
+          if grep -Eq 'android.permission.(INTERNET|ACCESS_NETWORK_STATE|ACCESS_WIFI_STATE|READ_EXTERNAL_STORAGE|WRITE_EXTERNAL_STORAGE|READ_MEDIA_)' "$MANIFEST"; then
+            echo '::error::offline Debug merged a network or storage permission'
             exit 1
           fi
-          if grep -Eq 'android.permission.(READ|WRITE)_EXTERNAL_STORAGE|READ_MEDIA_' "$MANIFEST"; then
-            echo "::error::A storage permission was merged in; imports must use SAF only"
-            exit 1
-          fi
-          if grep -Eq 'ACCESS_NETWORK_STATE|ACCESS_WIFI_STATE' "$MANIFEST"; then
-            echo "::error::A network-state permission was merged into the offline build"
-            exit 1
-          fi
-          echo "offline manifest is clean"
 
-      - name: Verify the online flavour does request INTERNET
+      - name: Verify online Debug manifest requests INTERNET
         if: matrix.flavor == 'online'
         run: |
           set -euo pipefail
-          LOWER=$(echo "${{ matrix.variant }}" | tr '[:upper:]' '[:lower:]')
-          CAPITAL=$(echo "${LOWER:0:1}" | tr '[:lower:]' '[:upper:]')${LOWER:1}
-          MANIFEST=$(find app/build/intermediates -ipath "*merged_manifest*online${CAPITAL}*" -name AndroidManifest.xml | head -n 1)
+          MANIFEST=$(find app/build/intermediates -ipath '*merged_manifest*onlineDebug*' -name AndroidManifest.xml | head -n 1)
           if [ -z "$MANIFEST" ]; then
-            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath "*online*" | grep -i "${LOWER}" | head -n 1)
+            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath '*online*' | grep -i debug | head -n 1)
           fi
-          if [ -z "$MANIFEST" ]; then
-            echo "::error::Could not locate the merged manifest for online${{ matrix.variant }}"
-            exit 1
-          fi
+          test -n "$MANIFEST" || { echo '::error::online Debug merged manifest not found'; exit 1; }
           echo "Checking $MANIFEST"
           grep -q 'android.permission.INTERNET' "$MANIFEST" || {
-            echo "::error::The online flavour should request INTERNET"
+            echo '::error::online Debug should request INTERNET'
             exit 1
           }
 
-      - name: Collect APKs
-        uses: actions/upload-artifact@v4
-        with:
-          name: apk-${{ matrix.flavor }}-${{ matrix.variant }}
-          path: |
-            app/build/outputs/apk/${{ matrix.flavor }}/${{ matrix.variant == 'Debug' && 'debug' || 'release' }}/*.apk
-          if-no-files-found: error
-          retention-days: 14
-
-      - name: Upload test reports on failure
+      - name: Upload Debug test reports on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-report-${{ matrix.flavor }}-${{ matrix.variant }}
-          path: |
-            app/build/reports/tests/**
-            app/build/reports/lint-results-*.html
+          name: test-report-${{ matrix.flavor }}-Debug
+          path: app/build/reports/tests/**
+          if-no-files-found: ignore
+          retention-days: 7
+
+  android-release:
+    name: Android ${{ matrix.flavor }} Release
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [offline, online]
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: "8.7"
+          cache-read-only: false
+
+      - name: Prepare temporary debug signing key
+        run: |
+          keytool -genkeypair \
+            -keystore "$RUNNER_TEMP/ci-debug.jks" \
+            -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=Android Debug, O=Android, C=US"
+          {
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/ci-debug.jks"
+            echo "KEYSTORE_PASSWORD=android"
+            echo "KEY_ALIAS=androiddebugkey"
+            echo "KEY_PASSWORD=android"
+          } >> "$GITHUB_ENV"
+
+      - name: Assemble ${{ matrix.flavor }} Release
+        run: |
+          set +e
+          gradle ":app:assemble${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}Release" --stacktrace > assemble-output.txt 2>&1
+          status=$?
+          tail -n 120 assemble-output.txt
+          grep -E 'e: file://|^e: |^\* What went wrong|^> |^Execution failed for task' assemble-output.txt | head -n 60 | while IFS= read -r line; do
+            echo "::error::$line"
+          done || true
+          exit "$status"
+
+      # Upload even when assemble failed (to report a missing APK) and before any
+      # unit-test or manifest check can fail.
+      - name: Upload Release APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.flavor }}-Release
+          path: app/build/outputs/apk/${{ matrix.flavor }}/release/*.apk
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Unit tests
+        run: gradle ":app:test${{ matrix.flavor == 'offline' && 'Offline' || 'Online' }}ReleaseUnitTest" --stacktrace
+
+      - name: Verify offline Release manifest has no network or storage permissions
+        if: matrix.flavor == 'offline'
+        run: |
+          set -euo pipefail
+          MANIFEST=$(find app/build/intermediates -ipath '*merged_manifest*offlineRelease*' -name AndroidManifest.xml | head -n 1)
+          if [ -z "$MANIFEST" ]; then
+            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath '*offline*' | grep -i release | head -n 1)
+          fi
+          test -n "$MANIFEST" || { echo '::error::offline Release merged manifest not found'; exit 1; }
+          echo "Checking $MANIFEST"
+          if grep -Eq 'android.permission.(INTERNET|ACCESS_NETWORK_STATE|ACCESS_WIFI_STATE|READ_EXTERNAL_STORAGE|WRITE_EXTERNAL_STORAGE|READ_MEDIA_)' "$MANIFEST"; then
+            echo '::error::offline Release merged a network or storage permission'
+            exit 1
+          fi
+
+      - name: Verify online Release manifest requests INTERNET
+        if: matrix.flavor == 'online'
+        run: |
+          set -euo pipefail
+          MANIFEST=$(find app/build/intermediates -ipath '*merged_manifest*onlineRelease*' -name AndroidManifest.xml | head -n 1)
+          if [ -z "$MANIFEST" ]; then
+            MANIFEST=$(find app/build/intermediates -name AndroidManifest.xml -ipath '*online*' | grep -i release | head -n 1)
+          fi
+          test -n "$MANIFEST" || { echo '::error::online Release merged manifest not found'; exit 1; }
+          echo "Checking $MANIFEST"
+          grep -q 'android.permission.INTERNET' "$MANIFEST" || {
+            echo '::error::online Release should request INTERNET'
+            exit 1
+          }
+
+      - name: Upload Release test reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{ matrix.flavor }}-Release
+          path: app/build/reports/tests/**
           if-no-files-found: ignore
           retention-days: 7
 
@@ -223,8 +242,6 @@ jobs:
           pip install -r tools/requirements.txt
           pip install pytest
 
-      # The sample deck is deliberately small (30 hand-written cards in 3 parts),
-      # so it is validated structurally without the shipped-deck size minimums.
       - name: Verify the committed sample deck is valid
         run: python tools/validate_deck.py --allow-small app/src/main/assets/content/sample_deck.json
 

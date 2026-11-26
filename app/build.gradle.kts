@@ -118,6 +118,10 @@ android {
         jvmTarget = "17"
     }
 
+    // Instrumented tests run against the normal, unminified debug APK. Keeping
+    // release/R8 out of the test APK avoids minifying AndroidJUnitRunner itself.
+    testBuildType = "debug"
+
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
