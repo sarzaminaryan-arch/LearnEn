@@ -72,6 +72,14 @@ if gradle "$TASK" --console=plain --info --stacktrace > "$GRADLE_LOG" 2>&1; then
 else
   status=$?
   echo "::error::instrumented tests failed (Gradle exit $status); full report and logcat are uploaded as artifacts"
+  {
+    grep -a -n -B 5 -A 35 -E 'No ActivityResultRegistryOwner|FAILED|tests completed|There were failing tests|Execution failed|What went wrong|Exception|Error:' "$GRADLE_LOG" || true
+    find "$WORKSPACE/app/build/outputs/androidTest-results" -type f -name '*.xml' -exec grep -a -n -E 'No ActivityResultRegistryOwner|<failure|<error' {} + 2>/dev/null || true
+  } | tail -n 160 > "$WORKSPACE/instrumented-failure.txt"
+  while IFS= read -r line; do
+    escaped=$(printf '%s' "$line" | sed -e 's/%/%25/g' -e 's/\r/%0D/g')
+    echo "::error::[instrumented failure detail] $escaped"
+  done < "$WORKSPACE/instrumented-failure.txt"
   # The EXIT trap gathers the complete logs before this status reaches Actions.
   exit "$status"
 fi

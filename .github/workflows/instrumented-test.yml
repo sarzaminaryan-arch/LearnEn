@@ -68,6 +68,7 @@ jobs:
             instrumented-report.txt
             instrumented-logcat.txt
             instrumented-crash.txt
+            instrumented-failure.txt
             gradle-test.log
             app/build/outputs/androidTest-results/**
             app/build/reports/androidTests/**
