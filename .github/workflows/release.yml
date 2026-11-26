@@ -246,7 +246,9 @@ jobs:
       - name: Upload APKs and bundles
         uses: actions/upload-artifact@v4
         with:
-          name: release-${{ github.ref_name }}
+          # Branch names contain '/', which is forbidden in artifact names.
+          # Use GitHub's numeric run ID so dispatch builds and tag releases are valid.
+          name: release-${{ github.run_id }}
           path: |
             app/build/outputs/apk/release/*.apk
             app/build/outputs/apk/offline/release/*.apk

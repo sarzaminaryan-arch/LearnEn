@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -383,9 +382,8 @@ private fun PreviewStep(
         }
 
         itemsIndexed(state.cards) { index, card ->
-            Card {
+            RaisedCard(contentPadding = PaddingValues(12.dp)) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Text(text = card.english, style = MaterialTheme.typography.bodyLarge)
