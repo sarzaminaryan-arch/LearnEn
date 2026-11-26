@@ -1,17 +1,16 @@
 package ir.laxipatem.lexiflash.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
@@ -34,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -235,30 +235,59 @@ private fun DeckCard(
     }
 }
 
-/** Grid of part tiles, three per row. */
+/**
+ * Grid of part tiles, three per row.
+ *
+ * This is a plain [Column] of [Row]s rather than a LazyVerticalGrid, and the
+ * choice is deliberate. PartsGrid is rendered inside an `item {}` of the
+ * LazyColumn above, which measures its children with an unbounded maximum
+ * height so they can size themselves. A lazy grid refuses that: it throws
+ * "Vertically scrollable component was measured with an infinity maximum height
+ * constraints" at measure time and takes the process down on the first frame.
+ * Lazy grids cannot be nested in a lazy parent on the same axis; the part count
+ * is small and fixed anyway, so nothing is lost by laying it out eagerly.
+ */
 @Composable
 private fun PartsGrid(
     parts: List<PartUiModel>,
     usePersianDigits: Boolean,
     onOpenPart: (Int) -> Unit
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+    val rows = remember(parts) { parts.chunked(PART_COLUMNS) }
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        userScrollEnabled = false,
-        contentPadding = PaddingValues(0.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(parts, key = { it.index }) { part ->
-            PartTile(
-                part = part,
-                usePersianDigits = usePersianDigits,
-                onClick = { if (part.access != UnlockPolicy.PartAccess.LOCKED) onOpenPart(part.index) }
-            )
+        rows.forEach { row ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                row.forEach { part ->
+                    Box(modifier = Modifier.weight(1f)) {
+                        PartTile(
+                            part = part,
+                            usePersianDigits = usePersianDigits,
+                            onClick = {
+                                if (part.access != UnlockPolicy.PartAccess.LOCKED) {
+                                    onOpenPart(part.index)
+                                }
+                            }
+                        )
+                    }
+                }
+                // Keep the last row aligned with the rows above it instead of
+                // stretching one or two tiles across the full width.
+                repeat(PART_COLUMNS - row.size) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
         }
     }
 }
+
+/** Parts per row in [PartsGrid]. */
+private const val PART_COLUMNS = 3
 
 /** A single part tile with its lock state icon and accessible description. */
 @Composable
