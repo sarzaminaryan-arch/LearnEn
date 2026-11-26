@@ -25,6 +25,12 @@ class MainNavigationTest {
     fun mainDestinations_openWithoutMissingActivityOwners() {
         val resources = composeRule.activity.resources
         composeRule.onNodeWithText(resources.getString(R.string.home_title)).assertIsDisplayed()
+        // Warm-up installs the bundled sample deck on first launch. Waiting for
+        // its first part also avoids racing the initial empty-state Import CTA.
+        composeRule.waitUntil(timeoutMillis = 20_000) {
+            composeRule.onAllNodes(hasText(resources.getString(R.string.home_part_number, 1)))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
 
         // Home -> Import is the reported crash route: the screen registers three
         // ActivityResult launchers during composition.
@@ -62,10 +68,6 @@ class MainNavigationTest {
         // cards through the ordinary study UI, then open Quiz from StudyScreen.
         composeRule.activity.onBackPressedDispatcher.onBackPressed()
         composeRule.waitForIdle()
-        composeRule.waitUntil(timeoutMillis = 15_000) {
-            composeRule.onAllNodes(hasText(resources.getString(R.string.home_part_number, 1)))
-                .fetchSemanticsNodes().isNotEmpty()
-        }
         composeRule.onNodeWithText(resources.getString(R.string.home_part_number, 1))
             .performScrollTo()
             .performClick()
@@ -77,12 +79,12 @@ class MainNavigationTest {
 
         val quizButton = resources.getString(R.string.study_start_quiz)
         val flipCardDescription = resources.getString(R.string.cd_flip_card)
-        val rateGoodDescription = resources.getString(R.string.cd_rating_good)
+        val rateGoodLabel = resources.getString(R.string.rating_good)
         var attempts = 0
         while (composeRule.onAllNodes(hasText(quizButton)).fetchSemanticsNodes().isEmpty() && attempts < 60) {
             composeRule.onNodeWithContentDescription(flipCardDescription).performClick()
             composeRule.waitForIdle()
-            composeRule.onNodeWithContentDescription(rateGoodDescription).performClick()
+            composeRule.onNodeWithText(rateGoodLabel).performClick()
             composeRule.waitForIdle()
             attempts++
         }
