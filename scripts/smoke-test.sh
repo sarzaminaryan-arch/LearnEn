@@ -32,11 +32,11 @@ echo "::notice::apk=$APK"
 ls -lh "$APK"
 
 # The package id carries a suffix for debug and for the online flavour, so it is
-# read out of the APK rather than assumed.
-# aapt2 is the authority: it reads the compiled manifest and prints exactly the
-# package id, including the debug/online suffix. Grepping the binary string pool
-# was tried first and is unreliable: it also matches the FileProvider authority,
-# and NUL-stripping glues adjacent strings together.
+# read out of the APK rather than assumed. aapt2 is the authority: it reads the
+# compiled manifest and prints exactly the package id. Grepping the binary
+# string pool was tried first and is unreliable, because it also matches the
+# FileProvider authority and because NUL-stripping glues adjacent strings
+# together.
 find_aapt2() {
   for candidate in \
     "$(command -v aapt2 2>/dev/null)" \
@@ -61,7 +61,7 @@ if [ -n "$AAPT2" ]; then
 fi
 if [ -z "$PKG" ]; then
   # Fallback: the pool approach, but only accept an exact id (no trailing dot,
-  # no authority suffix) and prefer the longest match that the APK itself lists.
+  # no authority suffix).
   PKG=$(unzip -p "$APK" AndroidManifest.xml 2>/dev/null \
     | tr '\0' '\n' \
     | grep -ao '^ir\.laxipatem\.lexiflash[A-Za-z0-9_.]*$' \
@@ -86,11 +86,52 @@ if [ $INSTALL_STATUS -ne 0 ]; then
 fi
 
 # ------------------------------------------------------------------- launch
+# The package id and the activity class are not the same thing here: the debug
+# and online flavours add an applicationId suffix (ir.laxipatem.lexiflash.debug),
+# while a relative android:name in the manifest resolves against the manifest
+# package. An earlier run asked for "$PKG/.MainActivity", which names a component
+# that does not exist, and the activity was never started at all.
+# The exact activity class comes from the APK itself. `badging` prints the fully
+# qualified launchable-activity, which removes every guess about how a relative
+# android:name was resolved against the manifest package.
+LAUNCH_CLASS=""
+if [ -n "$AAPT2" ]; then
+  LAUNCH_CLASS=$("$AAPT2" dump badging "$APK" 2>/dev/null \
+    | tr -d '\r' \
+    | sed -n "s/^launchable-activity: name='\([^']*\)'.*/\1/p" \
+    | head -n 1)
+fi
+echo "::notice::launchable_activity=${LAUNCH_CLASS:-unknown}"
+
+COMPONENT=""
+if [ -n "$LAUNCH_CLASS" ]; then
+  COMPONENT="$PKG/$LAUNCH_CLASS"
+else
+  COMPONENT=$(adb shell cmd package resolve-activity --brief \
+    -a android.intent.action.MAIN \
+    -c android.intent.category.LAUNCHER \
+    "$PKG" 2>&1 | tr -d '\r' | tail -n 1)
+fi
+echo "::notice::component=$COMPONENT"
+
 adb logcat -c
-AMOUT=$(adb shell am start -W -n "$PKG/.MainActivity" 2>&1)
+AMOUT=$(adb shell am start -W -n "$COMPONENT" 2>&1)
 AMRC=$?
 echo "$AMOUT"
 echo "am start exit: $AMRC"
+
+# If the explicit component did not take, fall back to a launcher-equivalent
+# start, so a bad component name cannot masquerade as an app crash.
+case "$AMOUT" in
+  *Error*|*"does not exist"*|*"Unable to find"*)
+    echo "::warning::explicit component failed, retrying through monkey"
+    MONKEYOUT=$(adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1 2>&1)
+    echo "$MONKEYOUT"
+    AMOUT="$AMOUT
+--- monkey fallback ---
+$MONKEYOUT"
+    ;;
+esac
 
 # Compose has to lay out and the warm-up has to seed the deck. A launch crash
 # happens well inside this window.
@@ -103,33 +144,6 @@ if adb shell pidof "$PKG" > /dev/null 2>&1; then
 fi
 echo "::notice::process alive: $ALIVE"
 
-# ------------------------------------------------------- export the evidence
-# The uploaded artifact is fetched from an Azure blob host that is not reachable
-# from where this log has to be read, and the job log itself is not readable
-# either. Annotations are, so the interesting slice of logcat is republished as
-# a run annotation, in chunks. Newlines terminate a workflow command, so they
-# are folded into a visible marker first.
-emit_annotation() {
-  # $1 = file with the text to publish
-  # GitHub truncates long annotations, so each chunk is kept to 30 lines and
-  # about 3 KB, well inside the limit.
-  local total chunks body
-  total=$(wc -c < "$1" | tr -d ' ')
-  chunks=$(( (total + 2500) / 3000 ))
-  [ "$chunks" -lt 1 ] && chunks=1
-  [ "$chunks" -gt 24 ] && chunks=24
-  local i=1
-  while [ "$i" -le "$chunks" ]; do
-    body=$(sed -n "$(( (i-1)*30 + 1 )),$(( i*30 ))p" "$1" \
-      | tr -d '\r' \
-      | head -c 3000 \
-      | sed -e 's/%/%25/g' -e 's/$/ | /' \
-      | tr -d '\n')
-    printf '::notice title=crash log %s/%s::%s\n' "$i" "$chunks" "$body"
-    i=$(( i + 1 ))
-  done
-}
-
 CRASH=$(adb logcat -d -b crash 2>&1)
 FATAL=$(adb logcat -d 2>&1 | grep -c "FATAL EXCEPTION" || true)
 
@@ -140,8 +154,13 @@ LOG="${GITHUB_WORKSPACE:-$PWD}/smoke-report.txt"
   echo "variant=$VARIANT flavor=$FLAVOR"
   echo "apk=$APK"
   echo "package=$PKG"
+  echo "component=$COMPONENT"
+  echo "am_start_exit=$AMRC"
   echo "alive=$ALIVE"
   echo "fatal_count=$FATAL"
+  echo
+  echo "=========== AM START ==========="
+  echo "$AMOUT"
   echo
   echo "=========== CRASH BUFFER ==========="
   echo "$CRASH"
@@ -151,23 +170,35 @@ LOG="${GITHUB_WORKSPACE:-$PWD}/smoke-report.txt"
 } > "$LOG" 2>&1
 echo "::notice::report written to $LOG"
 
-# Anything the runtime, the activity manager or our own process said.
+# ------------------------------------------------ publish the evidence inline
+# The uploaded artifact is fetched through an Azure blob host that is not
+# reachable from where this log has to be read, and the job log is not readable
+# either. Annotations are, so the slice that matters is republished as one. The
+# emulator is still finishing boot during this window and fills logcat with
+# system_server noise, so only lines about this package or the runtime's own
+# crash output are kept.
 adb logcat -d 2>&1 \
-  | grep -i -E "AndroidRuntime|FATAL|lexiflash|ActivityTaskManager|ActivityManager|System.err|am_crash|Process .* has died|Force finishing|Unable to start" \
-  | tail -n 400 > /tmp/excerpt.txt
-echo "=========== EXCERPT ($(wc -l < /tmp/excerpt.txt) lines) ==========="
+  | grep -E "AndroidRuntime|FATAL|am_crash|am_proc_died|$PKG" \
+  | tail -n 40 > /tmp/excerpt.txt
+
+publish() {
+  # $1 = file, $2 = title
+  local body
+  body=$(tr -d '\r' < "$1" | head -c 2500 | sed -e 's/%/%25/g' -e 's/$/ | /' | tr -d '\n')
+  [ -z "$body" ] && body="(empty)"
+  printf '::notice title=%s::%s\n' "$2" "$body"
+}
+
+printf 'component=%s am_start_exit=%s alive=%s fatal=%s\n%s\n' \
+  "$COMPONENT" "$AMRC" "$ALIVE" "$FATAL" "$AMOUT" > /tmp/launch.txt
+publish /tmp/launch.txt "launch"
+publish /tmp/excerpt.txt "logcat excerpt"
+
+echo "=========== EXCERPT ==========="
 cat /tmp/excerpt.txt
-emit_annotation /tmp/excerpt.txt
-
-# The launcher's own verdict, in case the activity was never started at all.
-printf '%s\n' "$AMOUT" > /tmp/am.txt
-emit_annotation /tmp/am.txt
-
 echo "=========== CRASH BUFFER ==========="
 echo "$CRASH"
 echo "=========== FATAL COUNT: $FATAL ==========="
-echo "=========== APP LOGCAT ==========="
-adb logcat -d 2>&1 | grep -i -E "lexiflash|AndroidRuntime|FATAL|System.err" | tail -n 200
 echo "=========== RESUMED ACTIVITY ==========="
 adb shell dumpsys activity activities 2>&1 | grep -i -E "mResumedActivity|topResumedActivity" | head -n 3
 
@@ -178,7 +209,6 @@ fi
 
 if [ "$FATAL" != "0" ]; then
   echo "::error::$FATAL fatal exception(s) logged during launch"
-  adb logcat -d 2>&1 | grep -A 40 "FATAL EXCEPTION" | head -n 120
   exit 1
 fi
 
