@@ -13,7 +13,7 @@
 
 set -x
 
-VARIANT="${VARIANT:-release}"
+VARIANT="${VARIANT:-diagnostic}"
 FLAVOR="${FLAVOR:-offline}"
 
 REPORT="${GITHUB_WORKSPACE:-$PWD}/instrumented-report.txt"
@@ -29,10 +29,11 @@ echo "sdk=$(adb shell getprop ro.build.version.sdk | tr -d '\r')" >> "$REPORT"
 adb shell settings put global window_animation_scale 0 || true
 adb shell settings put global transition_animation_scale 0 || true
 adb shell settings put global animator_duration_scale 0 || true
+adb logcat -c || true
 
 # ---------------------------------------------------------------------- the run
-# `:app:connectedDebugAndroidTest` is a shorthand for every connected variant.
-# Naming the task explicitly keeps the output tied to the flavour under test.
+# The configured testBuildType is the R8-enabled, debuggable `diagnostic` type.
+# Naming the task explicitly ties the run to one flavour and one test target.
 TASK=":app:connected${FLAVOR^}${VARIANT^}AndroidTest"
 echo "task=$TASK" >> "$REPORT"
 
@@ -61,9 +62,12 @@ find app/build/outputs/androidTest-results -name "*.xml" -print 2>/dev/null \
 
 # logcat holds the trace for a process that died before a test could report it.
 adb logcat -d -b crash > /tmp/crash.txt 2>&1 || true
-adb logcat -d 2>&1 \
-  | grep -E "AndroidRuntime|FATAL|am_crash|am_proc_died|TestRunner|Instrumentation" \
-  | head -n 120 > /tmp/instrumented-excerpt.txt || true
+adb logcat -d -v threadtime 2>&1 \
+  | grep -E -A 60 -B 12 "FATAL EXCEPTION|AndroidRuntime|am_crash|am_proc_died|TestRunner|Instrumentation|SafebootUtils|SplitCompat" \
+  | tail -n 300 > /tmp/instrumented-excerpt.txt || true
+
+grep -E -A 8 -B 4 "FAILURE: Build failed|Execution failed for task|Caused by:|Exception|Error:" \
+  /tmp/gradle-test.log 2>/dev/null | tail -n 160 > /tmp/gradle-diagnostics.txt || true
 
 {
   echo
@@ -97,7 +101,8 @@ publish /tmp/failures.txt "failures" 2000
 grep -A 12 "FATAL EXCEPTION" /tmp/crash.txt 2>/dev/null | head -c 2000 > /tmp/fatal.txt || true
 publish /tmp/fatal.txt "fatal" 2000
 
-publish /tmp/instrumented-excerpt.txt "runtime excerpt" 2400
+publish /tmp/gradle-diagnostics.txt "gradle diagnostics" 5000
+publish /tmp/instrumented-excerpt.txt "runtime excerpt" 5000
 
 if [ "$GRADLE_EXIT" -ne 0 ]; then
   echo "::error::the instrumented tests failed with exit code $GRADLE_EXIT"

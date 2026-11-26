@@ -1,7 +1,7 @@
 name: Instrumented import and catalogue tests
 
-# Runs the real androidTest suite against minified release APKs on both the
-# minimum supported API and a current API, for both distribution flavours.
+# Runs the real androidTest suite against the R8-minified, debuggable diagnostic
+# build on both the minimum supported API and a current API, for both flavours.
 # Reports and logcat are published as artifacts and workflow annotations.
 
 on:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   instrumented:
-    name: ${{ matrix.flavor }} release · API ${{ matrix.api_level }}
+    name: ${{ matrix.flavor }} diagnostic · API ${{ matrix.api_level }}
     runs-on: ubuntu-22.04
     timeout-minutes: 75
     strategy:
@@ -36,21 +36,6 @@ jobs:
         with:
           gradle-version: "8.7"
 
-      - name: Create temporary signing key for release test APK
-        run: |
-          keytool -genkeypair \
-            -keystore "$RUNNER_TEMP/instrumented.jks" \
-            -alias instrumented \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass instrumentedpass -keypass instrumentedpass \
-            -dname "CN=Instrumented Test, O=LexiFlash, C=DE"
-          {
-            echo "KEYSTORE_PATH=$RUNNER_TEMP/instrumented.jks"
-            echo "KEYSTORE_PASSWORD=instrumentedpass"
-            echo "KEY_ALIAS=instrumented"
-            echo "KEY_PASSWORD=instrumentedpass"
-          } >> "$GITHUB_ENV"
-
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
@@ -61,7 +46,7 @@ jobs:
       - name: Run instrumented tests on API ${{ matrix.api_level }}
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          VARIANT: release
+          VARIANT: diagnostic
           FLAVOR: ${{ matrix.flavor }}
         with:
           api-level: ${{ matrix.api_level }}

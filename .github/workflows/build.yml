@@ -125,13 +125,13 @@ jobs:
           done || true
           exit $STATUS
 
-      # Instrumented tests target the minified release build (testBuildType=release).
-      # Compile that test APK here; the emulator workflow installs and runs it.
-      - name: Compile release instrumented tests ${{ matrix.flavor }}
+      # Instrumented tests target the minified diagnostic build. It uses R8 like
+      # release but remains debuggable for AndroidJUnitRunner.
+      - name: Compile diagnostic instrumented tests ${{ matrix.flavor }}
         if: matrix.variant == 'Release'
         run: |
           set +e
-          gradle :app:assemble${{ matrix.flavor }}${{ matrix.variant }}AndroidTest --stacktrace > androidtest-output.txt 2>&1
+          gradle :app:assemble${{ matrix.flavor }}DiagnosticAndroidTest --stacktrace > androidtest-output.txt 2>&1
           STATUS=$?
           tail -n 120 androidtest-output.txt
           grep -o 'e: file://[^ ]*' androidtest-output.txt | while IFS= read -r line; do

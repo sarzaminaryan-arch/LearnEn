@@ -83,6 +83,14 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
         }
+        create("diagnostic") {
+            initWith(getByName("release"))
+            isDebuggable = true
+            applicationIdSuffix = ".diagnostic"
+            versionNameSuffix = "-diagnostic"
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+        }
     }
 
     flavorDimensions += "distribution"
@@ -118,7 +126,9 @@ android {
         jvmTarget = "17"
     }
 
-    testBuildType = "release"
+    // Keep a minified-but-debuggable target for instrumented diagnostics. It
+    // exercises R8 like release while remaining attachable to AndroidJUnitRunner.
+    testBuildType = "diagnostic"
 
     testOptions {
         unitTests.isReturnDefaultValues = true
