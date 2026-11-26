@@ -131,8 +131,10 @@ jobs:
           STATUS=${PIPESTATUS[0]}
           set -e
           if [ "$STATUS" -ne 0 ]; then
-            TAIL=$(tail -n 30 "$LOG" | python3 -c 'import sys; print(sys.stdin.read().replace(chr(37), chr(37)+"25").replace(chr(13), "%0D").replace(chr(10), "%0A"))')
-            echo "::error title=Gradle release build failed::Last build output: $TAIL"
+            DETAILS=$(grep -E '(^e: |^FAILURE:|^\* What went wrong:|^Execution failed for task|^Caused by:|^> Task .* FAILED| error:)' "$LOG" | tail -n 30 || true)
+            if [ -z "$DETAILS" ]; then DETAILS=$(tail -n 80 "$LOG"); fi
+            TAIL=$(printf '%s\n' "$DETAILS" | python3 -c 'import sys; print(sys.stdin.read().replace(chr(37), chr(37)+"25").replace(chr(13), "%0D").replace(chr(10), "%0A"))')
+            echo "::error title=Gradle release build failed::Build details: $TAIL"
             exit "$STATUS"
           fi
 
