@@ -2,11 +2,14 @@ package ir.laxipatem.lexiflash
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivityResultRegistryOwner
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,21 +31,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val container = appContainer
-            val settings by container.settings.settings.collectAsStateWithLifecycle(
-                initialValue = ir.laxipatem.lexiflash.data.repo.UserSettings()
-            )
-
-            LexiFlashTheme(
-                themeMode = settings.themeMode,
-                dynamicColor = settings.dynamicColor,
-                language = settings.language
+            // Locale-aware contexts provided deeper in the theme can obscure
+            // Activity-derived owners from Compose. Publish them explicitly at
+            // the root so activity-result launchers and back handling always
+            // resolve against this Activity.
+            CompositionLocalProvider(
+                LocalActivityResultRegistryOwner provides this@MainActivity,
+                LocalOnBackPressedDispatcherOwner provides this@MainActivity
             ) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                val container = appContainer
+                val settings by container.settings.settings.collectAsStateWithLifecycle(
+                    initialValue = ir.laxipatem.lexiflash.data.repo.UserSettings()
+                )
+
+                LexiFlashTheme(
+                    themeMode = settings.themeMode,
+                    dynamicColor = settings.dynamicColor,
+                    language = settings.language
                 ) {
-                    AppNavHost(container = container, settings = settings)
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        AppNavHost(container = container, settings = settings)
+                    }
                 }
             }
         }
