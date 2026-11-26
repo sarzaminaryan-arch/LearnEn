@@ -15,12 +15,10 @@
      "ipa": "aɪ dɹɪŋk tiː ˈɛvɹi ˈmɔːnɪŋ bɪˈfɔː wɜːk",
      "vocab": [
       {
-       "word": "drink",
-       "meaning": "نوشیدن"
+       "word": "drink"
       },
       {
-       "word": "morning",
-       "meaning": "صبح"
+       "word": "morning"
       }
      ],
      "difficulty": 0.05,
@@ -36,12 +34,10 @@
      "ipa": "ʃiː wɔːks tə skuːl wɪð hɜː ˈsɪstə",
      "vocab": [
       {
-       "word": "walks",
-       "meaning": "راه می‌رود"
+       "word": "walks"
       },
       {
-       "word": "sister",
-       "meaning": "خواهر"
+       "word": "sister"
       }
      ],
      "difficulty": 0.08,
@@ -57,12 +53,10 @@
      "ipa": "ðə kæt sliːps ɒn ðə wɔːm tʃeə",
      "vocab": [
       {
-       "word": "sleeps",
-       "meaning": "می‌خوابد"
+       "word": "sleeps"
       },
       {
-       "word": "warm",
-       "meaning": "گرم"
+       "word": "warm"
       }
      ],
      "difficulty": 0.06,
@@ -78,12 +72,10 @@
      "ipa": "wiː niːd bɹɛd ænd mɪlk fɹɒm ðə ʃɒp",
      "vocab": [
       {
-       "word": "bread",
-       "meaning": "نان"
+       "word": "bread"
       },
       {
-       "word": "shop",
-       "meaning": "فروشگاه"
+       "word": "shop"
       }
      ],
      "difficulty": 0.1,
@@ -99,12 +91,10 @@
      "ipa": "maɪ ˈbɹʌðə pleɪz ˈfʊtbɔːl ˈɑːftə lʌntʃ",
      "vocab": [
       {
-       "word": "brother",
-       "meaning": "برادر"
+       "word": "brother"
       },
       {
-       "word": "football",
-       "meaning": "فوتبال"
+       "word": "football"
       }
      ],
      "difficulty": 0.09,
@@ -120,12 +110,10 @@
      "ipa": "ɪt ɪz ˈɹeɪnɪŋ aʊtˈsaɪd təˈdeɪ",
      "vocab": [
       {
-       "word": "raining",
-       "meaning": "باران می‌بارد"
+       "word": "raining"
       },
       {
-       "word": "outside",
-       "meaning": "بیرون"
+       "word": "outside"
       }
      ],
      "difficulty": 0.07,
@@ -141,12 +129,10 @@
      "ipa": "ðə tɹeɪn liːvz ət ˈsɛvən ɪn ði ˈiːvnɪŋ",
      "vocab": [
       {
-       "word": "train",
-       "meaning": "قطار"
+       "word": "train"
       },
       {
-       "word": "evening",
-       "meaning": "عصر"
+       "word": "evening"
       }
      ],
      "difficulty": 0.12,
@@ -162,12 +148,10 @@
      "ipa": "pliːz kləʊz ðə ˈwɪndəʊ bɪˈfɔː juː ɡəʊ",
      "vocab": [
       {
-       "word": "close",
-       "meaning": "بستن؛ نزدیک"
+       "word": "close"
       },
       {
-       "word": "window",
-       "meaning": "پنجره"
+       "word": "window"
       }
      ],
      "difficulty": 0.11,
@@ -183,12 +167,10 @@
      "ipa": "hiː ɹiːdz ðə ˈnjuːzpeɪpə ət ˈbɹɛkfəst",
      "vocab": [
       {
-       "word": "newspaper",
-       "meaning": "روزنامه"
+       "word": "newspaper"
       },
       {
-       "word": "breakfast",
-       "meaning": "صبحانه"
+       "word": "breakfast"
       }
      ],
      "difficulty": 0.14,
@@ -204,12 +186,10 @@
      "ipa": "aʊə ˈneɪbə ˈwɔːtəz ðə ˈflaʊəz ˈɛvɹi deɪ",
      "vocab": [
       {
-       "word": "neighbour",
-       "meaning": "همسایه"
+       "word": "neighbour"
       },
       {
-       "word": "flowers",
-       "meaning": "گل‌ها"
+       "word": "flowers"
       }
      ],
      "difficulty": 0.16,
@@ -230,12 +210,10 @@
      "ipa": "aɪ fəˈɡɒt tə bɹɪŋ maɪ ʌmˈbɹɛlə ðɪs ˈmɔːnɪŋ",
      "vocab": [
       {
-       "word": "forgot",
-       "meaning": "فراموش کرد"
+       "word": "forgot"
       },
       {
-       "word": "umbrella",
-       "meaning": "چتر"
+       "word": "umbrella"
       }
      ],
      "difficulty": 0.24,
@@ -251,12 +229,10 @@
      "ipa": "ðə ˈɹɛstɹɒnt wəz fʊl səʊ wiː ˈweɪtɪd aʊtˈsaɪd",
      "vocab": [
       {
-       "word": "restaurant",
-       "meaning": "رستوران"
+       "word": "restaurant"
       },
       {
-       "word": "waited",
-       "meaning": "منتظر ماند"
+       "word": "waited"
       }
      ],
      "difficulty": 0.27,
@@ -272,12 +248,10 @@
      "ipa": "ʃiː spiːks bəʊθ ˈɪŋɡlɪʃ ænd ˈpɜːʒən ət həʊm",
      "vocab": [
       {
-       "word": "speaks",
-       "meaning": "صحبت می‌کند"
+       "word": "speaks"
       },
       {
-       "word": "Persian",
-       "meaning": "فارسی"
+       "word": "Persian"
       }
      ],
      "difficulty": 0.22,
@@ -293,12 +267,10 @@
      "ipa": "wiː wɒtʃt ə fɪlm ænd ðɛn wɛnt fɔː ə wɔːk",
      "vocab": [
       {
-       "word": "watched",
-       "meaning": "تماشا کرد"
+       "word": "watched"
       },
       {
-       "word": "walk",
-       "meaning": "راه رفتن"
+       "word": "walk"
       }
      ],
      "difficulty": 0.25,
@@ -314,12 +286,10 @@
      "ipa": "ðə ˈdɒktə təʊld miː tə ɹɛst fɔː tuː deɪz",
      "vocab": [
       {
-       "word": "doctor",
-       "meaning": "پزشک"
+       "word": "doctor"
       },
       {
-       "word": "rest",
-       "meaning": "استراحت"
+       "word": "rest"
       }
      ],
      "difficulty": 0.26,
@@ -335,12 +305,10 @@
      "ipa": "kʊd juː ɹɪˈpiːt ðæt mɔː ˈsləʊli pliːz",
      "vocab": [
       {
-       "word": "repeat",
-       "meaning": "تکرار کردن"
+       "word": "repeat"
       },
       {
-       "word": "slowly",
-       "meaning": "آهسته"
+       "word": "slowly"
       }
      ],
      "difficulty": 0.29,
@@ -356,12 +324,10 @@
      "ipa": "aɪ hæv biːn ˈlɜːnɪŋ ˈɪŋɡlɪʃ fɔː θɹiː jɪəz",
      "vocab": [
       {
-       "word": "learning",
-       "meaning": "یادگیری"
+       "word": "learning"
       },
       {
-       "word": "years",
-       "meaning": "سال‌ها"
+       "word": "years"
       }
      ],
      "difficulty": 0.31,
@@ -377,12 +343,10 @@
      "ipa": "hiː fɪkst ðə ˈbaɪsɪkl̩ wɪðˈaʊt ˈɛni hɛlp",
      "vocab": [
       {
-       "word": "fixed",
-       "meaning": "تعمیر کرد"
+       "word": "fixed"
       },
       {
-       "word": "bicycle",
-       "meaning": "دوچرخه"
+       "word": "bicycle"
       }
      ],
      "difficulty": 0.33,
@@ -398,12 +362,10 @@
      "ipa": "ðə ˈmiːtɪŋ stɑːts ˈɜːliə ðæn ˈjuːʒuəl təˈmɒɹəʊ",
      "vocab": [
       {
-       "word": "meeting",
-       "meaning": "جلسه"
+       "word": "meeting"
       },
       {
-       "word": "earlier",
-       "meaning": "زودتر"
+       "word": "earlier"
       }
      ],
      "difficulty": 0.3,
@@ -419,12 +381,10 @@
      "ipa": "aʊə ˈɡɑːdn̩ lʊks bɛst ɪn ðə spɹɪŋ",
      "vocab": [
       {
-       "word": "garden",
-       "meaning": "باغ"
+       "word": "garden"
       },
       {
-       "word": "spring",
-       "meaning": "بهار"
+       "word": "spring"
       }
      ],
      "difficulty": 0.28,
@@ -445,12 +405,10 @@
      "ipa": "ðə plæn dɪˈpɛndz ɒn ˈwɛðə ðə ˈwɛðə ɪmˈpɹuːvz",
      "vocab": [
       {
-       "word": "depends",
-       "meaning": "بستگی دارد"
+       "word": "depends"
       },
       {
-       "word": "improves",
-       "meaning": "بهبود می‌یابد"
+       "word": "improves"
       }
      ],
      "difficulty": 0.46,
@@ -466,12 +424,10 @@
      "ipa": "ʃiː əˈpɒlədʒaɪzd fɔː əˈɹaɪvɪŋ leɪt tə ði ˈɪntəvjuː",
      "vocab": [
       {
-       "word": "apologised",
-       "meaning": "عذرخواهی کرد"
+       "word": "apologised"
       },
       {
-       "word": "interview",
-       "meaning": "مصاحبه"
+       "word": "interview"
       }
      ],
      "difficulty": 0.49,
@@ -487,12 +443,10 @@
      "ipa": "dɪˈspaɪt ðə dɪˈleɪ ˈɛvɹiwʌn ɹiːtʃt ðə ˈsteɪʃn̩ ˈseɪfli",
      "vocab": [
       {
-       "word": "despite",
-       "meaning": "با وجودِ"
+       "word": "despite"
       },
       {
-       "word": "safely",
-       "meaning": "با ایمنی"
+       "word": "safely"
       }
      ],
      "difficulty": 0.52,
@@ -508,12 +462,10 @@
      "ipa": "aɪ wʊd ˈɹɑːðə teɪk ðə ˈsləʊə ɹuːt ðæn ɹɪsk ə ˈʃɔːtkʌt",
      "vocab": [
       {
-       "word": "rather",
-       "meaning": "نسبتاً"
+       "word": "rather"
       },
       {
-       "word": "shortcut",
-       "meaning": "میان‌بُر"
+       "word": "shortcut"
       }
      ],
      "difficulty": 0.55,
@@ -529,12 +481,10 @@
      "ipa": "ðə kəˈmɪti pəʊstˈpəʊnd ðə dɪˈsɪʒn̩ ʌnˈtɪl nɛkst mʌnθ",
      "vocab": [
       {
-       "word": "committee",
-       "meaning": "کمیته"
+       "word": "committee"
       },
       {
-       "word": "postponed",
-       "meaning": "به تعویق انداخت"
+       "word": "postponed"
       }
      ],
      "difficulty": 0.58,
@@ -550,12 +500,10 @@
      "ipa": "ˈlɜːnɪŋ ə ˈlæŋɡwɪdʒ ɹɪˈwɔːdz ˈpeɪʃn̩s mɔː ðæn ˈtælənt",
      "vocab": [
       {
-       "word": "rewards",
-       "meaning": "پاداش می‌دهد"
+       "word": "rewards"
       },
       {
-       "word": "patience",
-       "meaning": "صبر"
+       "word": "patience"
       }
      ],
      "difficulty": 0.5,
@@ -571,12 +519,10 @@
      "ipa": "hiː ɪkˈspleɪnd ðə ɹuːlz ˈkeəfli səʊ ˈnəʊbədi wʊd kəmˈpleɪn",
      "vocab": [
       {
-       "word": "explained",
-       "meaning": "توضیح داد"
+       "word": "explained"
       },
       {
-       "word": "complain",
-       "meaning": "شکایت کردن"
+       "word": "complain"
       }
      ],
      "difficulty": 0.47,
@@ -592,12 +538,10 @@
      "ipa": "ɔːlˈðəʊ ðə ɹəʊd wəz ˈnæɹəʊ ðə ˈdɹaɪvə steɪd kɑːm",
      "vocab": [
       {
-       "word": "although",
-       "meaning": "با اینکه"
+       "word": "although"
       },
       {
-       "word": "narrow",
-       "meaning": "باریک"
+       "word": "narrow"
       }
      ],
      "difficulty": 0.53,
@@ -613,12 +557,10 @@
      "ipa": "ðə ˈlaɪbɹəɹi kiːps ˈəʊldə ˈnjuːzpeɪpəz ɪn ðə ˈbeɪsmənt",
      "vocab": [
       {
-       "word": "library",
-       "meaning": "کتابخانه"
+       "word": "library"
       },
       {
-       "word": "basement",
-       "meaning": "زیرزمین"
+       "word": "basement"
       }
      ],
      "difficulty": 0.45,
@@ -634,12 +576,10 @@
      "ipa": "wiː əˈɡɹiːd tə ʃeə ðə kɒst ɒv ðə ɹɪˈpeə ˈfeəli",
      "vocab": [
       {
-       "word": "agreed",
-       "meaning": "موافقت کرد"
+       "word": "agreed"
       },
       {
-       "word": "fairly",
-       "meaning": "نسبتاً"
+       "word": "fairly"
       }
      ],
      "difficulty": 0.48,

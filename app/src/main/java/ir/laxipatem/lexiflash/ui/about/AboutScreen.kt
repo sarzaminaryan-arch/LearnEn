@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import ir.laxipatem.lexiflash.BuildConfig
 import ir.laxipatem.lexiflash.CrashReport
 import ir.laxipatem.lexiflash.R
-import ir.laxipatem.lexiflash.ui.common.glassOutline
 
 /**
  * Attribution and licence screen.
@@ -211,11 +210,8 @@ private fun AboutCard(
     content: @Composable androidx.compose.foundation.layout.ColumnScope.() -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().glassOutline(MaterialTheme.shapes.medium),
-        shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f)
-        )
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier
