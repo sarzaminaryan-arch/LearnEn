@@ -14,12 +14,10 @@
           "persian": "یک کیلو از این سیب‌ها چند است؟",
           "vocab": [
             {
-              "word": "kilo",
-              "meaning": "کیلوگرم"
+              "word": "kilo"
             },
             {
-              "word": "apple",
-              "meaning": "سیب"
+              "word": "apple"
             }
           ],
           "difficulty": 0.09,
@@ -34,8 +32,7 @@
           "persian": "کیلویی دویست هزار است.",
           "vocab": [
             {
-              "word": "kilo",
-              "meaning": "کیلوگرم"
+              "word": "kilo"
             }
           ],
           "difficulty": 0.11,
@@ -50,8 +47,7 @@
           "persian": "این بیشتر از آن بود که فکر می‌کردم.",
           "vocab": [
             {
-              "word": "expect",
-              "meaning": "انتظار داشتن"
+              "word": "expect"
             }
           ],
           "difficulty": 0.12,
@@ -66,12 +62,10 @@
           "persian": "آن‌هایی که آن طرف‌اند ارزان‌ترند.",
           "vocab": [
             {
-              "word": "cheaper",
-              "meaning": "ارزان‌تر"
+              "word": "cheaper"
             },
             {
-              "word": "there",
-              "meaning": "آنجا"
+              "word": "there"
             }
           ],
           "difficulty": 0.13,
@@ -86,12 +80,10 @@
           "persian": "شیرین‌اند یا ترش؟",
           "vocab": [
             {
-              "word": "sweet",
-              "meaning": "شیرین"
+              "word": "sweet"
             },
             {
-              "word": "sour",
-              "meaning": "ترش"
+              "word": "sour"
             }
           ],
           "difficulty": 0.14,
@@ -106,12 +98,10 @@
           "persian": "کمی ترش‌اند، برای پختن خوب‌اند.",
           "vocab": [
             {
-              "word": "cooking",
-              "meaning": "آشپزی"
+              "word": "cooking"
             },
             {
-              "word": "good",
-              "meaning": "خوب"
+              "word": "good"
             }
           ],
           "difficulty": 0.15,
@@ -126,8 +116,7 @@
           "persian": "دو کیلو می‌خرم، لطفاً.",
           "vocab": [
             {
-              "word": "kilo",
-              "meaning": "کیلوگرم"
+              "word": "kilo"
             }
           ],
           "difficulty": 0.17,
@@ -142,12 +131,10 @@
           "persian": "چیز دیگری هم می‌خواهید؟",
           "vocab": [
             {
-              "word": "anything",
-              "meaning": "هر چیزی"
+              "word": "anything"
             },
             {
-              "word": "else",
-              "meaning": "دیگر"
+              "word": "else"
             }
           ],
           "difficulty": 0.18,
@@ -162,12 +149,10 @@
           "persian": "نان تازه دارید؟",
           "vocab": [
             {
-              "word": "fresh",
-              "meaning": "تازه"
+              "word": "fresh"
             },
             {
-              "word": "bread",
-              "meaning": "نان"
+              "word": "bread"
             }
           ],
           "difficulty": 0.19,
@@ -182,12 +167,10 @@
           "persian": "یک ساعت پیش از تنور درآمد.",
           "vocab": [
             {
-              "word": "oven",
-              "meaning": "فر"
+              "word": "oven"
             },
             {
-              "word": "hour",
-              "meaning": "ساعت"
+              "word": "hour"
             }
           ],
           "difficulty": 0.21,
@@ -207,12 +190,10 @@
           "persian": "می‌توانم با کارت پرداخت کنم؟",
           "vocab": [
             {
-              "word": "pay",
-              "meaning": "پرداخت کردن"
+              "word": "pay"
             },
             {
-              "word": "card",
-              "meaning": "کارت"
+              "word": "card"
             }
           ],
           "difficulty": 0.22,
@@ -227,12 +208,10 @@
           "persian": "دستگاه کار نمی‌کند، فقط نقدی.",
           "vocab": [
             {
-              "word": "machine",
-              "meaning": "دستگاه"
+              "word": "machine"
             },
             {
-              "word": "cash",
-              "meaning": "پول نقد"
+              "word": "cash"
             }
           ],
           "difficulty": 0.23,
@@ -247,12 +226,10 @@
           "persian": "پس باید خودپرداز پیدا کنم.",
           "vocab": [
             {
-              "word": "need",
-              "meaning": "نیاز داشتن"
+              "word": "need"
             },
             {
-              "word": "find",
-              "meaning": "پیدا کردن"
+              "word": "find"
             }
           ],
           "difficulty": 0.24,
@@ -267,8 +244,7 @@
           "persian": "یکی همین نزدیکی سر خیابان است.",
           "vocab": [
             {
-              "word": "corner",
-              "meaning": "گوشه"
+              "word": "corner"
             }
           ],
           "difficulty": 0.26,
@@ -283,12 +259,10 @@
           "persian": "می‌شود این را برایم در یخچال بگذارید؟",
           "vocab": [
             {
-              "word": "fridge",
-              "meaning": "یخچال"
+              "word": "fridge"
             },
             {
-              "word": "keep",
-              "meaning": "نگه داشتن"
+              "word": "keep"
             }
           ],
           "difficulty": 0.27,
@@ -303,12 +277,10 @@
           "persian": "البته، قبل از شش برگرد.",
           "vocab": [
             {
-              "word": "before",
-              "meaning": "قبل از"
+              "word": "before"
             },
             {
-              "word": "back",
-              "meaning": "برگشت"
+              "word": "back"
             }
           ],
           "difficulty": 0.28,
@@ -323,16 +295,13 @@
           "persian": "تخم‌مرغ را شانه‌ای می‌فروشید؟",
           "vocab": [
             {
-              "word": "egg",
-              "meaning": "تخم‌مرغ"
+              "word": "egg"
             },
             {
-              "word": "tray",
-              "meaning": "سینی"
+              "word": "tray"
             },
             {
-              "word": "sell",
-              "meaning": "فروختن"
+              "word": "sell"
             }
           ],
           "difficulty": 0.29,
@@ -347,8 +316,7 @@
           "persian": "بله، سی‌تا در هر شانه.",
           "vocab": [
             {
-              "word": "tray",
-              "meaning": "سینی"
+              "word": "tray"
             }
           ],
           "difficulty": 0.3,
@@ -363,12 +331,10 @@
           "persian": "من فقط نصف شانه لازم دارم.",
           "vocab": [
             {
-              "word": "half",
-              "meaning": "نصف"
+              "word": "half"
             },
             {
-              "word": "need",
-              "meaning": "نیاز داشتن"
+              "word": "need"
             }
           ],
           "difficulty": 0.32,
@@ -383,8 +349,7 @@
           "persian": "می‌توانم برایت تقسیم کنم.",
           "vocab": [
             {
-              "word": "divide",
-              "meaning": "تقسیم کردن"
+              "word": "divide"
             }
           ],
           "difficulty": 0.33,
@@ -404,12 +369,10 @@
           "persian": "این خربزه خیلی رسیده به نظر می‌رسد.",
           "vocab": [
             {
-              "word": "melon",
-              "meaning": "خربزه"
+              "word": "melon"
             },
             {
-              "word": "ripe",
-              "meaning": "رسیده"
+              "word": "ripe"
             }
           ],
           "difficulty": 0.34,
@@ -424,12 +387,10 @@
           "persian": "ببویش، فوراً می‌فهمی.",
           "vocab": [
             {
-              "word": "smell",
-              "meaning": "بو؛ بو دادن"
+              "word": "smell"
             },
             {
-              "word": "immediately",
-              "meaning": "فوراً"
+              "word": "immediately"
             }
           ],
           "difficulty": 0.36,
@@ -444,12 +405,10 @@
           "persian": "خانه چند روز می‌ماند؟",
           "vocab": [
             {
-              "word": "last",
-              "meaning": "آخرین"
+              "word": "last"
             },
             {
-              "word": "home",
-              "meaning": "خانه"
+              "word": "home"
             }
           ],
           "difficulty": 0.37,
@@ -464,12 +423,10 @@
           "persian": "دو سه روز در جای خنک.",
           "vocab": [
             {
-              "word": "cool",
-              "meaning": "خنک"
+              "word": "cool"
             },
             {
-              "word": "place",
-              "meaning": "مکان"
+              "word": "place"
             }
           ],
           "difficulty": 0.38,
@@ -484,8 +441,7 @@
           "persian": "برش می‌دارم، انگورها را هم.",
           "vocab": [
             {
-              "word": "grape",
-              "meaning": "انگور"
+              "word": "grape"
             }
           ],
           "difficulty": 0.39,
@@ -500,12 +456,10 @@
           "persian": "انگورها از همین صبح است.",
           "vocab": [
             {
-              "word": "grape",
-              "meaning": "انگور"
+              "word": "grape"
             },
             {
-              "word": "morning",
-              "meaning": "صبح"
+              "word": "morning"
             }
           ],
           "difficulty": 0.41,
@@ -520,16 +474,13 @@
           "persian": "برای اسکناس بزرگ خرد دارید؟",
           "vocab": [
             {
-              "word": "change",
-              "meaning": "تغییر؛ پول خرد"
+              "word": "change"
             },
             {
-              "word": "note",
-              "meaning": "یادداشت"
+              "word": "note"
             },
             {
-              "word": "large",
-              "meaning": "بزرگ"
+              "word": "large"
             }
           ],
           "difficulty": 0.42,
@@ -544,8 +495,7 @@
           "persian": "بگذار ببینم چه دارم.",
           "vocab": [
             {
-              "word": "let",
-              "meaning": "اجازه دادن"
+              "word": "let"
             }
           ],
           "difficulty": 0.43,
@@ -560,12 +510,10 @@
           "persian": "خردتان و رسید.",
           "vocab": [
             {
-              "word": "change",
-              "meaning": "تغییر؛ پول خرد"
+              "word": "change"
             },
             {
-              "word": "receipt",
-              "meaning": "رسید"
+              "word": "receipt"
             }
           ],
           "difficulty": 0.44,
@@ -580,12 +528,10 @@
           "persian": "ممنون، هفتهٔ بعد می‌بینمت.",
           "vocab": [
             {
-              "word": "next",
-              "meaning": "بعدی"
+              "word": "next"
             },
             {
-              "word": "week",
-              "meaning": "هفته"
+              "word": "week"
             }
           ],
           "difficulty": 0.46,
@@ -605,12 +551,10 @@
           "persian": "این صف سبزی‌هاست؟",
           "vocab": [
             {
-              "word": "queue",
-              "meaning": "صف"
+              "word": "queue"
             },
             {
-              "word": "vegetable",
-              "meaning": "سبزی؛ سبزیجات"
+              "word": "vegetable"
             }
           ],
           "difficulty": 0.47,
@@ -625,16 +569,13 @@
           "persian": "بله، خیلی سریع جلو می‌رود.",
           "vocab": [
             {
-              "word": "move",
-              "meaning": "حرکت کردن"
+              "word": "move"
             },
             {
-              "word": "fast",
-              "meaning": "سریع"
+              "word": "fast"
             },
             {
-              "word": "quite",
-              "meaning": "نسبتاً؛ کاملاً"
+              "word": "quite"
             }
           ],
           "difficulty": 0.48,
@@ -649,8 +590,7 @@
           "persian": "ده دقیقه است منتظرم.",
           "vocab": [
             {
-              "word": "wait",
-              "meaning": "منتظر ماندن"
+              "word": "wait"
             }
           ],
           "difficulty": 0.49,
@@ -665,16 +605,13 @@
           "persian": "آن دکه معمولاً سریع‌تر است.",
           "vocab": [
             {
-              "word": "stall",
-              "meaning": "غرفه"
+              "word": "stall"
             },
             {
-              "word": "usually",
-              "meaning": "معمولاً"
+              "word": "usually"
             },
             {
-              "word": "quicker",
-              "meaning": "سریع‌تر"
+              "word": "quicker"
             }
           ],
           "difficulty": 0.51,
@@ -689,16 +626,13 @@
           "persian": "سبزی‌ها را خرد می‌خواهید یا درسته؟",
           "vocab": [
             {
-              "word": "herb",
-              "meaning": "گیاه معطر"
+              "word": "herb"
             },
             {
-              "word": "chop",
-              "meaning": "خرد کردن"
+              "word": "chop"
             },
             {
-              "word": "whole",
-              "meaning": "تمام؛ کل"
+              "word": "whole"
             }
           ],
           "difficulty": 0.52,
@@ -713,12 +647,10 @@
           "persian": "خردشده لطفاً، و شسته‌شده.",
           "vocab": [
             {
-              "word": "chop",
-              "meaning": "خرد کردن"
+              "word": "chop"
             },
             {
-              "word": "wash",
-              "meaning": "شستن"
+              "word": "wash"
             }
           ],
           "difficulty": 0.53,
@@ -733,12 +665,10 @@
           "persian": "در کاغذ می‌پیچمشان.",
           "vocab": [
             {
-              "word": "wrap",
-              "meaning": "بسته‌بندی کردن"
+              "word": "wrap"
             },
             {
-              "word": "paper",
-              "meaning": "کاغذ"
+              "word": "paper"
             }
           ],
           "difficulty": 0.54,
@@ -753,12 +683,10 @@
           "persian": "آن راحت‌تر حمل می‌شود.",
           "vocab": [
             {
-              "word": "easy",
-              "meaning": "آسان"
+              "word": "easy"
             },
             {
-              "word": "carry",
-              "meaning": "حمل کردن"
+              "word": "carry"
             }
           ],
           "difficulty": 0.55,
@@ -773,12 +701,10 @@
           "persian": "خرد زیادی به من دادید.",
           "vocab": [
             {
-              "word": "change",
-              "meaning": "تغییر؛ پول خرد"
+              "word": "change"
             },
             {
-              "word": "too much",
-              "meaning": "بیش از حد"
+              "word": "too much"
             }
           ],
           "difficulty": 0.57,
@@ -793,12 +719,10 @@
           "persian": "حق داری، بقیه‌اش.",
           "vocab": [
             {
-              "word": "rest",
-              "meaning": "استراحت"
+              "word": "rest"
             },
             {
-              "word": "right",
-              "meaning": "درست؛ راست"
+              "word": "right"
             }
           ],
           "difficulty": 0.58,

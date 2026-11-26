@@ -49,7 +49,6 @@ import ir.laxipatem.lexiflash.data.repo.ThemeMode
 import ir.laxipatem.lexiflash.data.repo.UserSettings
 import ir.laxipatem.lexiflash.ui.common.Formatters
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
-import ir.laxipatem.lexiflash.ui.common.glassOutline
 
 /** Preferences, online settings, destructive actions and the About entry point. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -361,11 +360,8 @@ private fun SectionHeader(text: String) {
 @Composable
 private fun SettingsCard(content: @Composable androidx.compose.foundation.layout.ColumnScope.() -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth().glassOutline(MaterialTheme.shapes.medium),
-        shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f)
-        )
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
             modifier = Modifier

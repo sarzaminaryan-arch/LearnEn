@@ -56,7 +56,6 @@ import ir.laxipatem.lexiflash.domain.quiz.QuizQuestion
 import ir.laxipatem.lexiflash.ui.common.ErrorState
 import ir.laxipatem.lexiflash.ui.common.LoadingState
 import ir.laxipatem.lexiflash.ui.common.ViewModelFactories
-import ir.laxipatem.lexiflash.ui.common.glassOutline
 import ir.laxipatem.lexiflash.ui.theme.successColor
 
 /**
@@ -242,11 +241,8 @@ fun QuizScreen(
 @Composable
 private fun QuestionCard(question: QuizQuestion) {
     Card(
-        modifier = Modifier.fillMaxWidth().glassOutline(MaterialTheme.shapes.medium),
-        shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.90f)
-        )
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),

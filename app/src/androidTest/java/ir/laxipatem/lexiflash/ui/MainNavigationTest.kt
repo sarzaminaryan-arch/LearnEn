@@ -1,6 +1,5 @@
 package ir.laxipatem.lexiflash.ui
 
-import android.content.res.Configuration
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
@@ -15,7 +14,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import ir.laxipatem.lexiflash.BuildConfig
 import ir.laxipatem.lexiflash.MainActivity
 import ir.laxipatem.lexiflash.R
-import java.util.Locale
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,10 +27,7 @@ class MainNavigationTest {
 
     @Test
     fun mainDestinations_openWithoutMissingActivityOwners() {
-        val faConfiguration = Configuration(composeRule.activity.resources.configuration).apply {
-            setLocale(Locale("fa", "IR"))
-        }
-        val resources = composeRule.activity.createConfigurationContext(faConfiguration).resources
+        val resources = composeRule.activity.resources
         composeRule.onNodeWithText(resources.getString(R.string.home_title)).assertIsDisplayed()
 
         // Wait for the bundled sample deck so navigation is tested from the

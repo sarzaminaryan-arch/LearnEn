@@ -14,16 +14,13 @@
           "persian": "کدام اتوبوس به شهر قدیم می‌رود؟",
           "vocab": [
             {
-              "word": "bus",
-              "meaning": "اتوبوس"
+              "word": "bus"
             },
             {
-              "word": "old",
-              "meaning": "قدیمی"
+              "word": "old"
             },
             {
-              "word": "town",
-              "meaning": "شهر"
+              "word": "town"
             }
           ],
           "difficulty": 0.09,
@@ -38,12 +35,10 @@
           "persian": "شمارهٔ هفت را از آن ایستگاه بگیر.",
           "vocab": [
             {
-              "word": "stop",
-              "meaning": "ایستادن؛ توقف"
+              "word": "stop"
             },
             {
-              "word": "number",
-              "meaning": "شماره؛ عدد"
+              "word": "number"
             }
           ],
           "difficulty": 0.11,
@@ -58,12 +53,10 @@
           "persian": "هر چند وقت یک بار می‌آید؟",
           "vocab": [
             {
-              "word": "often",
-              "meaning": "اغلب"
+              "word": "often"
             },
             {
-              "word": "come",
-              "meaning": "آمدن"
+              "word": "come"
             }
           ],
           "difficulty": 0.12,
@@ -78,12 +71,10 @@
           "persian": "روزها هر پانزده دقیقه.",
           "vocab": [
             {
-              "word": "minute",
-              "meaning": "دقیقه"
+              "word": "minute"
             },
             {
-              "word": "during",
-              "meaning": "در طولِ"
+              "word": "during"
             }
           ],
           "difficulty": 0.13,
@@ -98,16 +89,13 @@
           "persian": "نزدیک موزه می‌ایستد؟",
           "vocab": [
             {
-              "word": "stop",
-              "meaning": "ایستادن؛ توقف"
+              "word": "stop"
             },
             {
-              "word": "near",
-              "meaning": "نزدیک"
+              "word": "near"
             },
             {
-              "word": "museum",
-              "meaning": "موزه"
+              "word": "museum"
             }
           ],
           "difficulty": 0.14,
@@ -122,12 +110,10 @@
           "persian": "درست جلوی آن می‌ایستد.",
           "vocab": [
             {
-              "word": "front",
-              "meaning": "جلو"
+              "word": "front"
             },
             {
-              "word": "right",
-              "meaning": "درست؛ راست"
+              "word": "right"
             }
           ],
           "difficulty": 0.15,
@@ -142,12 +128,10 @@
           "persian": "یک بلیت یک‌طرفه چند است؟",
           "vocab": [
             {
-              "word": "single",
-              "meaning": "تکی؛ یک"
+              "word": "single"
             },
             {
-              "word": "ticket",
-              "meaning": "بلیت"
+              "word": "ticket"
             }
           ],
           "difficulty": 0.17,
@@ -162,12 +146,10 @@
           "persian": "یک‌طرفه از بلیت روزانه ارزان‌تر است.",
           "vocab": [
             {
-              "word": "pass",
-              "meaning": "عبور کردن؛ گذراندن"
+              "word": "pass"
             },
             {
-              "word": "cheaper",
-              "meaning": "ارزان‌تر"
+              "word": "cheaper"
             }
           ],
           "difficulty": 0.18,
@@ -182,12 +164,10 @@
           "persian": "پس بلیت روزانه می‌خرم.",
           "vocab": [
             {
-              "word": "pass",
-              "meaning": "عبور کردن؛ گذراندن"
+              "word": "pass"
             },
             {
-              "word": "buy",
-              "meaning": "خریدن"
+              "word": "buy"
             }
           ],
           "difficulty": 0.19,
@@ -202,12 +182,10 @@
           "persian": "می‌توانید مستقیم به راننده بپردازید.",
           "vocab": [
             {
-              "word": "driver",
-              "meaning": "راننده"
+              "word": "driver"
             },
             {
-              "word": "directly",
-              "meaning": "مستقیماً"
+              "word": "directly"
             }
           ],
           "difficulty": 0.21,
@@ -227,12 +205,10 @@
           "persian": "ببخشید، درست می‌روم؟",
           "vocab": [
             {
-              "word": "excuse",
-              "meaning": "ببخشید؛ عذر"
+              "word": "excuse"
             },
             {
-              "word": "right way",
-              "meaning": "مسیر درست"
+              "word": "right way"
             }
           ],
           "difficulty": 0.22,
@@ -247,12 +223,10 @@
           "persian": "برای میدان، بله، همین‌طور برو.",
           "vocab": [
             {
-              "word": "square",
-              "meaning": "میدان؛ مربع"
+              "word": "square"
             },
             {
-              "word": "keep going",
-              "meaning": "ادامه دادن"
+              "word": "keep going"
             }
           ],
           "difficulty": 0.23,
@@ -267,16 +241,13 @@
           "persian": "یک پارک کوچک سمت چپت می‌گذرد.",
           "vocab": [
             {
-              "word": "pass",
-              "meaning": "عبور کردن؛ گذراندن"
+              "word": "pass"
             },
             {
-              "word": "park",
-              "meaning": "پارک"
+              "word": "park"
             },
             {
-              "word": "left",
-              "meaning": "چپ؛ باقی‌مانده"
+              "word": "left"
             }
           ],
           "difficulty": 0.24,
@@ -291,12 +262,10 @@
           "persian": "از کجا بفهمم کِی بپیچم؟",
           "vocab": [
             {
-              "word": "turn",
-              "meaning": "پیچیدن؛ نوبت"
+              "word": "turn"
             },
             {
-              "word": "know",
-              "meaning": "دانستن"
+              "word": "know"
             }
           ],
           "difficulty": 0.26,
@@ -311,12 +280,10 @@
           "persian": "سر خیابان یک فواره هست.",
           "vocab": [
             {
-              "word": "fountain",
-              "meaning": "آب‌نما"
+              "word": "fountain"
             },
             {
-              "word": "corner",
-              "meaning": "گوشه"
+              "word": "corner"
             }
           ],
           "difficulty": 0.27,
@@ -331,12 +298,10 @@
           "persian": "تا دیدیش به راست بپیچ.",
           "vocab": [
             {
-              "word": "soon",
-              "meaning": "به‌زودی"
+              "word": "soon"
             },
             {
-              "word": "see",
-              "meaning": "دیدن"
+              "word": "see"
             }
           ],
           "difficulty": 0.28,
@@ -351,12 +316,10 @@
           "persian": "آن‌قدر دور است که تاکسی بگیرم؟",
           "vocab": [
             {
-              "word": "taxi",
-              "meaning": "تاکسی"
+              "word": "taxi"
             },
             {
-              "word": "take",
-              "meaning": "گرفتن؛ برداشتن"
+              "word": "take"
             }
           ],
           "difficulty": 0.29,
@@ -371,12 +334,10 @@
           "persian": "نه، پیاده‌روی کوتاهی است.",
           "vocab": [
             {
-              "word": "short",
-              "meaning": "کوتاه"
+              "word": "short"
             },
             {
-              "word": "walk",
-              "meaning": "راه رفتن"
+              "word": "walk"
             }
           ],
           "difficulty": 0.3,
@@ -391,12 +352,10 @@
           "persian": "ممنون که این‌قدر واضح توضیح دادید.",
           "vocab": [
             {
-              "word": "explain",
-              "meaning": "توضیح دادن"
+              "word": "explain"
             },
             {
-              "word": "clearly",
-              "meaning": "به‌روشنی"
+              "word": "clearly"
             }
           ],
           "difficulty": 0.32,
@@ -411,12 +370,10 @@
           "persian": "امیدوارم از میدان لذت ببری.",
           "vocab": [
             {
-              "word": "hope",
-              "meaning": "امیدوار بودن"
+              "word": "hope"
             },
             {
-              "word": "enjoy",
-              "meaning": "لذت بردن"
+              "word": "enjoy"
             }
           ],
           "difficulty": 0.33,
@@ -436,12 +393,10 @@
           "persian": "قطار آخر چه ساعتی است؟",
           "vocab": [
             {
-              "word": "train",
-              "meaning": "قطار"
+              "word": "train"
             },
             {
-              "word": "last",
-              "meaning": "آخرین"
+              "word": "last"
             }
           ],
           "difficulty": 0.34,
@@ -456,16 +411,13 @@
           "persian": "آخرین قطار یازده و نیم می‌رود.",
           "vocab": [
             {
-              "word": "leave",
-              "meaning": "ترک کردن"
+              "word": "leave"
             },
             {
-              "word": "half",
-              "meaning": "نصف"
+              "word": "half"
             },
             {
-              "word": "past",
-              "meaning": "گذشته؛ از کنارِ"
+              "word": "past"
             }
           ],
           "difficulty": 0.36,
@@ -480,12 +432,10 @@
           "persian": "باید جایی عوض کنم؟",
           "vocab": [
             {
-              "word": "change",
-              "meaning": "تغییر؛ پول خرد"
+              "word": "change"
             },
             {
-              "word": "anywhere",
-              "meaning": "هر جا"
+              "word": "anywhere"
             }
           ],
           "difficulty": 0.37,
@@ -500,12 +450,10 @@
           "persian": "یک بار عوض کن، در ایستگاه دوم.",
           "vocab": [
             {
-              "word": "once",
-              "meaning": "یک‌بار"
+              "word": "once"
             },
             {
-              "word": "second",
-              "meaning": "دوم؛ ثانیه"
+              "word": "second"
             }
           ],
           "difficulty": 0.38,
@@ -520,16 +468,13 @@
           "persian": "کل سفر چقدر طول می‌کشد؟",
           "vocab": [
             {
-              "word": "whole",
-              "meaning": "تمام؛ کل"
+              "word": "whole"
             },
             {
-              "word": "journey",
-              "meaning": "سفر"
+              "word": "journey"
             },
             {
-              "word": "long",
-              "meaning": "بلند؛ طولانی"
+              "word": "long"
             }
           ],
           "difficulty": 0.39,
@@ -544,12 +489,10 @@
           "persian": "حدود چهل دقیقه اگر سر وقت باشد.",
           "vocab": [
             {
-              "word": "run",
-              "meaning": "دویدن؛ اداره کردن"
+              "word": "run"
             },
             {
-              "word": "time",
-              "meaning": "زمان"
+              "word": "time"
             }
           ],
           "difficulty": 0.41,
@@ -564,12 +507,10 @@
           "persian": "جای نشستن هست؟",
           "vocab": [
             {
-              "word": "place",
-              "meaning": "مکان"
+              "word": "place"
             },
             {
-              "word": "sit",
-              "meaning": "نشستن"
+              "word": "sit"
             }
           ],
           "difficulty": 0.42,
@@ -584,16 +525,13 @@
           "persian": "معمولاً، مگر اینکه خیلی شلوغ باشد.",
           "vocab": [
             {
-              "word": "usually",
-              "meaning": "معمولاً"
+              "word": "usually"
             },
             {
-              "word": "unless",
-              "meaning": "مگر اینکه"
+              "word": "unless"
             },
             {
-              "word": "busy",
-              "meaning": "مشغول"
+              "word": "busy"
             }
           ],
           "difficulty": 0.43,
@@ -608,12 +546,10 @@
           "persian": "پس کمی زودتر راه می‌افتم.",
           "vocab": [
             {
-              "word": "earlier",
-              "meaning": "زودتر"
+              "word": "earlier"
             },
             {
-              "word": "leave",
-              "meaning": "ترک کردن"
+              "word": "leave"
             }
           ],
           "difficulty": 0.44,
@@ -628,12 +564,10 @@
           "persian": "این نقشهٔ مطمئن‌تری است.",
           "vocab": [
             {
-              "word": "safer",
-              "meaning": "امن‌تر"
+              "word": "safer"
             },
             {
-              "word": "plan",
-              "meaning": "برنامه"
+              "word": "plan"
             }
           ],
           "difficulty": 0.46,
@@ -653,16 +587,13 @@
           "persian": "باتری گوشی‌ام تقریباً تمام شده.",
           "vocab": [
             {
-              "word": "battery",
-              "meaning": "باتری"
+              "word": "battery"
             },
             {
-              "word": "empty",
-              "meaning": "خالی"
+              "word": "empty"
             },
             {
-              "word": "almost",
-              "meaning": "تقریباً"
+              "word": "almost"
             }
           ],
           "difficulty": 0.47,
@@ -677,16 +608,13 @@
           "persian": "پشت پیشخوان یک پریز هست.",
           "vocab": [
             {
-              "word": "socket",
-              "meaning": "پریز برق"
+              "word": "socket"
             },
             {
-              "word": "behind",
-              "meaning": "پشت"
+              "word": "behind"
             },
             {
-              "word": "counter",
-              "meaning": "پیشخوان"
+              "word": "counter"
             }
           ],
           "difficulty": 0.48,
@@ -701,12 +629,10 @@
           "persian": "می‌توانم چند دقیقه شارژش کنم؟",
           "vocab": [
             {
-              "word": "charge",
-              "meaning": "شارژ کردن؛ هزینه"
+              "word": "charge"
             },
             {
-              "word": "few",
-              "meaning": "چند؛ تعداد کم"
+              "word": "few"
             }
           ],
           "difficulty": 0.49,
@@ -721,12 +647,10 @@
           "persian": "راحت باش، بعدی دیر می‌رسد.",
           "vocab": [
             {
-              "word": "late",
-              "meaning": "دیر"
+              "word": "late"
             },
             {
-              "word": "next",
-              "meaning": "بعدی"
+              "word": "next"
             }
           ],
           "difficulty": 0.51,
@@ -741,16 +665,13 @@
           "persian": "نقشه را لازم دارم تا آدرس را پیدا کنم.",
           "vocab": [
             {
-              "word": "map",
-              "meaning": "نقشه"
+              "word": "map"
             },
             {
-              "word": "address",
-              "meaning": "نشانی"
+              "word": "address"
             },
             {
-              "word": "find",
-              "meaning": "پیدا کردن"
+              "word": "find"
             }
           ],
           "difficulty": 0.52,
@@ -765,12 +686,10 @@
           "persian": "دقیقاً کجا می‌خواهی بروی؟",
           "vocab": [
             {
-              "word": "exactly",
-              "meaning": "دقیقاً"
+              "word": "exactly"
             },
             {
-              "word": "try",
-              "meaning": "تلاش کردن"
+              "word": "try"
             }
           ],
           "difficulty": 0.53,
@@ -785,16 +704,13 @@
           "persian": "یک هتل کوچک نزدیک رودخانه.",
           "vocab": [
             {
-              "word": "hotel",
-              "meaning": "هتل"
+              "word": "hotel"
             },
             {
-              "word": "river",
-              "meaning": "رودخانه"
+              "word": "river"
             },
             {
-              "word": "near",
-              "meaning": "نزدیک"
+              "word": "near"
             }
           ],
           "difficulty": 0.54,
@@ -809,12 +725,10 @@
           "persian": "از اینجا ده دقیقه پیاده است.",
           "vocab": [
             {
-              "word": "walk",
-              "meaning": "راه رفتن"
+              "word": "walk"
             },
             {
-              "word": "here",
-              "meaning": "اینجا"
+              "word": "here"
             }
           ],
           "difficulty": 0.55,
@@ -829,12 +743,10 @@
           "persian": "می‌خواهی برایت بنویسم؟",
           "vocab": [
             {
-              "word": "write",
-              "meaning": "نوشتن"
+              "word": "write"
             },
             {
-              "word": "down",
-              "meaning": "پایین"
+              "word": "down"
             }
           ],
           "difficulty": 0.57,
@@ -849,8 +761,7 @@
           "persian": "خیلی لطف می‌کنی.",
           "vocab": [
             {
-              "word": "kind",
-              "meaning": "مهربان؛ نوع"
+              "word": "kind"
             }
           ],
           "difficulty": 0.58,

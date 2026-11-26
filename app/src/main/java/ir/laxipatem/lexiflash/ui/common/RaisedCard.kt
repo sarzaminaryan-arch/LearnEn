@@ -47,9 +47,7 @@ object Depth {
 }
 
 /**
- * A glass-inspired card with a translucent lit face, a fine outline, a coloured
- * lower edge and a soft shadow. The layered tint keeps text crisp while giving
- * the surface a frosted-glass impression without expensive backdrop blur.
+ * A raised card with a lit face, a coloured bottom edge and a warm shadow.
  *
  * The edge is drawn by placing the card face inside a coloured container that
  * is taller by [Depth.edge]; the container shows only at the bottom, which
@@ -77,10 +75,6 @@ fun RaisedCard(
     val pressed by interaction.collectIsPressedAsState()
     val isPressed = onClick != null && pressed
     val sink = if (isPressed) Depth.edge else 0.dp
-    val glassBorder = border ?: BorderStroke(
-        width = 1.dp,
-        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.34f)
-    )
 
     Box(
         modifier = modifier
@@ -91,7 +85,7 @@ fun RaisedCard(
                 spotColor = shadowColor.copy(alpha = 0.45f)
             )
             .clip(shape)
-            .background(if (enabled) edgeColor.copy(alpha = 0.76f) else edgeColor.copy(alpha = 0.36f))
+            .background(if (enabled) edgeColor else edgeColor.copy(alpha = 0.5f))
             .then(
                 if (onClick != null) {
                     Modifier.clickable(
@@ -113,14 +107,14 @@ fun RaisedCard(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            faceColor.copy(alpha = 0.88f),
-                            // Let a little of the page tint show through at the
-                            // lower edge for a frosted, layered glass surface.
-                            faceColor.blendTowards(edgeColor, 0.16f).copy(alpha = 0.72f)
+                            faceColor,
+                            // A whisper of the edge colour at the bottom of the
+                            // face, so the surface curves into its own shadow.
+                            faceColor.blendTowards(edgeColor, 0.16f)
                         )
                     )
                 )
-                .border(glassBorder, shape)
+                .then(if (border != null) Modifier.border(border, shape) else Modifier)
                 .padding(contentPadding),
             content = content
         )
